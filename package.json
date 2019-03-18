@@ -4,9 +4,9 @@
   "description": "A seating chart for the LCDI",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server.js"
   },
   "author": "Adam DeCosta, Kevin Eaton, Jackson Michaels",
   "license": "MIT",
