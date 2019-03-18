@@ -31,7 +31,7 @@ Adam DeCosta, Kevin Eaton, Jackson Michaels
 
 ## TODO
 * Front-end 
-    * User 
+    * User page
         * Manage seat
             * take
             * Change
@@ -41,7 +41,7 @@ Adam DeCosta, Kevin Eaton, Jackson Michaels
             * Register user
             * Change user data
             * View users timesheet (could just use when I work instead)
-    * Admin Systems
+    * Admin page
         * Admin dashboard
         * Projects
         * Reports/logs
