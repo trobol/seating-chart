@@ -1,0 +1,19 @@
+{
+  "name": "seating-chart",
+  "version": "1.0.0",
+  "description": "A seating chart for the LCDI",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "Adam DeCosta, Kevin Eaton, Jackson Michaels",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "next": "^8.0.3",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  }
+}
