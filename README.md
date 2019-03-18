@@ -1,6 +1,6 @@
 # Seating Chart
 
-This branch of the seating chart is dedicated to a next.js + express recreation of the current implementation.
+This branch of the seating chart is dedicated to a next.js + express recreation of the LCDI Seating Chart.
 
 ## Installation
 
@@ -26,4 +26,5 @@ Overall, it may be a lot of work to re-create the seating chart. However, if it 
 needed for a new member of the team to get started on bug fixing and general feature development.
 
 Signed,
+
 Adam DeCosta, Kevin Eaton, Jackson Michaels
