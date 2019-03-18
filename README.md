@@ -21,7 +21,7 @@ not well maintainable, and the code is messy. This new implementation will allow
 comes with much greater dev tools (Chrome Extension `React Developer Tools` found 
 [Here](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)).
 This implementation will be much more familiar for many to work on as well, since Computer Science Majors are generally taught some JavaScript
-through the Champlain Curriculum in their first semester. There great docs for many of the libraries which are easily searchable through Google.
+through the Champlain curriculum in their first semester. There great docs for many of the libraries which are easily searchable through Google.
 Overall, it may be a lot of work to re-create the seating chart. However, if it is successful, it will greatly decrease the amount of time
 needed for a new member of the team to get started on bug fixing and general feature development.
 
