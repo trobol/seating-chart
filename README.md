@@ -28,3 +28,29 @@ needed for a new member of the team to get started on bug fixing and general fea
 Signed,
 
 Adam DeCosta, Kevin Eaton, Jackson Michaels
+
+## TODO
+* Front-end 
+    * User page
+        * Manage seat
+            * take
+            * Change
+            * return
+        * Manage reservations
+        * User Management
+            * Register user
+            * Change user data
+            * View users timesheet (could just use when I work instead)
+    * Admin page
+        * Admin dashboard
+        * Projects
+        * Reports/logs
+        * Guests
+        * All user management
+        * All user timesheets
+* Backend
+    * WiW Integration
+    * Make/find API to handle all front end requests
+* Misc
+    * make new kiosk app (potentially custom made IOS app)
+    * standalone map page for use on screen outside door
