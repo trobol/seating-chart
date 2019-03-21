@@ -2,35 +2,34 @@ const next = require('next');
 const express = require('express');
 const mysql = require('mysql');
 
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler()
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
 app
   .prepare()
   .then(() => {
-    const server = express()
+    const server = express();
 
-    server.use(express.urlencoded({extended: true}));
+    server.use(express.urlencoded({ extended: true }));
     server.pool = mysql.createPool({
-      host : 'localhost',
-      user : 'seatingchart',
-      password : 'seatingchart',
-      database : 'seatingchart'
-    })
+      host: 'localhost',
+      user: 'seatingchart',
+      password: 'seatingchart',
+      database: 'seatingchart',
+    });
 
+    // eslint-disable-next-line global-require
     require('./routes')(server);
 
-    server.get('*', (req, res) => {
-      return handle(req, res)
-    });
+    server.get('*', (req, res) => handle(req, res));
 
-    server.listen(3000, err => {
-      if (err) throw err
-      console.log('> Ready on http://localhost:3000')
+    server.listen(3000, (err) => {
+      if (err) throw err;
+      console.log('> Ready on http://localhost:3000');
     });
   })
-  .catch(ex => {
-    console.error(ex.stack)
-    process.exit(1)
+  .catch((ex) => {
+    console.error(ex.stack);
+    process.exit(1);
   });

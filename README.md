@@ -8,6 +8,20 @@ This branch of the seating chart is dedicated to a next.js + express recreation 
 2. `cd seating-chart`
 3. `npm install` or if you prefer to use yarn, `yarn install`
 
+### ESLint
+
+It is highly recommended for you to set up ESLint. ESLint will ensure that you are writing code that looks good, and will also help you catch
+a lot of errors. Enforcing good code style will help with maintainability and safeness of code.
+
+#### Setting Up
+
+1. In VSCode install both the `ESLint` and `Prettier` extensions.
+2. In your VSCode settings `File -> Preferences -> Settings`, go to the ESLint settings under `Extensions`.
+3. Check `Eslint: Auto Fix On Save`.
+4. Make sure `Eslint: Run` is set to `onType`.
+5. Go to the Prettier settings under `Extensions`.
+6. Check `Prettier: Eslint Integration`.
+
 ## Running
 
 Running the application is extremely simple. Make sure you are in the `seating-chart` directory then run:
@@ -41,7 +55,7 @@ Adam DeCosta, Kevin Eaton, Jackson Michaels
             * Register user
             * Change user data
             * View users timesheet (could just use when I work instead)
-    * Admin page
+    * Admin page                     
         * Admin dashboard
         * Projects
         * Reports/logs
