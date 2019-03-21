@@ -1,7 +1,16 @@
 import PropTypes from 'prop-types';
 
 const SidebarLogo = ({ image, alt }) => (
-  <img src={image} alt={alt} />
+  <img className="logo" src={image} alt={alt} />
+  /*
+  <style jsx>
+  {`
+  .logo {
+    background: white;
+  }
+`}
+</style>
+*/
 );
 
 SidebarLogo.propTypes = {
