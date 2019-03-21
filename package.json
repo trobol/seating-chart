@@ -4,14 +4,15 @@
   "description": "A seating chart for the LCDI",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node server/server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "NODE_ENV=production node server/server.js"
   },
   "author": "Adam DeCosta, Kevin Eaton, Jackson Michaels",
   "license": "MIT",
   "dependencies": {
     "express": "^4.16.4",
+    "mysql": "^2.16.0",
     "next": "^8.0.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"

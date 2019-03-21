@@ -1,5 +1,6 @@
-const express = require('express');
 const next = require('next');
+const express = require('express');
+const mysql = require('mysql');
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -9,6 +10,16 @@ app
   .prepare()
   .then(() => {
     const server = express()
+
+    server.use(express.urlencoded({extended: true}));
+    server.pool = mysql.createPool({
+      host : 'localhost',
+      user : 'seatingchart',
+      password : 'seatingchart',
+      database : 'seatingchart'
+    })
+
+    require('./routes')(server);
 
     server.get('*', (req, res) => {
       return handle(req, res)
