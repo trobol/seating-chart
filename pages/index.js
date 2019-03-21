@@ -1,11 +1,13 @@
+import Layout from '../components/Layout';
+
 const Index = () => (
-  <div>
+  <Layout>
     <p>Hello Next.js</p>
     <form action="/api/test-api" method="post">
       <input type="text" name="name" placeholder="name" />
       <input type="submit" value="Submit" />
     </form>
-  </div>
+  </Layout>
 );
 
 export default Index;
