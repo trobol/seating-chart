@@ -44,7 +44,14 @@ Signed,
 Adam DeCosta, Kevin Eaton, Jackson Michaels
 
 ## Back-End Design
-![Alt text](documentation_assets/database_layout.png?raw=true "Database Design")
+![Database Design](documentation_assets/database_layout.png?raw=true "Database Design")
+*This Database Diagram was made using MySQL Workbench*
+### Database
+:key: = Primary Key
+:small_orange_diamond: = Non-Null Foreign Key
+:small_blue_diamond: = Non-Null Value
+
+
 
 ## TODO
 * Front-end 
