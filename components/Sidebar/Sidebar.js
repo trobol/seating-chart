@@ -20,7 +20,10 @@ const Sidebar = ({ children }) => (
 );
 
 Sidebar.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 Sidebar.defaultProps = {
