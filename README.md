@@ -44,7 +44,7 @@ Signed,
 Adam DeCosta, Kevin Eaton, Jackson Michaels
 
 ## Back-End Design
-![Alt text](documentation_assets/database_layout?raw=true "Database Design")
+![Alt text](documentation_assets/database_layout.png?raw=true "Database Design")
 
 ## TODO
 * Front-end 
