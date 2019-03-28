@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { SidebarBackground } from '../Constants';
 
 const Sidebar = ({ children }) => (
   <div className="Sidebar">
@@ -12,7 +13,7 @@ const Sidebar = ({ children }) => (
           width: 200px;
           height: 100vh;
 
-          background-color: #2e3e4e;
+          background-color: ${SidebarBackground};
         }
     `}
     </style>
