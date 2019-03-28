@@ -2,7 +2,6 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { TextColor, SidebarBGHover } from '../Constants';
 
 const iconStyle = {
@@ -10,27 +9,16 @@ const iconStyle = {
 };
 
 const SidebarItem = ({
-  icon, link, title, preFetch,
+  icon, link, title,
 }) => (
   <li className="sbItem">
-    { preFetch
-      ? (
-        <Link prefetch href={link}>
-          <a>
-            <FontAwesomeIcon icon={icon} style={iconStyle} />
-            {title}
-          </a>
-        </Link>
-      )
-      : (
-        <Link href={link}>
-          <a>
-            <FontAwesomeIcon icon={icon} style={iconStyle} />
-            {title}
-          </a>
-        </Link>
-      )
-      }
+    <Link prefetch href={link}>
+      <a>
+        <FontAwesomeIcon icon={icon} style={iconStyle} fixedWidth />
+        {title}
+      </a>
+    </Link>
+
     <style jsx>
       {`
         .sbItem {
@@ -60,11 +48,6 @@ SidebarItem.propTypes = {
   icon: PropTypes.object.isRequired,
   link: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  preFetch: PropTypes.bool,
-};
-
-SidebarItem.defaultProps = {
-  preFetch: false,
 };
 
 export default SidebarItem;

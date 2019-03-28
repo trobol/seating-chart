@@ -8,9 +8,10 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import Head from 'next/head';
 import {
-  Sidebar, SidebarLogo, SidebarSection, SidebarItem,
+  Sidebar, SidebarLogo, SidebarSection, SidebarItem, SidebarModalItem,
 } from './Sidebar';
 import { SystemFonts } from './Constants';
+import { Modal } from './Modals';
 
 config.autoAddCss = false;
 
@@ -27,19 +28,20 @@ const Layout = ({ children }) => (
     <Sidebar>
       <SidebarLogo image="/static/lcdi_banner.png" alt="LCDI Banner" />
       <SidebarSection title="Seat Options">
-        <SidebarItem link="/api/seat/take" icon={faSignInAlt} title="Take Seat" />
-        <SidebarItem link="/api/seat/return" icon={faSignOutAlt} title="Return Seat" />
-        <SidebarItem link="/api/seat/change" icon={faSync} title="Change Seat" />
-        <SidebarItem link="/api/seat/reserve" icon={faCalendarAlt} title="Reserve Seat" />
+        <SidebarModalItem link="/api/seat/take" icon={faSignInAlt} title="Take Seat" modal={<Modal />} />
+        <SidebarModalItem link="/api/seat/return" icon={faSignOutAlt} title="Return Seat" modal={<Modal />} />
+        <SidebarModalItem link="/api/seat/change" icon={faSync} title="Change Seat" modal={<Modal />} />
+        <SidebarModalItem link="/api/seat/reserve" icon={faCalendarAlt} title="Reserve Seat" modal={<Modal />} />
       </SidebarSection>
       <SidebarSection title="User Options">
-        <SidebarItem link="/api/user/register" icon={faPlusCircle} title="Register User" />
-        <SidebarItem link="/api/user/edit" icon={faUserEdit} title="Manage User" />
-        <SidebarItem link="/api/user/timesheet" icon={faClock} title="View Timesheet" />
+        <SidebarModalItem link="/api/user/register" icon={faPlusCircle} title="Register User" modal={<Modal />} />
+        <SidebarModalItem link="/api/user/edit" icon={faUserEdit} title="Manage User" modal={<Modal />} />
+        <SidebarModalItem link="/api/user/timesheet" icon={faClock} title="View Timesheet" modal={<Modal />} />
         {/* We use preFetch when we are navigating to another page rather than calling the modal */}
         <SidebarItem link="/admin" icon={faLock} title="Admin Panel" preFetch />
       </SidebarSection>
     </Sidebar>
+    <div id="modal" />
     <div className="Content">
       {children}
     </div>
