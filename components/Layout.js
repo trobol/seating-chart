@@ -1,16 +1,29 @@
 import PropTypes from 'prop-types';
 import {
-  faSignInAlt, faSignOutAlt, faSync, faCalendarAlt, faPlusCircle, faUserEdit, faLock,
+  faSignInAlt, faSignOutAlt, faSync,
+  faCalendarAlt, faPlusCircle, faUserEdit, faLock,
 } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import Head from 'next/head';
 import {
   Sidebar, SidebarLogo, SidebarSection, SidebarItem,
 } from './Sidebar';
 import { SystemFonts } from './Constants';
 
+config.autoAddCss = false;
 
 const Layout = ({ children }) => (
   <div className="Layout">
+    <Head>
+      <title>LCDI - Seating Chart</title>
+      <meta
+        name="viewport"
+        content="initial-scale=1.0, width=device-width"
+        key="viewport"
+      />
+    </Head>
     <Sidebar>
       <SidebarLogo image="/static/lcdi_banner.png" alt="LCDI Banner" />
       <SidebarSection title="Seat Options">
@@ -23,6 +36,7 @@ const Layout = ({ children }) => (
         <SidebarItem link="/api/user/register" icon={faPlusCircle} title="Register User" />
         <SidebarItem link="/api/user/edit" icon={faUserEdit} title="Manage User" />
         <SidebarItem link="/api/user/timesheet" icon={faClock} title="View Timesheet" />
+        {/* We use preFetch when we are navigating to another page rather than calling the modal */}
         <SidebarItem link="/admin" icon={faLock} title="Admin Panel" preFetch />
       </SidebarSection>
     </Sidebar>
