@@ -22,7 +22,8 @@
     "next": "^8.0.3",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "react-portal": "^4.2.0"
   },
   "devDependencies": {
     "eslint": "^5.15.3",
