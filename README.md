@@ -46,12 +46,28 @@ Adam DeCosta, Kevin Eaton, Jackson Michaels
 ## Back-End Design
 ![Database Design](documentation_assets/database_layout.png?raw=true "Database Design")
 *This Database Diagram was made using MySQL Workbench*
+
 ### Database
 :key: = Primary Key
 :small_orange_diamond: = Non-Null Foreign Key
 :small_blue_diamond: = Non-Null Value
 
+### WhenIWork API Integration
 
+[WhenIWork Documentation](http://dev.wheniwork.com/)
+
+[WhenIWork NPM Documentation](https://www.npmjs.com/package/wheniwork)
+
+The API KEY can be found on secret server
+
+In the .env file put the following
+
+```
+WIW_API_KEY=API_KEY
+WIW_USERNAME=USERNAME
+WIW_PASSWORD=PASSWORD
+WIW_ACCOUNT_ID=ACCOUNT_ID
+```
 
 ## TODO
 * Front-end 
