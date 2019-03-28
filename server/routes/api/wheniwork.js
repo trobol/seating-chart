@@ -8,17 +8,33 @@ module.exports = (app)=>{
     app.post("/api/wheniwork", (req, res)=>{
         let endpoint = req.body.endpoint;
         let wiw = new WIW(WIW_API_KEY, WIW_USERNAME, WIW_PASSWORD);
-        let parameters = new JSON();
+        let parameters;
         wiw.config.accountId = WIW_ACCOUNT_ID;
         switch (endpoint){
         case 'times/clockin':
         case 'times/clockout':
             parameters = {"id": req.body.id};
             break;
+        case 'times/user/':
+            let start = new Date(0);
+            let end = new Date();
+            parameters = {
+                "id": req.body.id
+            }
+            break;
         }
-        wiw.post(endpoint, parameters).then((result)=>{
-            console.log(res)
-        })
-        console.log({WIW_API_KEY, WIW_USERNAME, WIW_PASSWORD})
+        switch (req.body.requestType) {
+        case "post":
+            wiw.post(endpoint, parameters).then((res)=>{
+                console.log(res)
+            })
+        break;
+        case "get":
+            wiw.get(endpoint, parameters).then((res)=>{
+                console.log(res)
+            })
+        break;
+        }
+        console.log({WIW_API_KEY, WIW_USERNAME, WIW_PASSWORD, endpoint, parameters})
     })
 }
