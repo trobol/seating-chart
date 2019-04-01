@@ -23,11 +23,8 @@ module.exports = (app) => {
           id: req.body.id,
         };
         break;
-<<<<<<< HEAD
-=======
       default:
-        break;
->>>>>>> cc71fb471625eb8125f8ec325d6176f9d25b867d
+        console.log(res);
     }
     switch (req.body.requestType) {
       case 'post':
@@ -40,12 +37,8 @@ module.exports = (app) => {
           console.log(res);
         });
         break;
-<<<<<<< HEAD
-=======
-
       default:
-        break;
->>>>>>> cc71fb471625eb8125f8ec325d6176f9d25b867d
+        console.log(res);
     }
     console.log({
       WIW_API_KEY, WIW_USERNAME, WIW_PASSWORD, endpoint, parameters,

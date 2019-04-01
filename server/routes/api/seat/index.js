@@ -1,18 +1,19 @@
-/* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
 const fs = require('fs');
 
 module.exports = (app) => {
-  fs.readdir(`${__dirname}/api/`, (err, files) => {
-    console.log(files);
+  fs.readdir(`${__dirname}`, (err, files) => {
     if (err) throw err;
 
     files.forEach((file) => {
+      if (file === 'index.js') return;
       const ext = file.indexOf('.');
+
       if (ext !== -1) {
-        require(`./api/${file.substr(0, ext)}`)(app);
+        require(`./${file.substr(0, ext)}`)(app);
       } else {
-        require(`./api/${file}`)(app);
+        require(`./${file}`)(app);
       }
     });
   });
