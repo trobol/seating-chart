@@ -10,8 +10,7 @@ This branch of the seating chart is dedicated to a next.js + express recreation 
 
 ### ESLint
 
-It is highly recommended for you to set up ESLint. ESLint will ensure that you are writing code that looks good, and will also help you catch
-a lot of errors. Enforcing good code style will help with maintainability and safeness of code.
+It is highly recommended for you to set up ESLint. ESLint will ensure that you are writing code that looks good, and will also help you catch a lot of errors. Enforcing good code style will help with maintainability and safeness of code.
 
 #### Setting Up
 
@@ -68,6 +67,13 @@ WIW_USERNAME=USERNAME
 WIW_PASSWORD=PASSWORD
 WIW_ACCOUNT_ID=ACCOUNT_ID
 ```
+## Tutorials before you start working on Seating Chart
+
+[Introduction to Javascript](https://www.w3schools.com/js/)
+
+[React Tutorial](https://reactjs.org/docs/)
+
+[Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
 ## TODO
 * Front-end 

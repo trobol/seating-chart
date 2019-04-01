@@ -22,18 +22,22 @@ module.exports = (app)=>{
                 "id": req.body.id
             }
             break;
+        //default:
+            //throw("This endpoint doesn't exist");
         }
         switch (req.body.requestType) {
         case "post":
             wiw.post(endpoint, parameters).then((res)=>{
                 console.log(res)
             })
-        break;
+            break;
         case "get":
             wiw.get(endpoint, parameters).then((res)=>{
                 console.log(res)
             })
-        break;
+            break;
+        //default:
+            //throw("The required parameters were not met!");
         }
         console.log({WIW_API_KEY, WIW_USERNAME, WIW_PASSWORD, endpoint, parameters})
     })
