@@ -3,7 +3,7 @@ const mysql = require('mysql');
 module.exports = (app) => {
   app.post('/api/seat/take/', (req, res) => {
     const seat = 1;// req.body.seat;
-    const select = 'SELECT * FROM `seats` WHERE `idseats` = ?';
+    const select = 'SELECT `u_id` FROM `seats` WHERE `idseats` = ?';
     // const update = 'UPDATE `seats` SET `u_id`=? WHERE `idseats`=?';
     if (seat != null) {
       const selects = [seat];
