@@ -4,3 +4,4 @@ yarn.lock
 .next/
 package-lock.json
 .env
+npm-debug.log
