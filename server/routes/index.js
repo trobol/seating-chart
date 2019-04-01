@@ -4,7 +4,6 @@ const fs = require('fs');
 
 module.exports = (app) => {
   fs.readdir(`${__dirname}/api/`, (err, files) => {
-    console.log(files);
     if (err) throw err;
 
     files.forEach((file) => {

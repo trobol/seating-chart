@@ -6,6 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+import { useCookies } from 'react-cookie';
 import {
   Sidebar, SidebarLogo, SidebarSection, SidebarItem, SidebarModalItem,
 } from './Sidebar';
@@ -13,14 +14,16 @@ import { TakeSeatModal, LoginModal } from './Modals';
 
 const UserSidebar = () => {
   const [loggedIn, setLoggedIn] = useState(null);
+  const [cookies, setCookie] = useCookies(['scUID']);
 
   useEffect(() => {
-    if (sessionStorage.getItem('scUID') != null) {
-      axios.get('/api/logged-in').then((res) => {
-
+    if (cookies != null) {
+      axios.get(`/api/logged-in?uid=${cookies.scUID}`).then((res) => {
+        // Need to decide on a response format to check for then if its logged in
+        // run `setLoggedIn(true)`;
       });
     }
-  }, [loggedIn]);
+  }, [cookies]);
 
   return (
     <Sidebar>
