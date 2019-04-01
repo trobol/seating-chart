@@ -1,4 +1,3 @@
-const mysql = require('mysql');
 const { WIW } = require('wheniwork');
 
 const { WIW_API_KEY } = process.env;
