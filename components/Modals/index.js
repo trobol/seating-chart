@@ -1,7 +1,7 @@
-import Modal from './Modal';
-import Portal from './Portal';
+import TakeSeatModal from './TakeSeatModal';
+import LoginModal from './LoginModal';
 
 export {
-  Modal,
-  Portal,
+  TakeSeatModal,
+  LoginModal,
 };
