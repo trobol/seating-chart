@@ -1,6 +1,10 @@
 const next = require('next');
 const express = require('express');
 const mysql = require('mysql');
+const uuid = require('uuid/v4');
+const passport = require('passport');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -14,6 +18,22 @@ app
     const server = express();
 
     server.use(express.urlencoded({ extended: true }));
+
+    const sess = {
+      genid: (req) => {
+        console.log('inside session');
+        console.log(req.sessionID);
+        return uuid();
+      },
+      store: new FileStore(),
+      secret: 'LcDIR0cK5',
+      resave: false,
+      saveUninitialized: true,
+      cookie: server.get('env') === 'production' ? { secure: true } : {},
+    };
+
+    server.use(session(sess));
+
     server.pool = mysql.createPool({
       host: 'localhost',
       user: 'seatingchart',
@@ -24,7 +44,10 @@ app
     // eslint-disable-next-line global-require
     require('./routes')(server);
 
-    server.get('*', (req, res) => handle(req, res));
+    server.get('*', (req, res) => {
+      console.log(req.sessionID);
+      handle(req, res);
+    });
 
     server.listen(3000, (err) => {
       if (err) throw err;

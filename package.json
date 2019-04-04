@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node server/server.js",
+    "dev:server": "nodemon --ignore sessions/ server/server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server/server.js"
   },
@@ -17,16 +18,22 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@zeit/next-css": "^1.0.1",
     "axios": "^0.18.0",
+    "bcrypt": "^3.0.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "mysql": "^2.16.0",
     "next": "^8.0.3",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
     "react-cookie": "^3.1.1",
     "react-dom": "^16.8.4",
     "react-modal": "^3.8.1",
     "react-portal": "^4.2.0",
+    "session-file-store": "^1.2.0",
+    "uuid": "^3.3.2",
     "wheniwork": "^2.0.3"
   },
   "devDependencies": {
