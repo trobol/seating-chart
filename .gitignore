@@ -5,3 +5,4 @@ yarn.lock
 package-lock.json
 .env
 npm-debug.log
+Thumbs.db
