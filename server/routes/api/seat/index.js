@@ -2,7 +2,7 @@
 /* eslint-disable global-require */
 const fs = require('fs');
 
-module.exports = (app) => {
+module.exports = (app, passport) => {
   fs.readdir(`${__dirname}`, (err, files) => {
     if (err) throw err;
 
@@ -11,9 +11,9 @@ module.exports = (app) => {
       const ext = file.indexOf('.');
 
       if (ext !== -1) {
-        require(`./${file.substr(0, ext)}`)(app);
+        require(`./${file.substr(0, ext)}`)(app, passport);
       } else {
-        require(`./${file}`)(app);
+        require(`./${file}`)(app, passport);
       }
     });
   });

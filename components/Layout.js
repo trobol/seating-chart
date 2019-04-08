@@ -21,9 +21,9 @@ const Layout = ({ children }) => (
       </Head>
       <UserSidebar />
       <div id="modal" />
-      <div className="Content">
+      <main className="Content">
         {children}
-      </div>
+      </main>
     </div>
     <style jsx>
       {` 
