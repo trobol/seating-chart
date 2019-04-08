@@ -16,10 +16,12 @@ module.exports = (app) => {
         parameters = { id: req.body.id };
         break;
       case 'times/user/':
-        const start = new Date(0);
-        const end = new Date();
+        const startTime = new Date(0);
+        const endTime = new Date();
         parameters = {
           id: req.body.id,
+          start: startTime,
+          end: endTime,
         };
         break;
       default:
@@ -27,17 +29,17 @@ module.exports = (app) => {
     }
     switch (req.body.requestType) {
       case 'post':
-        wiw.post(endpoint, parameters).then((res) => {
-          console.log(res);
+        wiw.post(endpoint, parameters).then((result) => {
+          console.log(result);
         });
         break;
       case 'get':
-        wiw.get(endpoint, parameters).then((res) => {
-          console.log(res);
+        wiw.get(endpoint, parameters).then((result) => {
+          console.log(result);
         });
         break;
       default:
-        console.log(res);
+        console.log(result);
     }
     console.log({
       WIW_API_KEY, WIW_USERNAME, WIW_PASSWORD, endpoint, parameters,
