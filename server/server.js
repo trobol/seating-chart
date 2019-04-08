@@ -36,13 +36,21 @@ app
 
     server.pool = mysql.createPool({
       host: 'localhost',
-      user: 'seatingchart',
-      password: 'seatingchart',
-      database: 'seatingchart',
+      user: 'seating',
+      password: 'lcdirocks',
+      database: 'seating',
     });
 
     // eslint-disable-next-line global-require
+    require('./util/passport')(passport, server);
+
+    // eslint-disable-next-line global-require
     require('./routes')(server);
+
+    server.use(passport.initialize());
+    server.use(passport.session());
+
+    server.passport = passport;
 
     server.get('*', (req, res) => {
       console.log(req.sessionID);
