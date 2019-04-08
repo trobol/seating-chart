@@ -73,30 +73,12 @@ WIW_ACCOUNT_ID=ACCOUNT_ID
 
 [React Tutorial](https://reactjs.org/docs/)
 
-[Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+[Next.js Tutorial](https://nextjs.org/learn/basics/getting-started)
 
-## TODO
-* Front-end 
-    * User page
-        * Manage seat
-            * take
-            * Change
-            * return
-        * Manage reservations
-        * User Management
-            * Register user
-            * Change user data
-            * View users timesheet (could just use when I work instead)
-    * Admin page                     
-        * Admin dashboard
-        * Projects
-        * Reports/logs
-        * Guests
-        * All user management
-        * All user timesheets
-* Backend
-    * WiW Integration
-    * Make/find API to handle all front end requests
-* Misc
-    * make new kiosk app (potentially custom made IOS app)
-    * standalone map page for use on screen outside door
+[Passport.js Documentation](http://www.passportjs.org/docs/)
+
+## Other Important Sites
+
+[Material Tables](https://mbrn.github.io/material-table/#/)
+
+[Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
