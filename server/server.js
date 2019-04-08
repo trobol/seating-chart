@@ -36,8 +36,8 @@ app
 
     server.pool = mysql.createPool({
       host: 'localhost',
-      user: 'seating',
-      password: 'lcdirocks',
+      user: 'root',
+      password: '',
       database: 'seating',
     });
 
