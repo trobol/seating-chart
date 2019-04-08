@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import Map from '../map/index';
+import Map from '../components/map';
 
 const Index = () => (
   <Layout>

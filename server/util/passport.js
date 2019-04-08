@@ -23,7 +23,7 @@ module.exports = (passport, server) => {
     },
     (req, username, password, done) => {
       const sql = mysql.format(
-        'SELECT `user_hash`.`password_hash` FROM `users` INNER JOIN `user_hash` ON `users`.`idusers` = `user_hash`.`u_id` WHERE `users`.`username` = ?;', [username],
+        'SELECT `user_hash`.`password_hash`, `users`.`username`, `users`.`idusers` FROM `users` INNER JOIN `user_hash` ON `users`.`idusers` = `user_hash`.`u_id` WHERE `users`.`username` = ?;', [username],
       );
       server.pool.query(sql, (error, results) => {
         if (error) return done(error);
@@ -38,6 +38,8 @@ module.exports = (passport, server) => {
 
           return done(null, false);
         }).catch(err => done(err));
+
+        return done(null, false);
       });
     }),
   );
