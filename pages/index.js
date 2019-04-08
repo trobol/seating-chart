@@ -1,4 +1,5 @@
 import Layout from '../components/Layout';
+import Map from '../map/index';
 
 const Index = () => (
   <Layout>
@@ -9,6 +10,7 @@ const Index = () => (
       <input type="hidden" name="requestType" value="get" />
       <input type="submit" value="Submit" />
     </form>
+    <Map />
   </Layout>
 );
 
