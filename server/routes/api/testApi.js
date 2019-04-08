@@ -2,16 +2,13 @@ const mysql = require('mysql');
 
 module.exports = (app) => {
   app.post('/api/test-api', (req, res) => {
-    res.send({ response: 'successs' });
-
-    let sql = 'SELECT * FROM USERS WHERE ?? = ?';
-    const inserts = ['name', req.body.name];
-    sql = mysql.format(sql, inserts);
-
-    app.pool.query(sql, (error, results, fields) => {
+    const { name } = req.body;
+    const sql = mysql.format('SELECT `users`.`name` from `users` where `users`.`name` = ?', [name]);
+    app.pool.query(sql, (error, results) => {
+      console.log(error);
       if (error) throw error;
 
-      console.log(results);
+      res.send(results[0]);
     });
   });
 };

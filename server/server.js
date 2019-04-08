@@ -5,6 +5,7 @@ const uuid = require('uuid/v4');
 const passport = require('passport');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const flash = require('connect-flash');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -16,9 +17,7 @@ app
   .prepare()
   .then(() => {
     const server = express();
-
     server.use(express.urlencoded({ extended: true }));
-
     const sess = {
       genid: (req) => {
         console.log('inside session');
@@ -29,10 +28,11 @@ app
       secret: 'LcDIR0cK5',
       resave: false,
       saveUninitialized: true,
-      cookie: server.get('env') === 'production' ? { secure: true } : {},
+      cookie: { secure: (server.get('env') === 'production') },
     };
 
     server.use(session(sess));
+    server.use(flash());
 
     server.pool = mysql.createPool({
       host: 'localhost',
@@ -44,13 +44,10 @@ app
     // eslint-disable-next-line global-require
     require('./util/passport')(passport, server);
 
-    // eslint-disable-next-line global-require
-    require('./routes')(server);
-
     server.use(passport.initialize());
     server.use(passport.session());
-
-    server.passport = passport;
+    // eslint-disable-next-line global-require
+    require('./routes')(server, passport);
 
     server.get('*', (req, res) => {
       console.log(req.sessionID);

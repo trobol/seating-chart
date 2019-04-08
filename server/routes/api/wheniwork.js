@@ -39,7 +39,7 @@ module.exports = (app) => {
         });
         break;
       default:
-        console.log(result);
+        console.log('defaulted');
     }
     console.log({
       WIW_API_KEY, WIW_USERNAME, WIW_PASSWORD, endpoint, parameters,
