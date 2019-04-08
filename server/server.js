@@ -13,9 +13,17 @@ const handle = app.getRequestHandler();
 
 require('dotenv').config();
 
+const { MYSQL_USERNAME } = process.env;
+const { MYSQL_PASSWORD } = process.env;
+const { MYSQL_HOST } = process.env;
+const { MYSQL_DATABASE } = process.env;
+const { FILESTORE_SECRET } = process.env;
+
 app
   .prepare()
   .then(() => {
+    console.log(MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE);
+
     const server = express();
     server.use(express.urlencoded({ extended: true }));
     const sess = {
@@ -25,7 +33,7 @@ app
         return uuid();
       },
       store: new FileStore(),
-      secret: 'LcDIR0cK5',
+      secret: FILESTORE_SECRET,
       resave: false,
       saveUninitialized: true,
       cookie: { secure: (server.get('env') === 'production') },
@@ -35,10 +43,10 @@ app
     server.use(flash());
 
     server.pool = mysql.createPool({
-      host: 'localhost',
-      user: 'seating',
-      password: 'lcdirocks',
-      database: 'seating',
+      host: MYSQL_HOST,
+      user: MYSQL_USERNAME,
+      password: MYSQL_PASSWORD,
+      database: MYSQL_DATABASE,
     });
 
     // eslint-disable-next-line global-require
