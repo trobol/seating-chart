@@ -1,8 +1,8 @@
-// import Layout from '../components/Layout';
+import Layout from '../components/Layout';
 import Map from '../components/map';
 
 const Index = () => (
-  <div>
+  <Layout>
     <p>Hello Next.js</p>
     <form action="/api/table-api" method="post">
       <input type="text" name="name" placeholder="name" />
@@ -10,8 +10,11 @@ const Index = () => (
       <input type="hidden" name="requestType" value="get" />
       <input type="submit" value="Submit" />
     </form>
+    <form action="/user/manage" method="get">
+      <input type="submit" value="Test" />
+    </form>
     <Map />
-  </div>
+  </Layout>
 );
 
 export default Index;

@@ -4,11 +4,13 @@ const bcrypt = require('bcrypt');
 
 module.exports = (passport, server) => {
   passport.serializeUser((user, done) => {
-    done(null, user.iduser);
+    console.log('SERIALIZING');
+    console.log(user);
+    done(null, user.idusers);
   });
 
-  passport.deserializeUser((iduser, done) => {
-    const sql = mysql.format('SELECT * FROM USERS WHERE `iduser` = ?', [iduser]);
+  passport.deserializeUser((idusers, done) => {
+    const sql = mysql.format('SELECT * FROM USERS WHERE `idusers` = ?', [idusers]);
     server.pool.query(sql, (error, results) => {
       done(error, results[0]);
     });
@@ -27,6 +29,7 @@ module.exports = (passport, server) => {
       );
       server.pool.query(sql, (error, results) => {
         if (error) return done(error);
+        console.log(results);
         if (!results.length) {
           return done(null, false, req.flash('loginMessage', 'No user found.'));
         }

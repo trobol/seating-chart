@@ -36,17 +36,17 @@ app
       secret: FILESTORE_SECRET,
       resave: false,
       saveUninitialized: true,
-      cookie: { secure: (server.get('env') === 'production') },
+      cookie: { secure: !dev },
     };
 
     server.use(session(sess));
     server.use(flash());
 
     server.pool = mysql.createPool({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'seating',
+      host: MYSQL_HOST,
+      user: MYSQL_USERNAME,
+      password: MYSQL_PASSWORD,
+      database: MYSQL_DATABASE,
     });
 
     // eslint-disable-next-line global-require
@@ -56,6 +56,14 @@ app
     server.use(passport.session());
     // eslint-disable-next-line global-require
     require('./routes')(server, passport);
+
+    server.get('/user/manage/', (req, res) => {
+      if (req.isAuthenticated()) {
+        handle(req, res);
+      } else {
+        res.redirect('/login');
+      }
+    });
 
     server.get('*', (req, res) => {
       console.log(req.sessionID);

@@ -23,7 +23,7 @@ const UserSidebar = () => (
     </SidebarSection>
     <SidebarSection title="User Options">
       <SidebarModalItem link="/api/user/register" icon={faPlusCircle} title="Register User" modalContent={<div><p>Hello World!</p></div>} />
-      <SidebarModalItem link="/api/user/edit" icon={faUserEdit} title="Manage User" modalContent={<div><p>Hello World!</p></div>} />
+      <SidebarItem link="/user/manage" icon={faUserEdit} title="Manage User" preFetch />
       <SidebarModalItem link="/api/user/timesheet" icon={faClock} title="View Timesheet" modalContent={<div><p>Hello World!</p></div>} />
       {/* We use preFetch when we are navigating to another page rather than calling the modal */}
       <SidebarItem link="/admin" icon={faLock} title="Admin Panel" preFetch />

@@ -3,16 +3,30 @@
 const fs = require('fs');
 
 module.exports = (app, passport) => {
-  fs.readdir(`${__dirname}/api/`, (err, files) => {
+  fs.readdirSync(`${__dirname}/`).forEach((file) => {
+    if (file === 'index.js') return;
+    const ext = file.indexOf('.');
+    if (ext !== -1) {
+      require(`./${file.substr(0, ext)}`)(app, passport);
+    } else {
+      require(`./${file}`)(app, passport);
+    }
+  });
+  /*
+    Don't use this async because it will not load some routes
+    before loading the global route in server.js
+  fs.readdir(`${__dirname}/`, (err, files) => {
     if (err) throw err;
 
     files.forEach((file) => {
+      if (file === 'index.js') return;
       const ext = file.indexOf('.');
       if (ext !== -1) {
-        require(`./api/${file.substr(0, ext)}`)(app, passport);
+        require(`./${file.substr(0, ext)}`)(app, passport);
       } else {
-        require(`./api/${file}`)(app, passport);
+        require(`./${file}`)(app, passport);
       }
     });
   });
+  */
 };

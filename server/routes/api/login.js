@@ -1,15 +1,16 @@
 module.exports = (app, passport) => {
-  app.post('/api/login', passport.authenticate('local-login', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true,
-  }), (req, res) => {
-    console.log(req.data);
-
+  app.post('/login', passport.authenticate('local-login',
+    {
+      successRedirect: '/',
+      failureRedirect: '/login',
+      failureFlash: true,
+    }),
+  (req, res) => {
+    console.log('hey');
     res.redirect('/');
   });
 
   app.get('/login', (req, res) => {
-    res.render('login', { messages: req.flash('loginMessage') });
+    if (req.isAuthenticated()) { res.redirect('/'); }
   });
 };
