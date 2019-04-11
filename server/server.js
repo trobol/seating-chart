@@ -5,7 +5,7 @@ const uuid = require('uuid/v4');
 const passport = require('passport');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
-const flash = require('connect-flash');
+// const flash = require('connect-flash');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -40,7 +40,7 @@ app
     };
 
     server.use(session(sess));
-    server.use(flash());
+    // server.use(flash());
 
     server.pool = mysql.createPool({
       host: MYSQL_HOST,
@@ -66,7 +66,7 @@ app
     });
 
     server.get('*', (req, res) => {
-      console.log(req.sessionID);
+      // console.log(req.sessionID);
       handle(req, res);
     });
 

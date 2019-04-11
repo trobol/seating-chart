@@ -2,12 +2,14 @@ const mysql = require('mysql');
 
 module.exports = (app) => {
   app.post('/api/seat/return/', (req, res) => {
-    const seat = 1;
+    const { seat } = req.body;
     const update = 'UPDATE `seats` SET `u_id`=NULL WHERE `idseats`=?';
     if (seat != null) {
       const sql = mysql.format(update, [seat]);
       app.pool.query(sql, (error, results) => {
-        if (error) throw error;
+        if (error) {
+          res.send({ reponse: error });
+        }
         res.send({ reponse: 'success' });
       });
     } else {
