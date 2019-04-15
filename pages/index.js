@@ -22,9 +22,7 @@ const Index = () => (
     <form action="/user/manage" method="get">
       <input type="submit" value="Test" />
     </form>
-    <Map>
-      <SeatCircle x="49.5" y="42.8" />
-    </Map>
+
   </Layout>
 );
 
