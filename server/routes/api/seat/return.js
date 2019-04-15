@@ -8,12 +8,12 @@ module.exports = (app, isLoggedIn) => {
       const sql = mysql.format(update, [seat]);
       app.pool.query(sql, (error, results) => {
         if (error) {
-          res.send({ reponse: error });
+          res.send({ response: error });
         }
-        res.send({ reponse: 'success' });
+        res.send({ response: 'success' });
       });
     } else {
-      res.send({ reponse: 'No Seat Selected' });
+      res.send({ response: 'No Seat Selected' });
     }
   });
 };

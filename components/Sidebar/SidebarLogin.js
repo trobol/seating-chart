@@ -1,46 +1,32 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import PropTypes from 'prop-types';
 import { TextColor } from '../Constants';
 
-const SidebarLogin = () => {
-  const [username, setUsername] = useState('User');
-  const [avatar, setAvatar] = useState('/static/users/guest.jpg');
+const SidebarLogin = ({ avatar, name }) => (
+  <div className="Sidebar__login">
+    <img className="Sidebar__avatar" alt="User Avatar" src={avatar} />
+    <p className="Sidebar__username">{name}</p>
 
-  useEffect(() => {
-    axios.get('/api/get-user').then((res) => {
-      setUsername(res.data.username);
-      setAvatar(res.data.avatar);
-    });
-  }, [username, avatar]);
-
-
-  return (
-    <div className="Sidebar__login">
-      <img className="Sidebar__avatar" alt="User Avatar" src={avatar} />
-      <p className="Sidebar__username">{username}</p>
-
-      <style jsx>
-        {`
+    <style jsx>
+      {`
         .Sidebar__login {
           position: absolute;
           bottom: 12px;
           margin-left: 1.1rem;
-
+  
           display: flex;
           flex-direction: row;
-
+  
           align-items: center;
-
+  
           color: ${TextColor}
         }
-
+  
         .Sidebar__avatar {
           border-radius: 50%;
           height: 2em;
           width: 2em;
         }
-
+  
         .Sidebar__username {
           color: inherit;
           font-weight: 700;
@@ -48,9 +34,12 @@ const SidebarLogin = () => {
           margin-left: 12px;
         }
       `}
-      </style>
-    </div>
-  );
-};
+    </style>
+  </div>
+);
 
+SidebarLogin.propTypes = {
+  avatar: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+};
 export default SidebarLogin;

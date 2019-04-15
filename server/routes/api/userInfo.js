@@ -8,9 +8,9 @@ module.exports = (app) => {
 
       fs.stat(`/static/users/${user.image}.jpg`, (err, file) => {
         if (err) {
-          res.json({ username: user.name, avatar: '/static/users/guest.jpg' });
+          res.json({ username: user.name, avatar: '/static/users/guest.jpg', authenticated: true });
         } else {
-          res.json({ username: user.name, avatar: user.image });
+          res.json({ username: user.name, avatar: user.image, authenticated: true });
         }
       });
     } else {
