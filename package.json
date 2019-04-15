@@ -7,10 +7,13 @@
     "dev": "node server/server.js",
     "dev:server": "nodemon server/server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server/server.js"
+    "start": "cross-env NODE_ENV=production node server/server.js"
   },
   "nodemonConfig": {
-    "ignore": ["sessions/", "components/"]
+    "ignore": [
+      "sessions/",
+      "components/"
+    ]
   },
   "author": "Adam DeCosta, Kevin Eaton, Jackson Michaels",
   "license": "MIT",
@@ -43,6 +46,7 @@
     "wheniwork": "^2.0.3"
   },
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.16.0",

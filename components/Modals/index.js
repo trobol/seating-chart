@@ -1,7 +1,7 @@
-import TakeSeatModal from './TakeSeatModal';
-import LoginModal from './LoginModal';
+import TakeModal from './TakeModal';
+import ReturnModal from './ReturnModal';
 
 export {
-  TakeSeatModal,
-  LoginModal,
+  TakeModal,
+  ReturnModal,
 };

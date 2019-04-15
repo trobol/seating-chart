@@ -21,6 +21,10 @@ It is highly recommended for you to set up ESLint. ESLint will ensure that you a
 5. Go to the Prettier settings under `Extensions`.
 6. Check `Prettier: Eslint Integration`.
 
+## Localhost Database: XAMPP
+
+Download XAMPP [Here](https://www.apachefriends.org/index.html). XAMPP is used to set up a local MySQL database. You can also use PHPMyAdmin to view the database in further detail.
+
 ## Running
 
 Running the application is extremely simple. Make sure you are in the `seating-chart` directory then run:

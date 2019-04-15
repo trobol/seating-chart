@@ -6,14 +6,14 @@ module.exports = (app, isLoggedIn) => {
     const update = 'UPDATE `seats` SET `u_id`=NULL WHERE `idseats`=?';
     if (seat != null) {
       const sql = mysql.format(update, [seat]);
-      app.pool.query(sql, (error, results) => {
+      app.pool.query(sql, (error) => {
         if (error) {
-          res.send({ reponse: error });
+          res.send({ response: error });
         }
-        res.send({ reponse: 'success' });
+        res.send({ response: 'success' });
       });
     } else {
-      res.send({ reponse: 'No Seat Selected' });
+      res.send({ response: 'No Seat Selected' });
     }
   });
 };
