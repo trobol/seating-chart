@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 
-module.exports = (app) => {
-  app.post('/api/seat/take/', (req, res) => {
+module.exports = (app, isLoggedIn) => {
+  app.post('/api/seat/take/', isLoggedIn, (req, res) => {
     const { seat, id } = req.body;
     const select = 'SELECT `u_id` FROM `seats` WHERE `idseats` = ?';
     if (seat != null) {

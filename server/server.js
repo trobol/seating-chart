@@ -57,7 +57,7 @@ app
     // eslint-disable-next-line global-require
     require('./routes')(server, passport);
 
-    server.get('/user/manage/', (req, res) => {
+    server.get('/user/*', (req, res) => {
       if (req.isAuthenticated()) {
         handle(req, res);
       } else {
