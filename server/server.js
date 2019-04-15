@@ -65,6 +65,14 @@ app
       }
     });
 
+    server.get('/login', (req, res) => {
+      if (req.isAuthenticated()) {
+        res.redirect('/');
+      } else {
+        handle(req, res);
+      }
+    });
+
     server.get('*', (req, res) => {
       // console.log(req.sessionID);
       handle(req, res);

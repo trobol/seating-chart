@@ -8,7 +8,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { useCookies } from 'react-cookie';
 import {
-  Sidebar, SidebarLogo, SidebarSection, SidebarItem, SidebarModalItem,
+  Sidebar, SidebarLogo, SidebarSection, SidebarItem, SidebarModalItem, SidebarLogin,
 } from './Sidebar';
 import { TakeSeatModal, LoginModal } from './Modals';
 
@@ -28,6 +28,7 @@ const UserSidebar = () => (
       {/* We use preFetch when we are navigating to another page rather than calling the modal */}
       <SidebarItem link="/admin" icon={faLock} title="Admin Panel" preFetch />
     </SidebarSection>
+    <SidebarLogin />
   </Sidebar>
 );
 
