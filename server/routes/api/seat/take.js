@@ -1,9 +1,7 @@
 const mysql = require('mysql');
-/**
- * To take a seat
- */
-module.exports = (app) => {
-  app.post('/api/seat/take/', (req, res) => {
+
+module.exports = (app, isLoggedIn) => {
+  app.post('/api/seat/take/', isLoggedIn, (req, res) => {
     const { seat, id } = req.body;
     const date = new Date();
     const day = date.getDay();

@@ -6,11 +6,6 @@ module.exports = (app, passport) => {
       failureFlash: true,
     }),
   (req, res) => {
-    console.log('hey');
     res.redirect('/');
-  });
-
-  app.get('/login', (req, res) => {
-    if (req.isAuthenticated()) { res.redirect('/'); }
   });
 };

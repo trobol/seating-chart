@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "node server/server.js",
-    "dev:server": "nodemon --ignore sessions/ server/server.js",
+    "dev:server": "nodemon server/server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server/server.js"
+  },
+  "nodemonConfig": {
+    "ignore": ["sessions/", "components/"]
   },
   "author": "Adam DeCosta, Kevin Eaton, Jackson Michaels",
   "license": "MIT",
