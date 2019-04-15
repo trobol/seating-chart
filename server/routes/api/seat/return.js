@@ -6,7 +6,7 @@ module.exports = (app) => {
     const update = 'UPDATE `seats` SET `u_id`=NULL WHERE `idseats`=?';
     if (seat != null) {
       const sql = mysql.format(update, [seat]);
-      app.pool.query(sql, (error, results) => {
+      app.pool.query(sql, (error) => {
         if (error) {
           res.send({ reponse: error });
         }
