@@ -26,6 +26,7 @@ class Table extends React.Component {
   }
 
   render() {
+    // make sure there is data in this.state before making table
     if (this.state.init) {
       return (
         <div>
@@ -35,7 +36,7 @@ class Table extends React.Component {
           <MaterialTable
             columns={this.state.head}
             data={this.state.data}
-            title="Admin Site"
+            title="Users and Seats"
           />
         </div>
       );
