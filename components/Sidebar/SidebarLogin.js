@@ -1,45 +1,29 @@
 import PropTypes from 'prop-types';
-import { TextColor } from '../Constants';
 
-const SidebarLogin = ({ avatar, name }) => (
-  <div className="Sidebar__login">
-    <img className="Sidebar__avatar" alt="User Avatar" src={avatar} />
-    <p className="Sidebar__username">{name}</p>
+import SidebarItem from './SidebarItem';
+
+const SidebarLogin = ({ icon }) => (
+  <ul className="Sidebar__login">
+    <SidebarItem link="/login" title="Login" icon={icon} prefetch />
 
     <style jsx>
       {`
         .Sidebar__login {
-          position: absolute;
-          bottom: 12px;
-          margin-left: 1.1rem;
-  
           display: flex;
-          flex-direction: row;
-  
-          align-items: center;
-  
-          color: ${TextColor}
-        }
-  
-        .Sidebar__avatar {
-          border-radius: 50%;
-          height: 2em;
-          width: 2em;
-        }
-  
-        .Sidebar__username {
-          color: inherit;
-          font-weight: 700;
-          font-size: .9em;
-          margin-left: 12px;
+          position: absolute;
+          padding: 0;
+
+          bottom: 12px;
+          list-style: none;
         }
       `}
     </style>
-  </div>
+  </ul>
 );
 
 SidebarLogin.propTypes = {
-  avatar: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  icon: PropTypes.object.isRequired,
 };
+
 export default SidebarLogin;

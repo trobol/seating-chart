@@ -7,7 +7,7 @@ import {
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import {
-  Sidebar, SidebarLogo, SidebarSection, SidebarItem, SidebarModalItem, SidebarLogin,
+  Sidebar, SidebarLogo, SidebarSection, SidebarItem, SidebarModalItem, SidebarProfile, SidebarLogin,
 } from './Sidebar';
 import { TakeModal, ReturnModal } from './Modals';
 
@@ -18,12 +18,12 @@ const UserSidebar = () => {
 
   useEffect(() => {
     axios.get('/api/get-user').then((res) => {
-      if (!res.authenticated) {
+      if (!res.data.authenticated) {
         setAuthenticated(false);
       } else {
         setAuthenticated(true);
-        setName(res.name);
-        setAvatar(res.image);
+        setName(res.data.name);
+        setAvatar(res.data.avatar);
       }
     });
   }, [authenticated]);
@@ -44,7 +44,7 @@ const UserSidebar = () => {
         {/* We use preFetch when we are navigating to another page rather than calling the modal */}
         <SidebarItem link="/admin" icon={faLock} title="Admin Panel" preFetch />
       </SidebarSection>
-      { authenticated ? <SidebarLogin avatar={avatar} name={name} /> : <></> }
+      { authenticated ? <SidebarProfile avatar={avatar} name={name} /> : <SidebarLogin icon={faSignInAlt} />}
     </Sidebar>
   );
 };
