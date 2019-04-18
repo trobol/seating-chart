@@ -6,7 +6,7 @@ module.exports = (app) => {
       const { user } = req;
       console.log(user);
 
-      fs.stat(`/static/users/${user.image}.jpg`, (err, file) => {
+      fs.stat(`/static/users/${user.image}.jpg`, (err) => {
         if (err) {
           res.json({ name: user.name, avatar: '/static/users/guest.jpg', authenticated: true });
         } else {

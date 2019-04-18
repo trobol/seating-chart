@@ -44,7 +44,7 @@ const UserSidebar = () => {
         {/* We use preFetch when we are navigating to another page rather than calling the modal */}
         <SidebarItem link="/admin" icon={faLock} title="Admin Panel" preFetch />
       </SidebarSection>
-      { authenticated ? <SidebarProfile avatar={avatar} name={name} /> : <SidebarLogin icon={faSignInAlt} />}
+      { authenticated ? <SidebarProfile avatar={avatar} name={name} /> : <SidebarLogin icon={faSignInAlt} /> }
     </Sidebar>
   );
 };
