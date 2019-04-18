@@ -17,13 +17,13 @@ const UserSidebar = () => {
   const [avatar, setAvatar] = useState('');
 
   useEffect(() => {
-    axios.get('/api/get-user').then((res) => {
+    axios.get('/api/users/get-user').then((res) => {
       if (!res.data.authenticated) {
         setAuthenticated(false);
       } else {
         setAuthenticated(true);
-        setName(res.data.name);
-        setAvatar(res.data.avatar);
+        setName(res.data.user.name);
+        setAvatar(res.data.user.image);
       }
     });
   }, [authenticated]);
@@ -44,7 +44,11 @@ const UserSidebar = () => {
         {/* We use preFetch when we are navigating to another page rather than calling the modal */}
         <SidebarItem link="/admin" icon={faLock} title="Admin Panel" preFetch />
       </SidebarSection>
-      { authenticated ? <SidebarProfile avatar={avatar} name={name} /> : <SidebarLogin icon={faSignInAlt} /> }
+      {(
+        authenticated
+          ? <SidebarProfile avatar={avatar} name={name} />
+          : <SidebarLogin icon={faSignInAlt} />
+        )}
     </Sidebar>
   );
 };
