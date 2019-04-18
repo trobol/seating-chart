@@ -1,5 +1,6 @@
 import Layout from '../components/Layout';
 import Map from '../components/map';
+import SeatCircle from '../components/map/seatCircle';
 
 const Index = () => (
   <Layout>
@@ -21,7 +22,7 @@ const Index = () => (
     <form action="/user/manage" method="get">
       <input type="submit" value="Test" />
     </form>
-    <Map />
+
   </Layout>
 );
 
