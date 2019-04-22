@@ -12,7 +12,8 @@
   "nodemonConfig": {
     "ignore": [
       "sessions/",
-      "components/"
+      "components/",
+      "pages/"
     ]
   },
   "author": "Adam DeCosta, Kevin Eaton, Jackson Michaels",
