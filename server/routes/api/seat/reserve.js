@@ -7,4 +7,7 @@ module.exports = (app, isLoggedIn) => {
   app.get('/api/seat/reserve', (req, res) => {
     res.send({ response: 'success' });
   });
+  /* app.post('/api/seat/reserve/', isLoggedIn, (req, res) => {
+    res.send({ response: 'post success' });
+  }); */
 };

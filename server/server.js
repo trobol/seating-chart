@@ -42,8 +42,8 @@ app
 
     server.pool = mysql.createPool({
       host: MYSQL_HOST,
-      user: MYSQL_USERNAME,
-      password: MYSQL_PASSWORD,
+      user: 'root',
+      password: '',
       database: MYSQL_DATABASE,
     });
 

@@ -22,15 +22,8 @@ const Index = () => (
       <input type="text" name="seat" placeholder="seat" />
       <input type="submit" value="Submit" />
     </form>
-    <form action="api/seat/change/" method="post">
-      <div>Change: </div>
-      <input type="text" name="id" placeholder="id" />
-      <input type="text" name="returnSeat" placeholder="Return" />
-      <input type="text" name="takeSeat" placeholder="Take" />
-      <input type="submit" value="Submit" />
-    </form>
     <form action="/user/manage" method="get">
-      <input type="submit" value="Test" />
+      <input type="submit" value="Submit" />
     </form>
     <button type="button" onClick={() => getReservations()}>Click Me!</button>
   </Layout>
