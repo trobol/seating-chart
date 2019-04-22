@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Layout from '../components/Layout';
-import Map from '../components/map';
-import SeatCircle from '../components/map/seatCircle';
+// import Map from '../components/map';
+// import SeatCircle from '../components/map/seatCircle';
 
 const getReservations = () => {
   console.log('clicked');
