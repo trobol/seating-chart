@@ -13,7 +13,7 @@ module.exports = (app, isLoggedIn) => {
       const updatesql = mysql.format(update, [userID, seatID]);
       app.pool.query(updatesql, (err) => {
         if (err) {
-          results.send({ reponse: err });
+          results.send({ response: err });
         }
         results.send({ response: 'success' });
       });
@@ -22,8 +22,14 @@ module.exports = (app, isLoggedIn) => {
       const checkSeatValues = [seat];
       const sql = mysql.format(checkSeat, checkSeatValues);
       app.pool.query(sql, (error, results) => {
+<<<<<<< HEAD
         if (error) { res.send({ reponse: error }); }
         // Checks  if seat is currently empty
+=======
+        if (error) {
+          res.send({ response: error });
+        }
+>>>>>>> e2ef48c4f201742fdbb25b7deabd108e646d0c7e
         if (results[0].u_id === null) {
           const reservationsValues = [seat, day];
           const reservationSql = mysql.format(reservations, reservationsValues);

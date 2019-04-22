@@ -9,22 +9,21 @@ import { SystemFonts } from './Constants';
 config.autoAddCss = false;
 
 const Layout = ({ children }) => (
-  <CookiesProvider>
-    <div className="Layout">
-      <Head>
-        <title>LCDI - Seating Chart</title>
-        <meta
-          name="viewport"
-          content="initial-scale=1.0, width=device-width"
-          key="viewport"
-        />
-      </Head>
-      <UserSidebar />
-      <div id="modal" />
-      <main className="Content">
-        {children}
-      </main>
-    </div>
+  <div className="Layout">
+    <Head>
+      <title>LCDI - Seating Chart</title>
+      <meta
+        name="viewport"
+        content="initial-scale=1.0, width=device-width"
+        key="viewport"
+      />
+    </Head>
+    <UserSidebar />
+    <div id="modal" />
+    <main className="Content">
+      {children}
+    </main>
+
     <style jsx>
       {` 
         .Layout {
@@ -50,7 +49,7 @@ const Layout = ({ children }) => (
         }
     `}
     </style>
-  </CookiesProvider>
+  </div>
 
 );
 
