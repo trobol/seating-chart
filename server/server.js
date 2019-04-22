@@ -5,7 +5,6 @@ const uuid = require('uuid/v4');
 const passport = require('passport');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
-// const https = require('https');
 // const flash = require('connect-flash');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -14,11 +13,9 @@ const handle = app.getRequestHandler();
 
 require('dotenv').config();
 
-const { MYSQL_USERNAME } = process.env;
-const { MYSQL_PASSWORD } = process.env;
-const { MYSQL_HOST } = process.env;
-const { MYSQL_DATABASE } = process.env;
-const { FILESTORE_SECRET } = process.env;
+const {
+  MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE, FILESTORE_SECRET,
+} = process.env;
 
 app
   .prepare()

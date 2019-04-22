@@ -1,9 +1,9 @@
 const { WIW } = require('wheniwork');
 
-const { WIW_API_KEY } = process.env;
-const { WIW_USERNAME } = process.env;
-const { WIW_PASSWORD } = process.env;
-const { WIW_ACCOUNT_ID } = process.env;
+const {
+  WIW_API_KEY, WIW_USERNAME, WIW_PASSWORD, WIW_ACCOUNT_ID,
+} = process.env;
+
 module.exports = (app) => {
   app.post('/api/wheniwork', (req, res) => {
     const { endpoint } = req.body;
