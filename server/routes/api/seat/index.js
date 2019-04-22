@@ -11,18 +11,13 @@ module.exports = (app, passport) => {
     }
   };
 
-  fs.readdir(`${__dirname}`, (err, files) => {
-    if (err) throw err;
-
-    files.forEach((file) => {
-      if (file === 'index.js') return;
-      const ext = file.indexOf('.');
-
-      if (ext !== -1) {
-        require(`./${file.substr(0, ext)}`)(app, isLoggedIn, passport);
-      } else {
-        require(`./${file}`)(app, passport);
-      }
-    });
+  fs.readdirSync(`${__dirname}/`).forEach((file) => {
+    if (file === 'index.js') return;
+    const ext = file.indexOf('.');
+    if (ext !== -1) {
+      require(`./${file.substr(0, ext)}`)(app, isLoggedIn, passport);
+    } else {
+      require(`./${file}`)(app, passport);
+    }
   });
 };

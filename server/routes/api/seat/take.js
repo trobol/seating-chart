@@ -12,7 +12,7 @@ module.exports = (app, isLoggedIn) => {
       const updatesql = mysql.format(update, [userID, seatID]);
       app.pool.query(updatesql, (err) => {
         if (err) {
-          results.send({ reponse: err });
+          results.send({ response: err });
         }
         results.send({ response: 'success' });
       });
@@ -22,7 +22,7 @@ module.exports = (app, isLoggedIn) => {
       const sql = mysql.format(checkSeat, checkSeatValues);
       app.pool.query(sql, (error, results) => {
         if (error) {
-          res.send({ reponse: error });
+          res.send({ response: error });
         }
         if (results[0].u_id === null) {
           const reservationsValues = [seat, day];
