@@ -26,11 +26,19 @@ const Index = () => (
     </form>
     <form action="/api/seat/reserve" method="post">
       <div>Reserve your seat</div>
+      <div>Expiration: </div>
       <input type="datetime-local" name="expires" />
+      <div>Seat Number: </div>
       <input type="number" name="seat" />
+      <div>Weekday: </div>
+      <input type="number" name="weekday" />
+      <div>Start Time: </div>
       <input type="time" name="start" />
+      <div>End Time: </div>
       <input type="time" name="end" />
-      <input type="text" name="reasons" />
+      <div>Reason: </div>
+      <input type="text" name="reason" />
+      <input type="submit" value="submit" />
     </form>
     <button type="button" onClick={() => getReservations()}>Click Me!</button>
   </Layout>
