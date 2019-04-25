@@ -14,20 +14,33 @@ module.exports = (app, isLoggedIn) => {
       );
       app.pool.query(getReservationSql, (err, result) => {
         const filtered = result.filter(r => start <= r.end && end >= r.start);
-        res.send({ response: filtered });
-        // Then Insert into reservation
-
-        // Else return error
+        if (filtered.length < 1 || filtered === undefined) {
+          const insertReservationsSql = mysql.format(
+            'INSERT INTO `reservations`(`s_id`, `u_id`, `weekday`, `start`, `end`, `expires`, `reason`) VALUES (?,?,?,?,?,?,?)',
+            [seat, idusers, weekday, start, end, expires, reason],
+          );
+          app.pool.query(insertReservationsSql, (e, r) => {
+            if (e) throw e;
+            res.send({ response: 'success', body: r });
+          });
+        } else {
+          res.send({ response: 'Reservation already exists at that time!!' });
+        }
       });
     } else {
-      res.send({ response: 'success' });
+      res.send({ response: 'Something was not set!' });
     }
   });
+  // GET Request sends all current active reservations for a seat
   app.get('/api/seat/reserve', (req, res) => {
     const { seat } = req.query;
-    const getReservationSql = mysql.format('SELECT * FROM `reservations` WHERE `reservations`.`s_id` = ?', [seat]);
+    const getReservationSql = mysql.format('SELECT * FROM `reservations` WHERE `reservations`.`s_id` = ? AND `reservations`.`expires` > NOW();', [seat]);
     app.pool.query(getReservationSql, (err, result) => {
       res.send({ response: result });
     });
+  });
+  // Delete Request
+  app.delete('api/seat/reserve', (req, res) => {
+    console.log(req, res);
   });
 };
