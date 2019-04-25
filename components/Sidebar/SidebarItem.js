@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Icon, Item } from 'semantic-ui-react';
 import { TextColor, SidebarBGHover } from '../Constants';
 
 const iconStyle = {
@@ -11,41 +11,43 @@ const iconStyle = {
 const SidebarItem = ({
   icon, link, title,
 }) => (
-  <li className="sbItem">
-    <Link prefetch href={link}>
-      <a>
-        <FontAwesomeIcon icon={icon} style={iconStyle} fixedWidth />
-        {title}
-      </a>
-    </Link>
+  <div>
+    <Item as="li">
+      <Link prefetch href={link}>
+        <a>
+          <Icon name={icon} fitted style={iconStyle} />
+          {title}
+        </a>
+      </Link>
+    </Item>
 
     <style jsx>
       {`
-        .sbItem {
+        div :global(.item) {
           font-size: .9em;
           line-height: 40px;
           font-weight: 700;
-          text-indent: 24px;
+          padding-left: 1em;
           background-color: inherit;
           color: ${TextColor}
         }
-        .sbItem a {
+        div :global(.item a) {
           color: inherit;
           text-decoration: none;
         }
 
-        .sbItem:hover {
+        div :global(.item:hover) {
           background-color: ${SidebarBGHover};
           color: white;
         }
     `}
     </style>
-  </li>
+  </div>
 );
 
 SidebarItem.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  icon: PropTypes.object.isRequired,
+  icon: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };

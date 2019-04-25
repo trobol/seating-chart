@@ -23,7 +23,7 @@ const SidebarLogin = ({ icon }) => (
 
 SidebarLogin.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  icon: PropTypes.object.isRequired,
+  icon: PropTypes.string.isRequired,
 };
 
 export default SidebarLogin;

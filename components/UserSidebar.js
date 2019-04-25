@@ -6,6 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+import { Icon } from 'semantic-ui-react';
 import {
   Sidebar, SidebarLogo, SidebarSection, SidebarItem, SidebarModalItem, SidebarProfile, SidebarLogin,
 } from './Sidebar';
@@ -32,22 +33,22 @@ const UserSidebar = () => {
     <Sidebar>
       <SidebarLogo image="/static/lcdi_banner.png" alt="LCDI Banner" />
       <SidebarSection title="Seat Options">
-        <SidebarModalItem link="/api/seat/take" icon={faSignInAlt} title="Take Seat" modalContent={<TakeModal />} />
-        <SidebarModalItem link="/api/seat/return" icon={faSignOutAlt} title="Return Seat" modalContent={<ReturnModal />} />
-        <SidebarModalItem link="/api/seat/change" icon={faSync} title="Change Seat" modalContent={<div><p>Hello World!</p></div>} />
-        <SidebarModalItem link="/api/seat/reserve" icon={faCalendarAlt} title="Reserve Seat" modalContent={<div><p>Hello World!</p></div>} />
+        <SidebarModalItem link="/api/seat/take" icon="sign-in" title="Take Seat" modalContent={<TakeModal />} />
+        <SidebarModalItem link="/api/seat/return" icon="sign-out" title="Return Seat" modalContent={<ReturnModal />} />
+        <SidebarModalItem link="/api/seat/change" icon="sync" title="Change Seat" modalContent={<div><p>Hello World!</p></div>} />
+        <SidebarModalItem link="/api/seat/reserve" icon="calendar alternate" title="Reserve Seat" modalContent={<div><p>Hello World!</p></div>} />
       </SidebarSection>
       <SidebarSection title="User Options">
-        <SidebarModalItem link="/api/user/register" icon={faPlusCircle} title="Register User" modalContent={<div><p>Hello World!</p></div>} />
-        <SidebarItem link="/user/manage" icon={faUserEdit} title="Manage User" preFetch />
-        <SidebarModalItem link="/api/user/timesheet" icon={faClock} title="View Timesheet" modalContent={<div><p>Hello World!</p></div>} />
+        <SidebarModalItem link="/api/user/register" icon="plus circle" title="Register User" modalContent={<div><p>Hello World!</p></div>} />
+        <SidebarItem link="/user/manage" icon="edit" title="Manage User" preFetch />
+        <SidebarModalItem link="/api/user/timesheet" icon="clock" title="View Timesheet" modalContent={<div><p>Hello World!</p></div>} />
         {/* We use preFetch when we are navigating to another page rather than calling the modal */}
-        <SidebarItem link="/admin" icon={faLock} title="Admin Panel" preFetch />
+        <SidebarItem link="/admin" icon="lock" title="Admin Panel" preFetch />
       </SidebarSection>
       {(
         authenticated
           ? <SidebarProfile avatar={avatar} name={name} />
-          : <SidebarLogin icon={faSignInAlt} />
+          : <SidebarLogin icon="sign-in" />
         )}
     </Sidebar>
   );

@@ -1,12 +1,8 @@
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Icon } from 'semantic-ui-react';
 import { useState } from 'react';
 import Modal from 'react-modal';
 import { TextColor, SidebarBGHover } from '../Constants';
-
-const iconStyle = {
-  paddingRight: '20px',
-};
 
 const modalStyle = {
   content: {
@@ -21,6 +17,20 @@ const modalStyle = {
   },
 };
 
+const styles = {
+  button: {
+    border: 'none',
+    background: 'inherit',
+    color: 'inherit',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'inherit',
+    textDecoration: 'none',
+    cursor: 'pointer',
+    paddingLeft: '1em',
+  },
+};
+
 Modal.setAppElement('#modal');
 
 const SidebarModalItem = ({
@@ -32,10 +42,16 @@ const SidebarModalItem = ({
 
   return (
     <li className="sbItem">
-      <button type="button" className="listButton" onClick={() => setOpen(true)}>
-        <FontAwesomeIcon icon={icon} style={iconStyle} fixedWidth />
+      <Button
+        type="button"
+        icon
+        style={styles.button}
+        className="listButton"
+        onClick={() => setOpen(true)}
+      >
+        <Icon name={icon} fitted style={{ paddingRight: 20 }} />
         {title}
-      </button>
+      </Button>
       <Modal
         className="Modal"
         isOpen={open}
@@ -49,24 +65,10 @@ const SidebarModalItem = ({
       </Modal>
       <style jsx>
         {`
-          .listButton {
-            background: none;
-            border: none;
-            background: inherit;
-            padding: 0;
-            color: inherit;
-            font-size: .9em;
-            font-weight: 700;
-            font-family: inherit;
-            font-size: inherit;
-            text-decoration: none;
-            cursor: pointer;
-          }
           .sbItem {
             font-size: .9em;
             line-height: 40px;
             font-weight: 700;
-            text-indent: 24px;
             background-color: inherit;
             color: ${TextColor};
             cursor: pointer;
@@ -84,7 +86,7 @@ const SidebarModalItem = ({
 
 SidebarModalItem.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  icon: PropTypes.object.isRequired,
+  icon: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   modalContent: PropTypes.node.isRequired,
 };

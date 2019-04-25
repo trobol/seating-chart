@@ -1,20 +1,27 @@
 import PropTypes from 'prop-types';
+import { List, Header } from 'semantic-ui-react';
 import { TextColor } from '../Constants';
+
+const styles = {
+  title: {
+    fontWeight: 900,
+    fontSize: '.8em',
+    textIndent: '12px',
+    color: `${TextColor}`,
+    marginNottom: '-1px',
+  },
+};
 
 const SidebarSection = ({ children, title }) => (
   <>
-    <p className="title">{title}</p>
-    <ul className="sbSection">
+    <List className="sbSection">
+      <List.Header style={styles.title}>{title}</List.Header>
       {children}
-    </ul>
+    </List>
     <style jsx>
       {`
         .title {
-          font-weight: 900;
-          font-size: .8em;
-          text-indent: 12px;
-          color: ${TextColor};
-          margin-bottom: -1px;
+          
         }
 
         .sbSection {

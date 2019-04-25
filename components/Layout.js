@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import Head from 'next/head';
-import { CookiesProvider } from 'react-cookie';
 import UserSidebar from './UserSidebar';
 import { SystemFonts } from './Constants';
-
+import 'semantic-ui-css/semantic.min.css';
 
 config.autoAddCss = false;
 

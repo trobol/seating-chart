@@ -1,6 +1,25 @@
 import { useState, useEffect } from 'react';
+import { Form, Input, Dropdown } from 'formsy-semantic-ui-react';
 import axios from 'axios';
 import Layout from '../../components/Layout';
+
+const Pronouns = [
+  {
+    key: 'He/Him',
+    text: 'He/Him',
+    value: 'He/Him',
+  },
+  {
+    key: 'She/Her',
+    text: 'She/Her',
+    value: 'She/Her',
+  },
+  {
+    key: 'They/Them',
+    text: 'They/Them',
+    value: 'They/Them',
+  },
+];
 
 const Manage = () => {
   const [user, setUser] = useState({});
@@ -25,11 +44,10 @@ const Manage = () => {
 
   return (
     <Layout>
-      <form className="Manage__container">
-        <label htmlFor="name">Full Name</label>
-        <input id="name" name="name" initialvalue={user.name} />
-        <label htmlFor="pronouns">Pronouns</label>
-      </form>
+      <Form>
+        <Input type="text" name="name" value={user.name} label="Full Name" />
+        <Dropdown name="pronoun" placeholder="Your Pronouns" value={user.pronoun} selection options={Pronouns} />
+      </Form>
     </Layout>
   );
 };

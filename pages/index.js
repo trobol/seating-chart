@@ -24,7 +24,7 @@ const Index = () => (
     <form action="/user/manage" method="get">
       <input type="submit" value="Submit" />
     </form>
-    <form action="api/seat/reserve" method="post">
+    <form action="/api/seat/reserve" method="post">
       <div>Reserve your seat</div>
       <input type="datetime-local" name="expires" />
       <input type="number" name="seat" />
