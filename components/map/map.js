@@ -2,7 +2,7 @@
 
 const Map = ({ children }) => (
   <div>
-    <img className="mapImage" src="/static/plan.png" alt="map of floorplan" />
+    <img className="mapImage" src="/static/map.svg" alt="map of floorplan" />
     {children}
     <style jsx>
       {`

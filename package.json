@@ -23,6 +23,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.8.1",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
+    "@zeit/next-css": "^1.0.1",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.5",
     "connect-flash": "^0.1.1",
@@ -43,12 +44,12 @@
     "react-dom": "^16.8.4",
     "react-modal": "^3.8.1",
     "react-portal": "^4.2.0",
+    "react-svg": "^9.0.4",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.86.0",
     "session-file-store": "^1.2.0",
     "uuid": "^3.3.2",
-    "wheniwork": "^2.0.3",
-    "@zeit/next-css": "^1.0.1"
+    "wheniwork": "^2.0.3"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",

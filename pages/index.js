@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Layout from '../components/Layout';
-// import Map from '../components/map';
-// import SeatCircle from '../components/map/seatCircle';
+import Map from '../components/Map';
+import SeatCircle from '../components/Map/seatCircle';
 
 const getReservations = () => {
   axios.get('/api/seat/reserve', { params: { seat: 1 } }).then((res) => {
@@ -11,7 +11,13 @@ const getReservations = () => {
 
 const Index = () => (
   <Layout>
-    <form action="/api/seat/take/" method="post">
+    <Map />
+  </Layout>
+);
+
+export default Index;
+/*
+<form action="/api/seat/take/" method="post">
       <div>Take: </div>
       <input type="text" name="seat" placeholder="seat" />
       <input type="submit" value="Submit" />
@@ -41,7 +47,4 @@ const Index = () => (
       <input type="submit" value="submit" />
     </form>
     <button type="button" onClick={() => getReservations()}>Click Me!</button>
-  </Layout>
-);
-
-export default Index;
+    */
