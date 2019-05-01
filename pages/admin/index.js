@@ -5,7 +5,7 @@ const Admin = () => (
   <Layout>
     <p> Admin Site </p>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <Table url="api/table/reservations" />
+    <Table link="api/table/reservations" />
   </Layout>
 );
 
