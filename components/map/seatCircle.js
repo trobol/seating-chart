@@ -1,6 +1,6 @@
+import { Component } from 'react';
 
-
-class SeatCircle extends React.Component {
+class SeatCircle extends Component {
   constructor(props) {
     super(props);
     this.state = { x: props.x, y: props.y };

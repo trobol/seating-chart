@@ -81,6 +81,10 @@ WIW_ACCOUNT_ID=ACCOUNT_ID
 
 [Passport.js Documentation](http://www.passportjs.org/docs/)
 
+[Object Deconstruction](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+
+[Git Tutorial](https://git-scm.com/docs/gittutorial)
+
 ## Other Important Sites
 
 [Material Tables](https://mbrn.github.io/material-table/#/)
