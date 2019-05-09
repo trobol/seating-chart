@@ -20,8 +20,6 @@ const {
 app
   .prepare()
   .then(() => {
-    console.log(MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE);
-
     const server = express();
     server.use(express.urlencoded({ extended: true }));
     const sess = {

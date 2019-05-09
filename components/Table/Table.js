@@ -14,7 +14,7 @@ const Table = ({ link }) => {
         setData(results);
         setColumns(fields.map(column => ({ title: column.name, field: column.orgName })));
       });
-  });
+  }, [url]);
   if (columns !== null && data !== null) {
     return (<MaterialTable columns={columns} data={data} />);
   }
