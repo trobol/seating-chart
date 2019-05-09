@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Layout from '../components/Layout';
-import Map from '../components/Map';
-import SeatCircle from '../components/Map/seatCircle';
+import { Map, SeatCircle } from '../components/Map';
 
 const getReservations = () => {
   axios.get('/api/seat/reserve', { params: { seat: 1 } }).then((res) => {
@@ -11,7 +10,7 @@ const getReservations = () => {
 
 const Index = () => (
   <Layout>
-    <Map />
+    <Map link="/api/map/seats" />
   </Layout>
 );
 

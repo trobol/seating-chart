@@ -1,23 +1,39 @@
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import Seats from './Seats';
+import Def from './Def';
+import BackgroundMap from './BackgroundMap';
+import Title from './Title';
 
+const Map = ({ link }) => {
+  const [url] = useState(link);
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      Promise.resolve(axios.get(url)
+        .then((res) => {
+          const { results } = res.data.response;
+          setData(results);
+        }));
+    }, 1500);
+    return () => clearInterval(interval);
+  }, [data, url]);
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 3000 1687">
+      <Def seats={data} />
+      <title>SeatingChart</title>
+      <g id="solid">
+        <rect className="cls-1" width="3000" height="1687" />
+      </g>
+      <BackgroundMap />
+      <Seats seats={data} />
+      <Title />
+    </svg>
+  );
+};
 
-const Map = ({ children }) => (
-  <div>
-    <img className="mapImage" src="/static/map.svg" alt="map of floorplan" />
-    {children}
-    <style jsx>
-      {`
-        .mapImage {
-          display: block;
-          float: up;
-          width: 100%;
-          height:100%;
-          position: absolute;
-          top: 10%;
-          left: 198px;          
-        }
-      `}
-    </style>
-  </div>
-);
-
+Map.propTypes = {
+  link: PropTypes.string.isRequired,
+};
 export default Map;
