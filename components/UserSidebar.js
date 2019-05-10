@@ -1,12 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-  faSignInAlt, faSignOutAlt, faSync,
-  faCalendarAlt, faPlusCircle, faUserEdit, faLock,
-} from '@fortawesome/free-solid-svg-icons';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import { Icon } from 'semantic-ui-react';
 import {
   Sidebar, SidebarLogo, SidebarSection, SidebarItem, SidebarModalItem, SidebarProfile, SidebarLogin,
 } from './Sidebar';

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MaterialTable from 'material-table';
 import axios from 'axios';
 
-const Table = ({ link }) => {
+const Table = ({ link, title }) => {
   const [url] = useState(link);
   const [data, setData] = useState(null);
   const [columns, setColumns] = useState(null);
@@ -16,13 +16,20 @@ const Table = ({ link }) => {
       });
   }, [url]);
   if (columns !== null && data !== null) {
-    return (<MaterialTable columns={columns} data={data} />);
+    return (
+      <div className="table">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+        <MaterialTable columns={columns} data={data} title={title} />
+        <style jsx>{'.table{width: 90vw; padding-left:5vw}'}</style>
+      </div>
+    );
   }
   return (<div />);
 };
 
 Table.propTypes = {
   link: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default Table;

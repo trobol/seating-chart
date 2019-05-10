@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import Head from 'next/head';
-import UserSidebar from './UserSidebar';
+// import UserSidebar from './UserSidebar';
 import { SystemFonts } from './Constants';
 import 'semantic-ui-css/semantic.min.css';
+import AdminSidebar from './AdminSidebar';
 
 config.autoAddCss = false;
 
@@ -17,7 +18,7 @@ const Layout = ({ children }) => (
         key="viewport"
       />
     </Head>
-    <UserSidebar />
+    <AdminSidebar />
     <div id="modal" />
     <main className="Content">
       {children}

@@ -13,8 +13,8 @@ const Map = ({ link }) => {
     const interval = setInterval(() => {
       Promise.resolve(axios.get(url)
         .then((res) => {
-          const { results } = res.data.response;
-          setData(results);
+          const { seats } = res.data.response;
+          setData(seats);
         }));
     }, 1500);
     return () => clearInterval(interval);

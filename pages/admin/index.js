@@ -3,9 +3,7 @@ import Layout from '../../components/Layout';
 
 const Admin = () => (
   <Layout>
-    <p> Admin Site </p>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <Table link="api/table/reservations" />
+    <Table link="api/table/reservations" title="Reservations" />
   </Layout>
 );
 

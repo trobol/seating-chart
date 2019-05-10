@@ -2,15 +2,7 @@
 /* eslint-disable global-require */
 const fs = require('fs');
 
-module.exports = (app, passport) => {
-  const isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()) {
-      next();
-    } else {
-      res.redirect('/login');
-    }
-  };
-
+module.exports = (app, isLoggedIn, passport) => {
   fs.readdirSync(`${__dirname}/`).forEach((file) => {
     if (file === 'index.js') return;
     const ext = file.indexOf('.');

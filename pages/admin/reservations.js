@@ -1,12 +1,10 @@
-import Table from '../../components/Table';
+import Table from '../../components/Table/Table';
 import Layout from '../../components/Layout';
 
-const AdminReservations = () => (
+const Reservations = () => (
   <Layout>
-    <p> Admin Site </p>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <Table link="api/table/reservations" />
+    <Table link="api/table/reservations" title="Reservations" />
   </Layout>
 );
 
-export default AdminReservations;
+export default Reservations;

@@ -1,14 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-  faSignInAlt, faSignOutAlt, faSync,
-  faCalendarAlt, faPlusCircle, faUserEdit, faLock,
-} from '@fortawesome/free-solid-svg-icons';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import { Icon } from 'semantic-ui-react';
 import {
-  Sidebar, SidebarLogo, SidebarSection, SidebarItem, SidebarModalItem, SidebarProfile, SidebarLogin,
+  Sidebar, SidebarLogo, SidebarSection, SidebarItem, SidebarProfile, SidebarLogin,
 } from './Sidebar';
 
 const AdminSidebar = () => {
@@ -32,17 +26,17 @@ const AdminSidebar = () => {
     <Sidebar>
       <SidebarLogo image="/static/lcdi_banner.png" alt="LCDI Banner" />
       <SidebarSection title="Main">
-        <SidebarItem link="/admin" icon="sign-in" title="Dashboard" preFetch />
-        <SidebarItem link="/admin/report" icon="sign-out" title="Report" preFetch />
-        <SidebarItem link="/admin/logs" icon="sync" title="Logs" preFetch />
+        <SidebarItem link="/admin" icon="tachometer alternate" title="Dashboard" preFetch />
+        <SidebarItem link="/admin/report" icon="file alternate" title="Report" preFetch />
+        <SidebarItem link="/admin/logs" icon="clipboard list" title="Logs" preFetch />
       </SidebarSection>
       <SidebarSection title="Seating Chart Options">
-        <SidebarItem link="/admin/users" icon="plus circle" title="Users" preFetch />
-        <SidebarItem link="/admin/guests" icon="edit" title="Guests" preFetch />
-        <SidebarItem link="/admin/force-return" icon="edit" title="Force Return" preFetch />
-        <SidebarItem link="/admin/timesheet" icon="edit" title="Timesheet" preFetch />
-        <SidebarItem link="/admin/projects" icon="edit" title="Projects" preFetch />
-        <SidebarItem link="/user/reservations" icon="edit" title="Reservations" preFetch />
+        <SidebarItem link="/admin/users" icon="users" title="Users" preFetch />
+        <SidebarItem link="/admin/guests" icon="user" title="Guests" preFetch />
+        <SidebarItem link="/admin/force-return" icon="key" title="Force Return" preFetch />
+        <SidebarItem link="/admin/timesheet" icon="business time" title="Timesheet" preFetch />
+        <SidebarItem link="/admin/projects" icon="list" title="Projects" preFetch />
+        <SidebarItem link="/admin/reservations" icon="history" title="Reservations" preFetch />
       </SidebarSection>
       {(
         authenticated
