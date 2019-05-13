@@ -22,7 +22,7 @@ module.exports = (app, isLoggedIn, passport) => {
     if (ext !== -1) {
       require(`./${file.substr(0, ext)}`)(app, isLoggedIn, isAdmin, passport);
     } else {
-      require(`./${file}`)(app, passport);
+      require(`./${file}`)(app, isLoggedIn, isAdmin, passport);
     }
   });
 };

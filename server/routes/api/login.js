@@ -1,4 +1,4 @@
-module.exports = (app, passport) => {
+module.exports = (app, isLoggedIn, passport) => {
   app.post('/login', passport.authenticate('local-login',
     {
       successRedirect: '/',

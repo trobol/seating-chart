@@ -2,8 +2,7 @@
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets All Project Info
   app.get('/api/admin/projects/', isAdmin, (req, res) => {
-    console.log({ req, res });
-    console.log('In final callback');
+    const sql = '';
     res.send({ response: 'success' });
   });
   // Gets Specific Project Info

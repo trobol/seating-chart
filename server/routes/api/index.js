@@ -9,7 +9,7 @@ module.exports = (app, isLoggedIn, passport) => {
     if (ext !== -1) {
       require(`./${file.substr(0, ext)}`)(app, isLoggedIn, passport);
     } else {
-      require(`./${file}`)(app, passport);
+      require(`./${file}`)(app, isLoggedIn, passport);
     }
   });
 };

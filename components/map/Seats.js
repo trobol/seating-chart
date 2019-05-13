@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 
 const Seats = ({ seats }) => {
   const [styledSeats, setStyledSeats] = useState(null);
+  const [seatEvents, setSeatEvents] = useState(null);
+  const doSomething = (seatid) => {
+    console.log({ seatid });
+  };
   useEffect(() => {
     if (seats !== null) {
       setStyledSeats(seats.flatMap(seat => `#Seat${seat.idseats}{fill:url(#Seat${seat.idseats})}`));
@@ -10,7 +14,7 @@ const Seats = ({ seats }) => {
   }, [seats]);
   return (
     <g id="Seats">
-      <circle id="Seat1" className="cls-12" cx="580.9" cy="710.55" r="43.32" />
+      <circle id="Seat1" className="cls-12" cx="580.9" cy="710.55" r="43.32" onMouseEnter={e => doSomething(e.currentTarget.id)} />
       <circle id="Seat2" className="cls-12" cx="786.3" cy="710.55" r="43.32" />
       <circle id="Seat3" className="cls-12" cx="990.88" cy="710.55" r="43.32" />
       <circle id="Seat4" className="cls-12" cx="1185.85" cy="710.55" r="43.32" />
