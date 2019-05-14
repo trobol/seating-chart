@@ -23,8 +23,9 @@ module.exports = (app, isLoggedIn, isAdmin) => {
         if (error) throw error;
         res.send({ response: results });
       });
+    } else {
+      res.send({ response: 'failure' });
     }
-    res.send({ response: 'failure' });
   });
   // Gets info for individual user
   app.get('api/admin/users/:userId', isLoggedIn, isAdmin, (req, res) => {
@@ -32,7 +33,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     const uSql = 'SELECT * FROM `users` WHERE idusers = ?';
     const sql = mysql.format(uSql, uid);
     app.pool.query(sql, (error, results, fields) => {
-      if (error) throw error;
+      if (error) res.send({ response: error });
       res.send({ response: { results, fields } });
     });
   });
@@ -49,8 +50,9 @@ module.exports = (app, isLoggedIn, isAdmin) => {
         if (error) throw error;
         res.send({ response: results });
       });
+    } else {
+      res.send({ response: 'failure' });
     }
-    res.send({ response: 'failure' });
   });
   // Delete User
   app.post('api/admin/users/:userId', isLoggedIn, isAdmin, (req, res) => {
@@ -58,9 +60,8 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     const { uid } = req.body;
     const sql = mysql.format(uSql, [uid]);
     app.pool.query(sql, (error, results) => {
-      if (error) throw error;
+      if (error) res.send({ response: error });
       res.send({ response: results });
     });
-    res.send({ response: 'success' });
   });
 };
