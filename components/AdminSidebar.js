@@ -34,7 +34,7 @@ const AdminSidebar = () => {
         <SidebarItem link="/admin/users" icon="users" title="Users" preFetch />
         <SidebarItem link="/admin/guests" icon="user" title="Guests" preFetch />
         <SidebarItem link="/admin/force-return" icon="key" title="Force Return" preFetch />
-        <SidebarItem link="/admin/timesheet" icon="business time" title="Timesheet" preFetch />
+        <SidebarItem link="/admin/timesheet" icon="time" title="Timesheet" preFetch />
         <SidebarItem link="/admin/projects" icon="list" title="Projects" preFetch />
         <SidebarItem link="/admin/reservations" icon="history" title="Reservations" preFetch />
       </SidebarSection>

@@ -4,7 +4,7 @@ const fs = require('fs');
 
 module.exports = (app, isLoggedIn, passport) => {
   fs.readdirSync(`${__dirname}/`).forEach((file) => {
-    if (file === 'index.js') return;
+    if (file === 'index.js' || file === 'README.md') return;
     const ext = file.indexOf('.');
     if (ext !== -1) {
       require(`./${file.substr(0, ext)}`)(app, isLoggedIn, passport);

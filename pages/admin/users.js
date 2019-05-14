@@ -3,7 +3,7 @@ import Layout from '../../components/Layout';
 
 const Users = () => (
   <Layout>
-    <Table link="api/table/users" title="Users" />
+    <Table link="/api/admin/users/" title="Users" method="get" canAdd canEdit canDelete />
   </Layout>
 );
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { List, Header } from 'semantic-ui-react';
+import { List } from 'semantic-ui-react';
 import { TextColor } from '../Constants';
 
 const styles = {

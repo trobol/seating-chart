@@ -5,7 +5,7 @@ import './DefStyle.css';
 const Def = ({ seats }) => {
   const [patterns, setPatterns] = useState(null);
   useEffect(() => {
-    if (seats !== null) {
+    if (seats !== null && seats !== undefined) {
       setPatterns(seats.map(seat => <UserIconPattern key={`Seat${seat.idseats}`} id={`Seat${seat.idseats}`} path={seat.image} />));
     }
   }, [seats]);

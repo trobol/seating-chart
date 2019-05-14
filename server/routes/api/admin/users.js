@@ -7,10 +7,9 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     const uSql = 'SELECT `idtime_log`, `u_id`, `login`, `logout` FROM `user_time_log` WHERE u_id=?';
     const sql = mysql.format(uSql, [uid]);
     app.pool.query(sql, (error, results, fields) => {
-      if (error) throw error;
+      if (error) res.send({ response: error });
       res.send({ response: { results, fields } });
     });
-    res.send({ response: 'success' });
   });
   // Posts new user
   app.post('/api/admin/users/', isLoggedIn, isAdmin, (req, res) => {

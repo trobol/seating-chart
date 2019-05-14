@@ -5,6 +5,8 @@ const uuid = require('uuid/v4');
 const passport = require('passport');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const devcert = require('devcert');
+const https = require('https');
 // const flash = require('connect-flash');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -73,12 +75,22 @@ app
       // console.log(req.sessionID);
       handle(req, res);
     });
-
-    server.listen(3000, (err) => {
-      if (err) throw err;
-      // eslint-disable-next-line no-console
-      console.log('> Ready on http://localhost:3000');
-    });
+    if (dev) {
+      // Creates secure development server
+      devcert.certificateFor('localhost', { skipCertutil: true }).then((ssl) => {
+        https.createServer(ssl, server).listen(3000, (err) => {
+          if (err) throw err;
+          // eslint-disable-next-line no-console
+          console.log('> Ready on http://localhost:3000');
+        });
+      });
+    } else {
+      server.listen(3000, (err) => {
+        if (err) throw err;
+        // eslint-disable-next-line no-console
+        console.log('> Ready on http://localhost:3000');
+      });
+    }
   })
   .catch((ex) => {
     // eslint-disable-next-line no-console
