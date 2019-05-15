@@ -3,9 +3,8 @@ const mysql = require('mysql');
 
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets All Project Info
-  app.get('/api/admin/projects/', (req, res) => {
-  // app.get('/api/admin/projects/', isLoggedIn, isAdmin, (req, res) => {
-    const sql = 'SELECT `project`, FROM `projects`';
+  app.get('/api/admin/projects/', isLoggedIn, isAdmin, (req, res) => {
+    const sql = 'SELECT `project`, `name` FROM `projects` INNER JOIN `user_project` ON `projects`.`idprojects` = `user_project`.`p_id` INNER JOIN `users` ON `user_project`.`u_id` = `users`.`idusers`';
     app.pool.query(sql, (error, results, fields) => {
       if (error) { res.send({ response: error }); } else {
         res.send({ response: { results, fields } });

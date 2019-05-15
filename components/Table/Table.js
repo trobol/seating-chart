@@ -13,13 +13,13 @@ const AddAction = {
 const DeleteAction = {
   icon: 'delete',
   tooltip: 'Delete',
-  onClick: (event, row) => row,
+  onClick: (_event, row) => row,
 };
 
 const EditAction = {
   icon: 'edit',
   tooltip: 'Edit',
-  onClick: (event, row) => row,
+  onClick: (_event, row) => row,
 };
 
 const Table = ({
@@ -31,10 +31,9 @@ const Table = ({
   useEffect(() => {
     Promise.resolve(axios({ method, url }))
       .then((res) => {
-        console.log(res);
         const { fields, results } = res.data.response;
         setData(results);
-        setColumns(fields.map(column => ({ title: column.name, field: column.orgName })));
+        setColumns(fields.map(column => ({ title: column.name, field: column.name })));
       }).catch(error => console.error(error));
   }, [method, url]);
   if (columns !== null && data !== null) {
