@@ -3,7 +3,7 @@ const mysql = require('mysql');
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets All Reservation Info
   app.get('/api/admin/reservations', isLoggedIn, isAdmin, (req, res) => {
-    const sql = 'SELECT u.idusers as "user id", r.s_id as "seat", u.name, r.weekday, r.start, r.end, r.expires, r.reason FROM `reservations` as r INNER JOIN `users` as u ON r.u_id = u.idusers';
+    const sql = 'SELECT r.idreservations as id, r.s_id as "seat", u.name, r.weekday, r.start, r.end, r.expires, r.reason FROM `reservations` as r INNER JOIN `users` as u ON r.u_id = u.idusers';
     app.pool.query(sql, (error, results, fields) => {
       if (error) res.send({ response: error });
       res.send({ response: { results, fields } });

@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 
 module.exports = (app, isLoggedIn, isAdmin) => {
-  // Gets timesheets info for a user
+  // Gets All Users
   app.get('/api/admin/users/', isLoggedIn, isAdmin, (req, res) => {
     const { uid } = req.body;
-    const uSql = 'SELECT `idtime_log`, `u_id`, `login`, `logout` FROM `user_time_log` WHERE u_id=?';
+    const uSql = 'SELECT * FROM `users`';
     const sql = mysql.format(uSql, [uid]);
     app.pool.query(sql, (error, results, fields) => {
       if (error) res.send({ response: error });
