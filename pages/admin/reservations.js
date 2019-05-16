@@ -61,7 +61,7 @@ const Reservations = () => {
             </Table.Row>
           </Table.Footer>
         </Table>
-        <Modal open={addModal}>
+        <Modal open={addModal} size="small" closeOnDimmerClick>
           <AddReservationModal />
           <ModalActions />
         </Modal>
