@@ -3,23 +3,7 @@ import { Form, Input, Dropdown } from 'formsy-semantic-ui-react';
 import axios from 'axios';
 import Layout from '../../components/Layout';
 
-const Pronouns = [
-  {
-    key: 'He/Him',
-    text: 'He/Him',
-    value: 'He/Him',
-  },
-  {
-    key: 'She/Her',
-    text: 'She/Her',
-    value: 'She/Her',
-  },
-  {
-    key: 'They/Them',
-    text: 'They/Them',
-    value: 'They/Them',
-  },
-];
+const Pronouns = ['He/Him', 'She/Her', 'They/Them'].map(e => ({ key: e, text: e, value: e }));
 
 const Manage = () => {
   const [user, setUser] = useState({});

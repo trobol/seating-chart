@@ -14,20 +14,16 @@ const AddReservationModal = () => {
   const [results, setResults] = useState([]);
   const [data, setData] = useState([]);
   const seats = Array.from(Array(32), (x, index) => ({ key: (index + 1), text: `${index + 1}`, value: index + 1 }));
-  console.log(seats);
   const resetState = () => {
     setIsLoading(false);
     setValue('');
     setResults([]);
   };
-  const handleResultSelect = (e, obj) => { setStudent((data.filter(s => s.id === obj.result.id))[0]); resetState(); };
+  const handleResultSelect = (e, obj) => {
+    setStudent((data.filter(s => s.id === obj.result.id))[0]); resetState();
+  };
   const handleSearchChange = (e, obj) => {
     setValue(obj.value);
-    if (obj.value.length < 1) return resetState();
-    const re = new RegExp(_.escapeRegExp(obj.value), 'i');
-    const isMatch = r => re.test(r.title);
-    // console.log({ re, isMatch }, _.filter(data, isMatch));
-    setResults(_.filter(data, isMatch));
   };
   useEffect(() => {
     Promise.resolve(axios.get('/api/admin/users/')).then((res) => {
@@ -40,6 +36,13 @@ const AddReservationModal = () => {
       })));
     });
   }, []);
+  useEffect(() => {
+    if (value.length < 1) return resetState();
+    const re = new RegExp(_.escapeRegExp(value), 'i');
+    const isMatch = r => re.test(r.title);
+    setResults(_.filter(data, isMatch));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
   return (
     <>
       <Header>Add Reservation</Header>
