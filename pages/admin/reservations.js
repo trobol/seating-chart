@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
-  Table, TableHeader, TableBody, TableRow, TableCell, Button, Icon, Modal, ModalActions, Search,
+  Table, TableHeader, TableBody, TableRow, TableCell, Button, Icon, Search,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import axios from 'axios';
@@ -8,6 +8,27 @@ import _ from 'lodash';
 import Layout from '../../components/Layout';
 import DeleteModal from '../../components/Modals/DeleteModal';
 import AddReservationModal from '../../components/Modals/AddReservations';
+
+const Weekday = (day) => {
+  switch (day) {
+    case 1:
+      return 'Monday';
+    case 2:
+      return 'Tuesday';
+    case 3:
+      return 'Wednesday';
+    case 4:
+      return 'Thursday';
+    case 5:
+      return 'Friday';
+    case 6:
+      return 'Saturday';
+    case 7:
+      return 'Sunday';
+    default:
+      return '';
+  }
+};
 
 const Reservations = () => {
   const [deleteModal, setDeleteModal] = useState(false);
@@ -40,8 +61,8 @@ const Reservations = () => {
       setSearchData(results.map(row => ({
         id: row.idusers,
         title: row.name,
-        description: row.pronoun,
-        image: `/static/users/${row.image}.jpg`,
+        description: row.weekday,
+        image: row.image,
       })));
     });
   }, []);
@@ -82,17 +103,18 @@ const Reservations = () => {
             {data.map(row => (
               <TableRow>
                 {
-              Object.keys(row).map(key => <TableCell>{row[key]}</TableCell>)
+              Object.keys(row).map((key) => {
+                if (key === 'expires') {
+                  return (<TableCell>{(new Date(row[key])).toLocaleDateString()}</TableCell>);
+                } if (key === 'weekday') {
+                  return (<TableCell>{Weekday(row[key])}</TableCell>);
+                } if (key === 'id');
+                return (<TableCell>{row[key]}</TableCell>);
+              })
             }
                 <TableCell>
                   <Button icon onClick={() => setDeleteModal(true)}><Icon name="delete" /></Button>
-                  <Modal open={deleteModal}>
-                    <DeleteModal />
-                    <ModalActions>
-                      <Button color="red" onClick={() => setDeleteModal(false)}>No</Button>
-                      <Button color="green" onClick={() => { setDeleteModal(false); deleteAction(row); }}>Yes</Button>
-                    </ModalActions>
-                  </Modal>
+                  <DeleteModal open={deleteModal} setOpen={setDeleteModal} deleteAction={deleteAction} data={row} />
                 </TableCell>
               </TableRow>
             ))}
@@ -109,10 +131,7 @@ const Reservations = () => {
           </Table.Footer>
         </Table>
         <style>{'.ui.table{width:90%; margin-left:5%}'}</style>
-        <Modal open={addModal} size="small" closeOnDimmerClick>
-          <AddReservationModal />
-          <ModalActions />
-        </Modal>
+        <AddReservationModal open={addModal} setOpen={setAddModal} />
       </Layout>
     );
   }

@@ -11,15 +11,16 @@ module.exports = (app, isLoggedIn, isAdmin) => {
   });
   // Creates a reservation for a user
   app.post('/api/admin/reservations', isLoggedIn, isAdmin, (req, res) => {
-    const uSql = 'INSERT INTO `reservations`(`s_id`, `u_id`, `weekday`, `start`, `end`, `expires`, `reason`) VALUES (?,?,?,?,?,?,?,)';
+    const uSql = 'INSERT INTO `reservations`(`s_id`, `u_id`, `weekday`, `start`, `end`, `expires`, `reason`) VALUES (?,?,?,?,?,?,?)';
     const {
       sid, uid, weekday, start, end, expires, reason,
-    } = req.body;
-    if (![sid, uid, weekday, start, end, expires, reason].filter(e => e === null).length) {
+    } = req.query;
+    if (![sid, uid, weekday, start, end, expires, reason]
+      .filter(e => e === null && e === undefined).length) {
       const sql = mysql.format(uSql, [sid, uid, weekday, start, end, expires, reason]);
       app.pool.query(sql, (error, results) => {
         if (error) res.send({ response: error });
-        res.send({ response: results });
+        else res.send({ response: results });
       });
     } else {
       res.send({ response: 'failure' });

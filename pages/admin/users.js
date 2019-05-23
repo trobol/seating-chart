@@ -26,6 +26,9 @@ const Users = () => {
     setSearchResults([]);
     setFilterData(data);
   };
+  const deleteAction = () => {
+    // Delete a User
+  };
   const handleResultSelect = () => resetState();
   const handleSearchChange = (_e, obj) => {
     setValue(obj.value);
@@ -86,22 +89,10 @@ const Users = () => {
                     Object.keys(row).map(key => <TableCell>{row[key]}</TableCell>)
                   }
                   <TableCell>
-                    <Button icon onClick={() => setDeleteModal(true)}><Icon name="delete" /></Button>
                     <Button icon onClick={() => setEditModal(true)}><Icon name="edit" /></Button>
-                    <Modal open={deleteModal}>
-                      <DeleteModal />
-                      <ModalActions>
-                        <Button color="red" onClick={() => setDeleteModal(false)}>No</Button>
-                        <Button color="green" onClick={() => { setDeleteModal(false); }}>Yes</Button>
-                      </ModalActions>
-                    </Modal>
-                    <Modal open={editModal}>
-                      <EditUserModal user={row} />
-                      <ModalActions>
-                        <Button color="red" onClick={() => setEditModal(false)}>No</Button>
-                        <Button color="green" onClick={() => setEditModal(false)}>Yes</Button>
-                      </ModalActions>
-                    </Modal>
+                    <Button icon onClick={() => setDeleteModal(true)}><Icon name="delete" /></Button>
+                    <EditUserModal open={editModal} setOpen={setEditModal} user={row} />
+                    <DeleteModal open={deleteModal} setOpen={setDeleteModal} deleteAction={deleteAction} data={row} />
                   </TableCell>
                 </TableRow>
               ))}
@@ -118,10 +109,7 @@ const Users = () => {
           </Table.Footer>
         </Table>
         <style>{'.ui.table{width:90%; margin-left:5%}'}</style>
-        <Modal open={addModal} size="small" closeOnDimmerClick>
-          <AddUserModal />
-          <ModalActions />
-        </Modal>
+        <AddUserModal open={addModal} setOpen={setAddModal} />
       </Layout>
     );
   }

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import {
-  Header, ModalDescription, Form, FormGroup, FormInput, FormSelect, FormButton, ModalContent, Image,
+  Button, Header, Modal, ModalActions, ModalDescription, Form, FormGroup, FormInput, FormSelect, FormButton, ModalContent, Image,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
 const Pronouns = ['He/Him', 'She/Her', 'They/Them'].map(e => ({ key: e, text: e, value: e }));
 
-const EditUserModal = ({ user }) => {
+const EditUserModal = ({ open, setOpen, user }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [passwordReset, setPasswordReset] = useState(false);
   const [password, setPassword] = useState('');
@@ -24,7 +24,7 @@ const EditUserModal = ({ user }) => {
     passwordReset ? setPassword('ChangeMe!') : setPassword('');
   }, [passwordReset]);
   return (
-    <>
+    <Modal open={open}>
       <Header>Edit User</Header>
       <ModalContent image>
         <Image wrapped size="medium" src={`/static/users/${user.image}.jpg`} />
@@ -56,12 +56,17 @@ const EditUserModal = ({ user }) => {
           </Form>
         </ModalDescription>
       </ModalContent>
-
-    </>
+      <ModalActions>
+        <Button color="red" onClick={() => setOpen(false)}>No</Button>
+        <Button color="green" onClick={() => setOpen(false)}>Yes</Button>
+      </ModalActions>
+    </Modal>
   );
 };
 
 EditUserModal.propTypes = {
+  open: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired,
   user: PropTypes.shape({
     idusers: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
