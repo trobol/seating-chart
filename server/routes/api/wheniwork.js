@@ -4,6 +4,28 @@ const {
   WIW_API_KEY, WIW_USERNAME, WIW_PASSWORD, WIW_ACCOUNT_ID,
 } = process.env;
 
+module.exports = (app, isLoggedIn) => {
+  const wiw = new WIW(WIW_API_KEY, WIW_USERNAME, WIW_PASSWORD);
+  wiw.config.accountId = WIW_ACCOUNT_ID;
+
+  app.post('/api/wheniwork/times/clockin/', isLoggedIn, (req, res) => {
+    wiw.post('times/clockin', { id: req.user.idusers }).then((results) => {
+      res.send({ results });
+    });
+  });
+
+  app.post('/api/wheniwork/times/clockout/', isLoggedIn, (req, res) => {
+    wiw.post('times/clockout', { id: req.user.idusers }).then((results) => {
+      res.send({ results });
+    });
+  });
+
+  app.post('/api/wheniwork/times/user/', isLoggedIn, (req, res) => {
+    wiw.post('times/user/');
+  });
+};
+
+/*
 module.exports = (app) => {
   app.post('/api/wheniwork', (req, res) => {
     const { endpoint } = req.body;
@@ -46,3 +68,4 @@ module.exports = (app) => {
     });
   });
 };
+*/

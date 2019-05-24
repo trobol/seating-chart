@@ -1,4 +1,7 @@
 const mysql = require('mysql');
+const bcyrpt = require('bcrypt');
+
+const { SALTROUNDS } = process.env;
 
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets All Users
@@ -13,12 +16,37 @@ module.exports = (app, isLoggedIn, isAdmin) => {
   });
   // Posts new user
   app.post('/api/admin/users/', isLoggedIn, isAdmin, (req, res) => {
-    const uSql = 'INSERT INTO `users`(`name`, `pronoun`, `email`, `username`, `image`, `primary_phone`, `account_created`) VALUES (?,?,?,?,?,?,?,NOW())';
     const {
-      name, pronoun, email, username, image, primaryPhone,
-    } = req.body;
-    if (![name, pronoun, email, username, image, primaryPhone].filter(e => e === null).length) {
-      const sql = mysql.format(uSql, [name, pronoun, email, username, image, primaryPhone]);
+      name, pronoun, email, username, image, primaryPhone, password, userType, projects,
+    } = req.query;
+    if (![name, pronoun, email, username, image, primaryPhone, password]
+      .filter(e => e === null && e === undefined).length) {
+      const userSql = 'INSERT INTO `users`(`name`, `pronoun`, `email`, `username`, `image`, `primary_phone`, `account_created`) VALUES (?,?,?,?,?,?,?,NOW())';
+      const hashSql = 'INSERT INTO `user_hash`(`u_id`, `password_hash`) VALUES (?,?)';
+      const userTypeSql = 'INSERT INTO `users_user_type`(`u_id`, `ut_id`) VALUES ';
+      const projectSql = 'INSERT INTO `user_project`(`u_id`, `p_id`) VALUES ';
+      bcyrpt.hash(password, SALTROUNDS, (error, hash) => {
+        app.pool.getConnection((_error, connection) => {
+          connection.beginTransaction((err) => {
+            if (err) { throw err; }
+            connection.query(userSql, [name, pronoun, email, username, image, primaryPhone], (userErr, result) => {
+              const { resultId } = result;
+              const userTypeValues = userType.map(e => mysql.format('(?,?)', [resultId, e])).join(',');
+              const projectValues = projects.map(e => mysql.format('(?,?)', [resultId, e])).join(',');
+              const promises = [
+                connection.query(hashSql, [resultId, hash]),
+                userType.length ? connection.query(userTypeSql + userTypeValues) : null,
+                projects.length ? connection.query(projectSql + projectValues) : null,
+              ].filter(e => e !== null);
+              Promise.all(promises).then((r) => {
+                console.log({ r });
+              });
+            });
+          });
+        });
+      });
+
+      const sql = mysql.format(userSql, [name, pronoun, email, username, image, primaryPhone]);
       app.pool.query(sql).then((error, results) => {
         if (error) throw error;
         res.send({ response: results });

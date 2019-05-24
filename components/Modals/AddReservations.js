@@ -37,7 +37,8 @@ const AddReservationModal = ({ open, setOpen }) => {
     setValue('');
     setSearchResults([]);
   };
-  const handleSumbit = () => {
+  const handleSumbit = (_e) => {
+    console.log('submitting data');
     const postData = {
       uid: user.id, sid: seat, start, end, weekday, expires, reason,
     };
@@ -72,7 +73,7 @@ const AddReservationModal = ({ open, setOpen }) => {
     <Modal open={open} size="small" closeOnDimmerClick>
       <Header>Add Reservation</Header>
       <ModalDescription>
-        <Form onSubmit={handleSumbit}>
+        <Form>
           <FormSelect fluid label="Seat" placeholder="Seat" options={seats} onChange={e => setSeat(e.target.innerText)} required />
           <FormGroup widths="equal">
             <FormField>
@@ -102,7 +103,7 @@ const AddReservationModal = ({ open, setOpen }) => {
       </ModalDescription>
       <ModalActions>
         <Button color="red" onClick={() => setOpen(false)}>Cancel</Button>
-        <Button type="submit" color="green">Submit</Button>
+        <Button type="submit" color="green" onClick={handleSumbit}>Submit</Button>
       </ModalActions>
     </Modal>
   );

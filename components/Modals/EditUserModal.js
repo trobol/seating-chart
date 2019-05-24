@@ -11,18 +11,20 @@ const EditUserModal = ({ open, setOpen, user }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [passwordReset, setPasswordReset] = useState(false);
   const [password, setPassword] = useState('');
-  useEffect(() => {
+  console.log('Here');
+  console.log(user);
+  /* useEffect(() => {
     Promise.resolve(axios.get('/api/users/get-user')).then((res) => {
       const { idusers } = res.data.user;
       if (user.idusers !== idusers) {
         setIsAdmin(true);
       }
     });
-  }, [user.idusers]);
-  useEffect(() => {
+  }, [user.idusers]); */
+  /* useEffect(() => {
     // eslint-disable-next-line no-unused-expressions
     passwordReset ? setPassword('ChangeMe!') : setPassword('');
-  }, [passwordReset]);
+  }, [passwordReset]); */
   return (
     <Modal open={open}>
       <Header>Edit User</Header>

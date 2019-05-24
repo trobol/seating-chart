@@ -9,39 +9,51 @@ const Pronouns = ['He/Him', 'She/Her', 'They/Them'].map(e => ({ key: e, text: e,
 
 const AddUserModal = ({ open, setOpen }) => {
   const [imageSource, setImageSource] = useState('/static/users/guest.jpg');
-  const [majors, setMajors] = useState([]);
+  const [allMajors, setAllMajors] = useState([]);
+  const [allUserType, setAllUserType] = useState([]);
+  const [allProjects, setAllProjects] = useState([]);
+  const [name, setName] = useState('');
+  const [pronouns, setPronouns] = useState('');
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfimation, setPasswordConfirmation] = useState('');
+  const [phone, setPhone] = useState('');
+  const [image, setImage] = useState(null);
+  const [major, setMajor] = useState([]);
   const [userType, setUserType] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [userName, setUserName] = useState('');
-  const [userPronouns, setUserPronouns] = useState('');
-  const [userUserName, setUserUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-  const [passwordConfimation, setPasswordConfirmation] = useState('');
-  const [userPhone, setUserPhone] = useState('');
-  const [userMajor, setUserMajor] = useState([]);
-  const [userUserType, setUserUserType] = useState([]);
-  const [userProjects, setUserProjects] = useState([]);
-  const handleFileChange = e => setImageSource(URL.createObjectURL(e.target.files[0]));
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+    setImageSource(URL.createObjectURL(e.target.files[0]));
+  };
   const handleUserName = (_e, d) => {
     const regExp = new RegExp('^[a-zA-Z ]*$');
     if (regExp.test(d.value)) {
-      setUserName(d.value);
-      setUserUserName(d.value.toLowerCase().replace(' ', '.'));
+      setName(d.value);
+      setUserName(d.value.toLowerCase().replace(' ', '.'));
     }
   };
   const handleSumbit = (e) => {
-    userPostData = {};
+    if (password === passwordConfimation) {
+      const userPostData = {
+        name, pronouns, userName, email, password, phone, image, major, userType, projects,
+      };
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
   };
+  useEffect(() => { console.log(image); }, [image]);
   useEffect(() => {
     Promise.all([
       axios.get('/api/users/majors'),
       axios.get('/api/users/user-types'),
       axios.get('/api/users/projects'),
     ]).then((res) => {
-      setMajors(res[0].data.majors.map(e => ({ key: e.idmajor, text: e.major, value: e.idmajor })));
-      setUserType(res[1].data.userType.map(e => ({ key: e.iduser_type, text: e.type, value: e.iduser_type })));
-      setProjects(res[2].data.projects.map(e => ({ key: e.idprojects, text: e.project, value: e.idprojects })));
+      setAllMajors(res[0].data.majors.map(e => ({ key: e.idmajor, text: e.major, value: e.idmajor })));
+      setAllUserType(res[1].data.userType.map(e => ({ key: e.iduser_type, text: e.type, value: e.iduser_type })));
+      setAllProjects(res[2].data.projects.map(e => ({ key: e.idprojects, text: e.project, value: e.idprojects })));
     });
   }, []);
   return (
@@ -50,27 +62,27 @@ const AddUserModal = ({ open, setOpen }) => {
       <ModalContent image scrolling>
         <Image wrapped size="medium" src={imageSource} />
         <ModalDescription>
-          <Form onSubmit={handleSumbit}>
+          <Form>
             <FormGroup>
-              <FormInput focus label="Name" onChange={handleUserName} />
-              <FormSelect focus options={Pronouns} label="Pronouns" onChange={(_e, d) => setUserPronouns(d.value)} />
+              <FormInput focus label="Name" onChange={handleUserName} required />
+              <FormSelect focus options={Pronouns} label="Pronouns" onChange={(_e, d) => setPronouns(d.value)} required />
             </FormGroup>
-            <FormInput focus label="Email" onChange={(_e, d) => setUserEmail(d.value)} />
-            <FormInput focus label="Username" value={userUserName} readOnly />
+            <FormInput focus label="Email" onChange={(_e, d) => setEmail(d.value)} />
+            <FormInput focus label="Username" value={userName} readOnly />
             <FormGroup>
-              <FormInput focus type="password" label="Password" onChange={(_e, d) => setUserPassword(d.value)} />
-              <FormInput focus type="password" label="Confirm Password" onChange={(_e, d) => setPasswordConfirmation(d.value)} />
+              <FormInput focus type="password" label="Password" onChange={(_e, d) => setPassword(d.value)} required />
+              <FormInput focus type="password" label="Confirm Password" onChange={(_e, d) => setPasswordConfirmation(d.value)} required />
             </FormGroup>
-            <FormInput focus label="Primary Phone" placeholder="(XXX)XXX-XXXX" onChange={(_e, d) => setUserPhone(d.value)} />
-            <FormInput focus type="file" label="Image (Must be JPG)" onChange={handleFileChange} />
-            <FormSelect multiple options={majors} label="Majors" onChange={(_e, d) => setUserMajor(d.value)} />
-            <FormSelect multiple options={userType} label="User Types" onChange={(_e, d) => setUserUserType(d.value)} />
-            <FormSelect multiple options={projects} label="Projects" onChange={(_e, d) => setUserProjects(d.value)} />
+            <FormInput focus label="Primary Phone" placeholder="(XXX)XXX-XXXX" onChange={(_e, d) => setPhone(d.value)} required />
+            <FormInput focus type="file" label="Image (Must be JPG)" onChange={handleFileChange} required />
+            <FormSelect multiple options={allMajors} label="Majors" onChange={(_e, d) => setMajor(d.value)} />
+            <FormSelect multiple options={allUserType} label="User Types" onChange={(_e, d) => setUserType(d.value)} required />
+            <FormSelect multiple options={allProjects} label="Projects" onChange={(_e, d) => setProjects(d.value)} required />
           </Form>
         </ModalDescription>
       </ModalContent>
       <ModalActions>
-        <Button type="submit" onClick={() => setOpen(false)}>Submit</Button>
+        <Button type="submit" onClick={handleSumbit}>Submit</Button>
       </ModalActions>
     </Modal>
   );
