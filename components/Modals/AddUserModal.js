@@ -13,8 +13,8 @@ const AddUserModal = ({ open, setOpen }) => {
   const [allUserType, setAllUserType] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
   const [name, setName] = useState('');
-  const [pronouns, setPronouns] = useState('');
-  const [userName, setUserName] = useState('');
+  const [pronoun, setPronoun] = useState('');
+  const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfimation, setPasswordConfirmation] = useState('');
@@ -24,7 +24,6 @@ const AddUserModal = ({ open, setOpen }) => {
   const [userType, setUserType] = useState([]);
   const [projects, setProjects] = useState([]);
   const handleFileChange = (e) => {
-    setImage(e.target.files[0]);
     setImageSource(URL.createObjectURL(e.target.files[0]));
   };
   const handleUserName = (_e, d) => {
@@ -32,13 +31,20 @@ const AddUserModal = ({ open, setOpen }) => {
     if (regExp.test(d.value)) {
       setName(d.value);
       setUserName(d.value.toLowerCase().replace(' ', '.'));
+      setImage(d.value.replace(' ', ''));
     }
   };
-  const handleSumbit = (e) => {
+  const handleSumbit = (_e) => {
+    console.log({
+      name, pronoun, username, email, password, phone, image, major, userType, projects,
+    });
     if (password === passwordConfimation) {
       const userPostData = {
-        name, pronouns, userName, email, password, phone, image, major, userType, projects,
+        name, pronoun, username, email, password, phone, image, major, userType, projects,
       };
+      Promise.resolve(axios({ method: 'post', url: '/api/admin/users', params: userPostData }))
+        .then(res => console.log(res))
+        .catch(err => console.error(err));
       setOpen(false);
     } else {
       setOpen(true);
@@ -65,10 +71,10 @@ const AddUserModal = ({ open, setOpen }) => {
           <Form>
             <FormGroup>
               <FormInput focus label="Name" onChange={handleUserName} required />
-              <FormSelect focus options={Pronouns} label="Pronouns" onChange={(_e, d) => setPronouns(d.value)} required />
+              <FormSelect focus options={Pronouns} label="Pronouns" onChange={(_e, d) => setPronoun(d.value)} required />
             </FormGroup>
             <FormInput focus label="Email" onChange={(_e, d) => setEmail(d.value)} />
-            <FormInput focus label="Username" value={userName} readOnly />
+            <FormInput focus label="Username" value={username} readOnly />
             <FormGroup>
               <FormInput focus type="password" label="Password" onChange={(_e, d) => setPassword(d.value)} required />
               <FormInput focus type="password" label="Confirm Password" onChange={(_e, d) => setPasswordConfirmation(d.value)} required />
@@ -82,6 +88,7 @@ const AddUserModal = ({ open, setOpen }) => {
         </ModalDescription>
       </ModalContent>
       <ModalActions>
+        <Button onClick={() => setOpen(false)}>Cancel</Button>
         <Button type="submit" onClick={handleSumbit}>Submit</Button>
       </ModalActions>
     </Modal>

@@ -11,20 +11,20 @@ const EditUserModal = ({ open, setOpen, user }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [passwordReset, setPasswordReset] = useState(false);
   const [password, setPassword] = useState('');
-  console.log('Here');
-  console.log(user);
-  /* useEffect(() => {
+  useEffect(() => {
     Promise.resolve(axios.get('/api/users/get-user')).then((res) => {
       const { idusers } = res.data.user;
       if (user.idusers !== idusers) {
         setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
       }
     });
-  }, [user.idusers]); */
-  /* useEffect(() => {
+  }, [user.idusers]);
+  useEffect(() => {
     // eslint-disable-next-line no-unused-expressions
     passwordReset ? setPassword('ChangeMe!') : setPassword('');
-  }, [passwordReset]); */
+  }, [passwordReset]);
   return (
     <Modal open={open}>
       <Header>Edit User</Header>
@@ -34,7 +34,7 @@ const EditUserModal = ({ open, setOpen, user }) => {
           <Form action={isAdmin ? `/api/admin/users/edit/${user.idusers}` : `/api/users/edit/${user.idusers}`}>
             <FormGroup>
               <FormInput focus value={user.name} label="Name" />
-              <FormSelect focus value={user.pronoun} options={Pronouns} label="Pronouns" />
+              <FormSelect value={user.pronoun} options={Pronouns} label="Pronouns" />
             </FormGroup>
             <FormInput focus value={user.email} label="Email" />
             <FormInput focus value={user.username} label="Username" />
@@ -42,7 +42,7 @@ const EditUserModal = ({ open, setOpen, user }) => {
               ? (
                 <FormGroup>
                   <FormInput focus type="password" label="Password" value={password} readOnly />
-                  <FormButton onClick={setPasswordReset(true)}>Reset Password</FormButton>
+                  <FormButton onClick={() => setPasswordReset(true)}>Reset Password</FormButton>
                 </FormGroup>
               )
               : (
@@ -70,7 +70,7 @@ EditUserModal.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    idusers: PropTypes.string.isRequired,
+    idusers: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     pronoun: PropTypes.string.isRequired,
   }).isRequired,
