@@ -7,6 +7,9 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const devcert = require('devcert');
 const https = require('https');
+const fileUpload = require('express-fileupload');
+const cors = require('cors');
+
 // const flash = require('connect-flash');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -23,6 +26,7 @@ app
   .prepare()
   .then(() => {
     const server = express();
+    server.use(express.json());
     server.use(express.urlencoded({ extended: true }));
     const sess = {
       genid: (req) => {
@@ -39,6 +43,8 @@ app
 
     server.use(session(sess));
     // server.use(flash());
+    server.use(cors());
+    server.use(fileUpload());
 
     server.pool = mysql.createPool({
       host: MYSQL_HOST,

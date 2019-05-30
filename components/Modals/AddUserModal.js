@@ -23,7 +23,25 @@ const AddUserModal = ({ open, setOpen }) => {
   const [major, setMajor] = useState([]);
   const [userType, setUserType] = useState([]);
   const [projects, setProjects] = useState([]);
+
+  const resetForm = () => {
+    setImageSource('/static/users/guest.jpg');
+    setName('');
+    setPronoun('');
+    setUserName();
+    setEmail();
+    setPassword();
+    setPasswordConfirmation('');
+    setPhone('');
+    setImage(null);
+    setMajor([]);
+    setUserType([]);
+    setProjects([]);
+  };
+
+
   const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
     setImageSource(URL.createObjectURL(e.target.files[0]));
   };
   const handleUserName = (_e, d) => {
@@ -31,7 +49,6 @@ const AddUserModal = ({ open, setOpen }) => {
     if (regExp.test(d.value)) {
       setName(d.value);
       setUserName(d.value.toLowerCase().replace(' ', '.'));
-      setImage(d.value.replace(' ', ''));
     }
   };
   const handleSumbit = (_e) => {
@@ -40,17 +57,31 @@ const AddUserModal = ({ open, setOpen }) => {
     });
     if (password === passwordConfimation) {
       const userPostData = {
-        name, pronoun, username, email, password, phone, image, major, userType, projects,
+        name, pronoun, username, email, password, phone, major, userType, projects,
       };
-      Promise.resolve(axios({ method: 'post', url: '/api/admin/users', params: userPostData }))
+      Promise.all([
+        axios({
+          method: 'post',
+          url: '/api/admin/users',
+          data: userPostData,
+        }),
+        axios({
+          method: 'post',
+          url: '/api/admin/users/image',
+          data: { file: image },
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
+        }),
+      ])
         .then(res => console.log(res))
         .catch(err => console.error(err));
+      resetForm();
       setOpen(false);
     } else {
       setOpen(true);
     }
   };
-  useEffect(() => { console.log(image); }, [image]);
   useEffect(() => {
     Promise.all([
       axios.get('/api/users/majors'),
@@ -88,7 +119,7 @@ const AddUserModal = ({ open, setOpen }) => {
         </ModalDescription>
       </ModalContent>
       <ModalActions>
-        <Button onClick={() => setOpen(false)}>Cancel</Button>
+        <Button onClick={() => { setOpen(false); resetForm(); }}>Cancel</Button>
         <Button type="submit" onClick={handleSumbit}>Submit</Button>
       </ModalActions>
     </Modal>

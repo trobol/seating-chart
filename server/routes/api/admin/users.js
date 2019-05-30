@@ -16,12 +16,12 @@ module.exports = (app, isLoggedIn, isAdmin) => {
   });
   // Posts new user
   app.post('/api/admin/users/', isLoggedIn, isAdmin, (req, res) => {
-    console.log(req.query);
     const {
-      name, pronoun, email, username, image, phone, password, userType, projects, major,
-    } = req.query;
-    if (![name, pronoun, email, username, image, phone, password]
+      name, pronoun, email, username, phone, password, userType, projects, major,
+    } = req.body;
+    if (![name, pronoun, email, username, phone, password]
       .filter(e => e === null && e === undefined).length) {
+      const image = name.replace(' ', '');
       const userSql = 'INSERT INTO `users`(`name`, `pronoun`, `email`, `username`, `image`, `primary_phone`, `account_created`) VALUES (?,?,?,?,?,?,NOW())';
       const hashSql = 'INSERT INTO `user_hash`(`u_id`, `password_hash`) VALUES (?,?)';
       const userTypeSql = 'INSERT INTO `users_user_type`(`u_id`, `ut_id`) VALUES ';
@@ -36,24 +36,28 @@ module.exports = (app, isLoggedIn, isAdmin) => {
                 connection.query('SELECT LAST_INSERT_ID() as id', (idErr, idresult) => {
                   if (userErr) connection.rollback(sqlErr => res.send({ sqlErr, userErr }));
                   else {
-                    const { id } = idresult[0];
-                    const userTypeValues = userType.map(e => mysql.format('(?,?)', [id, Number(e)])).join(',');
-                    const projectValues = projects.map(e => mysql.format('(?,?)', [id, Number(e)])).join(',');
-                    const majorValues = major.map(e => mysql.format('(?,?)', [id, Number(e)])).join(',');
-                    const promises = [
-                      connection.query(hashSql, [id, hash]),
-                      userType.length ? connection.query(userTypeSql + userTypeValues) : null,
-                      projects.length ? connection.query(projectSql + projectValues) : null,
-                      major.length ? connection.query(majorSql + majorValues) : null,
-                    ].filter(e => e !== null);
-                    Promise.all(promises)
-                      .then(() => {
-                        connection.commit(() => {
-                          res.send({ response: 'success' });
-                          connection.end();
-                        });
-                      })
-                      .catch(promiseErr => connection.rollback((sqlErr) => { res.send({ sqlErr, promiseErr }); connection.end(); }));
+                    try {
+                      const { id } = idresult[0];
+                      const userTypeValues = userType.map(e => mysql.format('(?,?)', [id, Number(e)])).join(',');
+                      const projectValues = projects.map(e => mysql.format('(?,?)', [id, Number(e)])).join(',');
+                      const majorValues = major.map(e => mysql.format('(?,?)', [id, Number(e)])).join(',');
+                      const promises = [
+                        connection.query(hashSql, [id, hash]),
+                        userType.length ? connection.query(userTypeSql + userTypeValues) : null,
+                        projects.length ? connection.query(projectSql + projectValues) : null,
+                        major.length ? connection.query(majorSql + majorValues) : null,
+                      ].filter(e => e !== null);
+                      Promise.all(promises)
+                        .then(() => {
+                          connection.commit(() => {
+                            res.send({ response: 'success' });
+                            connection.release();
+                          });
+                        })
+                        .catch(promiseErr => connection.rollback((sqlErr) => { res.send({ sqlErr, promiseErr }); connection.release(); }));
+                    } catch (generalError) {
+                      console.log(generalError);
+                    }
                   }
                 });
               });
@@ -64,6 +68,10 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     } else {
       res.send({ response: 'failure' });
     }
+  });
+  app.post('/api/admin/users/image/', isLoggedIn, isAdmin, (req, res) => {
+    console.log(req.body);
+    res.send({ response: 'success' });
   });
   // Gets info for individual user
   app.get('api/admin/users/:userId', isLoggedIn, isAdmin, (req, res) => {
