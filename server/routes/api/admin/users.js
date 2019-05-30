@@ -70,7 +70,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     }
   });
   app.post('/api/admin/users/image/', isLoggedIn, isAdmin, (req, res) => {
-    console.log(req.body);
+    console.log(req);
     res.send({ response: 'success' });
   });
   // Gets info for individual user

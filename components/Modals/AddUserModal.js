@@ -55,6 +55,10 @@ const AddUserModal = ({ open, setOpen }) => {
     console.log({
       name, pronoun, username, email, password, phone, image, major, userType, projects,
     });
+    const data = new FormData();
+    data.append('file', image);
+    data.append('filename', imageSource);
+
     if (password === passwordConfimation) {
       const userPostData = {
         name, pronoun, username, email, password, phone, major, userType, projects,
@@ -68,7 +72,7 @@ const AddUserModal = ({ open, setOpen }) => {
         axios({
           method: 'post',
           url: '/api/admin/users/image',
-          data: { file: image },
+          data,
           headers: {
             'content-type': 'multipart/form-data',
           },
