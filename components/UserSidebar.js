@@ -8,17 +8,16 @@ import { TakeModal, ReturnModal } from './Modals';
 
 const UserSidebar = () => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [name, setName] = useState('');
-  const [avatar, setAvatar] = useState('');
-
+  const [user, setUser] = useState({});
+  const [profileActions, setProfileActions] = useState(null);
+  const handleMouseOver = () => (<div />);
   useEffect(() => {
     axios.get('/api/users/get-user').then((res) => {
       if (!res.data.authenticated) {
         setAuthenticated(false);
       } else {
         setAuthenticated(true);
-        setName(res.data.user.name);
-        setAvatar(res.data.user.image);
+        setUser(res.data.user);
       }
     });
   }, [authenticated]);
@@ -41,7 +40,7 @@ const UserSidebar = () => {
       </SidebarSection>
       {(
         authenticated
-          ? <SidebarProfile avatar={avatar} name={name} />
+          ? <SidebarProfile avatar={user.image} name={user.name} onMouseEnter={handleMouseOver} />
           : <SidebarLogin icon="sign-in" />
         )}
     </Sidebar>

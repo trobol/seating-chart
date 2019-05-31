@@ -44,24 +44,21 @@ const AddUserModal = ({ open, setOpen }) => {
     setImage(e.target.files[0]);
     setImageSource(URL.createObjectURL(e.target.files[0]));
   };
-  const handleUserName = (_e, d) => {
+  const handleUserName = (_, d) => {
     const regExp = new RegExp('^[a-zA-Z ]*$');
     if (regExp.test(d.value)) {
       setName(d.value);
       setUserName(d.value.toLowerCase().replace(' ', '.'));
     }
   };
-  const handleSumbit = (_e) => {
-    console.log({
-      name, pronoun, username, email, password, phone, image, major, userType, projects,
-    });
+  const handleSumbit = (_) => {
+    const filename = name.replace(' ', '');
     const data = new FormData();
     data.append('file', image);
-    data.append('filename', imageSource);
-
+    data.append('filename', filename);
     if (password === passwordConfimation) {
       const userPostData = {
-        name, pronoun, username, email, password, phone, major, userType, projects,
+        name, pronoun, username, email, password, phone, major, userType, projects, image, imageSource,
       };
       Promise.all([
         axios({

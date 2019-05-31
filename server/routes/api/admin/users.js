@@ -19,6 +19,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     const {
       name, pronoun, email, username, phone, password, userType, projects, major,
     } = req.body;
+    console.log(req.files);
     if (![name, pronoun, email, username, phone, password]
       .filter(e => e === null && e === undefined).length) {
       const image = name.replace(' ', '');
@@ -54,7 +55,10 @@ module.exports = (app, isLoggedIn, isAdmin) => {
                             connection.release();
                           });
                         })
-                        .catch(promiseErr => connection.rollback((sqlErr) => { res.send({ sqlErr, promiseErr }); connection.release(); }));
+                        .catch(promiseErr => connection.rollback((sqlErr) => {
+                          res.status(500).send({ sqlErr, promiseErr });
+                          connection.release();
+                        }));
                     } catch (generalError) {
                       console.log(generalError);
                     }
@@ -70,8 +74,16 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     }
   });
   app.post('/api/admin/users/image/', isLoggedIn, isAdmin, (req, res) => {
-    console.log(req);
-    res.send({ response: 'success' });
+    const image = req.files.file;
+    const { PWD } = process.env;
+    // https://codeburst.io/asynchronous-file-upload-with-node-and-react-ea2ed47306dd
+    image.mv(`${PWD}/static/users/${req.body.filename}.jpg`, (err) => {
+      if (err) {
+        res.status(500).send({ err });
+      } else {
+        res.send({ response: 'success' });
+      }
+    });
   });
   // Gets info for individual user
   app.get('api/admin/users/:userId', isLoggedIn, isAdmin, (req, res) => {
@@ -107,7 +119,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     const sql = mysql.format(uSql, [uid]);
     app.pool.query(sql, (error, results) => {
       if (error) res.send({ response: error });
-      res.send({ response: results });
+      else res.send({ response: results });
     });
   });
 };

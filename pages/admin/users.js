@@ -28,7 +28,10 @@ const Users = () => {
     setFilterData(data);
   };
   const deleteAction = () => {
-    // Delete a User
+    Promise.resolve(axios.post(`/api/admin/user/${selectedUser.idusers}`))
+      .then((res) => {
+        console.log(res);
+      });
   };
   const handleEditButton = () => setEditModal(true);
   const handleDeleteButton = () => setDeleteModal(true);
@@ -38,7 +41,6 @@ const Users = () => {
   useEffect(() => {
     Promise.resolve(axios.get('/api/admin/users/')).then((res) => {
       const { fields, results } = res.data.response;
-      // console.log(fields);
       setData(results);
       setFilterData(results);
       setColumns(fields.map(column => ({ title: column.name, field: column.name })));
