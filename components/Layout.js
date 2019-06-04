@@ -19,7 +19,6 @@ const Layout = ({ children }) => (
         key="viewport"
       />
     </Head>
-    <UserSidebar />
     <div id="modal" />
     <main className="Content">
       {children}

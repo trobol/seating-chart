@@ -1,4 +1,5 @@
-module.exports = (app, isLoggedIn, passport) => {
+module.exports = (app, isLoggedIn, isAdmin, passport) => {
+  console.log({ isLoggedIn, isAdmin, passport });
   app.post('/login', passport.authenticate('local-login',
     {
       successRedirect: '/',
@@ -6,6 +7,10 @@ module.exports = (app, isLoggedIn, passport) => {
       failureFlash: true,
     }),
   (req, res) => {
+    res.redirect('/');
+  });
+  app.get('/logout', (req, res) => {
+    req.logout();
     res.redirect('/');
   });
 };

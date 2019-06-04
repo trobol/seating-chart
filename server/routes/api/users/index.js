@@ -2,7 +2,7 @@
 /* eslint-disable global-require */
 const fs = require('fs');
 
-module.exports = (app, passport) => {
+module.exports = (app, _isLoggedIn, _isAdmin, passport) => {
   fs.readdirSync(`${__dirname}/`).forEach((file) => {
     if (file === 'index.js') return;
     const ext = file.indexOf('.');

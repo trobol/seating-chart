@@ -9,7 +9,7 @@ const UserDropdown = ({ listItems, open, setOpen }) => (
       <Card.Content extra>
         <List>
           {listItems.map(item => (
-            <List.Item>
+            <List.Item key={item.name}>
               <List.Icon name={item.icon} />
               <List.Content>
                 <Link prefetch href={item.link}>

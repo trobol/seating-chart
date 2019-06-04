@@ -58,16 +58,34 @@ app
 
     server.use(passport.initialize());
     server.use(passport.session());
-    // eslint-disable-next-line global-require
-    require('./routes')(server, passport);
-
-    server.get('/user/*', (req, res) => {
+    // This will handle if the user is login
+    const isLoggedIn = (req, res, handleNext) => {
       if (req.isAuthenticated()) {
-        handle(req, res);
+        handleNext();
       } else {
         res.redirect('/login');
       }
-    });
+    };
+    // This will handle if the user is an admin
+    const isAdmin = (req, res, handleNext) => {
+      const id = req.user.idusers;
+      const uSql = 'SELECT * FROM `users_user_type` as uut WHERE uut.`u_id` = ? AND uut.`ut_id` = 1';
+      const sql = mysql.format(uSql, [id]);
+      server.pool.query(sql, (err, results) => {
+        console.log({ err, results });
+        if (results !== null && results.length === 1) {
+          handleNext();
+        } else {
+          console.log('Unauthorized User');
+          res.status(401).send({ response: 'Unauthorized User' }).redirect('/');
+        }
+      });
+    };
+    // eslint-disable-next-line global-require
+    require('./routes')(server, isLoggedIn, isAdmin, passport);
+
+    server.get('/user/*', isLoggedIn);
+    server.get('/admin/*', isLoggedIn, isAdmin);
 
     server.get('/login', (req, res) => {
       if (req.isAuthenticated()) {

@@ -34,7 +34,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
             else {
               connection.query(userSql, [name, pronoun, email, username, image, phone], (userErr, result) => {
                 connection.query('SELECT LAST_INSERT_ID() as id', (idErr, idresult) => {
-                  if (userErr) connection.rollback(sqlErr => res.send({ sqlErr, userErr }));
+                  if (userErr) connection.rollback(sqlErr => res.status(500).send({ sqlErr, userErr }));
                   else {
                     try {
                       const { id } = idresult[0];

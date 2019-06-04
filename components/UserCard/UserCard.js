@@ -1,6 +1,7 @@
 import { Card } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
+
 const UserCard = ({ children }) => (
   <Card className="user__card">
     {children}
