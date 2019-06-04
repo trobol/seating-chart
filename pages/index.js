@@ -19,6 +19,11 @@ const Index = () => {
       } else {
         setAuthenticated(true);
         setUser(res.data.user);
+        Promise.all([
+          axios.get('/api/users/get-user-types'),
+          // TODO: Is User Clocked In
+          // TODO: Does the User have a seat;
+        ]);
       }
     });
   }, [authenticated]);

@@ -3,9 +3,6 @@
 const fs = require('fs');
 
 module.exports = (app, isLoggedIn, isAdmin, passport) => {
-  console.log({
-    app, isLoggedIn, isAdmin, passport,
-  });
   fs.readdirSync(`${__dirname}/`).forEach((file) => {
     if (file === 'index.js') return;
     const ext = file.indexOf('.');

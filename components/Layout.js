@@ -23,24 +23,6 @@ const Layout = ({ children }) => (
     <main className="Content">
       {children}
     </main>
-
-    <style jsx>
-      {` 
-        .Layout {
-          display: flex;
-          flex-direction: row;
-        }
-
-        .Content {
-          display: flex;
-          flex-direction: column;
-          width: calc(100vw - 200px);
-          height: 100vh;
-          overflow-x: hidden;
-          overflow-y: auto;
-        }
-    `}
-    </style>
     <style jsx global>
       {`
         body {

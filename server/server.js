@@ -58,6 +58,7 @@ app
 
     server.use(passport.initialize());
     server.use(passport.session());
+
     // This will handle if the user is login
     const isLoggedIn = (req, res, handleNext) => {
       if (req.isAuthenticated()) {
@@ -66,6 +67,7 @@ app
         res.redirect('/login');
       }
     };
+
     // This will handle if the user is an admin
     const isAdmin = (req, res, handleNext) => {
       const id = req.user.idusers;

@@ -1,4 +1,4 @@
-
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { List, Card, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
@@ -9,11 +9,11 @@ const UserDropdown = ({ listItems, open, setOpen }) => (
       <Card.Content extra>
         <List>
           {listItems.map(item => (
-            <List.Item key={item.name}>
+            <List.Item key={item.title}>
               <List.Icon name={item.icon} />
               <List.Content>
                 <Link prefetch href={item.link}>
-                  <a>{item.name}</a>
+                  <a>{item.title}</a>
                 </Link>
               </List.Content>
             </List.Item>
@@ -37,7 +37,7 @@ const UserDropdown = ({ listItems, open, setOpen }) => (
 );
 UserDropdown.propTypes = {
   listItems: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
   })).isRequired,

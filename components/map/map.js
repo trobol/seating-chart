@@ -20,7 +20,7 @@ const Map = ({ link }) => {
     return () => clearInterval(interval);
   }, [data, url]);
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 3000 1687">
+    <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 3000 1687" className="map">
       <Def seats={data} />
       <title>SeatingChart</title>
       <g id="solid">
@@ -29,6 +29,14 @@ const Map = ({ link }) => {
       <BackgroundMap />
       <Seats seats={data} />
       <Title />
+      <style>
+        {`
+        .map{
+          height:100vh;
+          width:100vw;
+        }
+        `}
+      </style>
     </svg>
   );
 };

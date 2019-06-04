@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const mysql = require('mysql');
 
 const base = path.resolve('.');
-
+// { multipleStatements: true }
 module.exports = (app) => {
   app.get('/api/users/get-user', (req, res) => {
     if (req.isAuthenticated()) {
