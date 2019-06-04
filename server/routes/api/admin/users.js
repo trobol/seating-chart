@@ -19,7 +19,6 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     const {
       name, pronoun, email, username, phone, password, userType, projects, major,
     } = req.body;
-    console.log(req.files);
     if (![name, pronoun, email, username, phone, password]
       .filter(e => e === null && e === undefined).length) {
       const image = name.replace(' ', '');
@@ -91,7 +90,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     const uSql = 'SELECT * FROM `users` WHERE idusers = ?';
     const sql = mysql.format(uSql, uid);
     app.pool.query(sql, (error, results, fields) => {
-      if (error) res.send({ response: error });
+      if (error) res.status(500).send({ response: error });
       res.send({ response: { results, fields } });
     });
   });
@@ -109,7 +108,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
         res.send({ response: results });
       });
     } else {
-      res.send({ response: 'failure' });
+      res.status(500).send({ response: 'failure' });
     }
   });
   // Delete User
@@ -118,7 +117,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     const { uid } = req.body;
     const sql = mysql.format(uSql, [uid]);
     app.pool.query(sql, (error, results) => {
-      if (error) res.send({ response: error });
+      if (error) res.status(500).send({ response: error });
       else res.send({ response: results });
     });
   });
