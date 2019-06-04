@@ -1,7 +1,7 @@
 
 import { List, Card, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-
+import Link from 'next/link';
 
 const UserDropdown = ({ listItems, open, setOpen }) => (
   <>
@@ -11,7 +11,11 @@ const UserDropdown = ({ listItems, open, setOpen }) => (
           {listItems.map(item => (
             <List.Item>
               <List.Icon name={item.icon} />
-              <List.Content><a href={item.link}>{item.name}</a></List.Content>
+              <List.Content>
+                <Link prefetch href={item.link}>
+                  <a>{item.name}</a>
+                </Link>
+              </List.Content>
             </List.Item>
           ))}
         </List>
