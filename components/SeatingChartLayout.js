@@ -7,7 +7,7 @@ import 'semantic-ui-css/semantic.min.css';
 
 config.autoAddCss = false;
 
-const Layout = ({ children }) => (
+const SeatingChartLayout = ({ children }) => (
   <div className="Layout">
     <Head>
       <title>LCDI - Seating Chart</title>
@@ -34,12 +34,12 @@ const Layout = ({ children }) => (
 
 );
 
-Layout.propTypes = {
+SeatingChartLayout.propTypes = {
   children: PropTypes.node,
 };
 
-Layout.defaultProps = {
+SeatingChartLayout.defaultProps = {
   children: <div />,
 };
 
-export default Layout;
+export default SeatingChartLayout;

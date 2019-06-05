@@ -1,4 +1,3 @@
-const mysql = require('mysql');
 
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets timesheets info for a user
