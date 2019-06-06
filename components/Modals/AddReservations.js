@@ -1,5 +1,5 @@
 import {
-  Button, Header, Modal, ModalActions, ModalDescription, Form, FormField, FormInput, FormSelect, Search, FormGroup, FormButton, FormTextArea,
+  Button, Header, Modal, ModalActions, ModalDescription, Form, FormField, FormInput, FormSelect, Search, FormGroup, FormTextArea,
 } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
 import _ from 'lodash';
@@ -18,6 +18,7 @@ const weekdays = [
   { key: 7, text: 'Sunday', value: 7 },
 ];
 
+// TODO: Make this a request to the server from number of seats
 const seats = Array.from(Array(32), (x, index) => ({ key: (index + 1), text: `${index + 1}`, value: `${index + 1}` }));
 
 const AddReservationModal = ({ open, setOpen }) => {
@@ -37,7 +38,7 @@ const AddReservationModal = ({ open, setOpen }) => {
     setValue('');
     setSearchResults([]);
   };
-  const handleSumbit = (_e) => {
+  const handleSumbit = () => {
     console.log('submitting data');
     const postData = {
       uid: user.id, sid: seat, start, end, weekday, expires, reason,

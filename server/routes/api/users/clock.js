@@ -20,11 +20,11 @@ module.exports = (app, isLoggedIn) => {
         const uClockInSql = 'INSERT INTO `user_time_log`(`u_id`, `login`) VALUES (?,NOW())';
         const clockInSql = mysql.format(uClockInSql, [req.user.idusers]);
         app.pool.query(clockInSql, (errors, results) => {
-          res.send({ results });
+          res.send({ results }).redirect('/');
         });
         // else tell the user that they are already clockin
       } else {
-        res.send({ response: 'failure' });
+        res.send({ response: 'failure' }).redirect('/');
       }
     });
   });
@@ -39,11 +39,11 @@ module.exports = (app, isLoggedIn) => {
         const uClockOutSql = 'UPDATE `user_time_log` SET `logout`=NOW() WHERE `u_id` = ? AND `logout`=NULL';
         const clockOutSql = mysql.format(uClockOutSql, [req.user.idusers]);
         app.pool.query(clockOutSql, (errors, results) => {
-          res.send({ results });
+          res.send({ results }).redirect('/');
         });
         // else tell the user that they are already clockin
       } else {
-        res.send({ response: 'failure' });
+        res.send({ response: 'failure' }).redirect('/');
       }
     });
   });

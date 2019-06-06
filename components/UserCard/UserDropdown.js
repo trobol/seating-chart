@@ -1,23 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { List, Card, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
 
-const UserDropdown = ({ listItems, open, setOpen }) => (
+const UserDropdown = ({
+  children, open, setOpen,
+}) => (
   <>
     {open ? (
       <Card.Content extra>
         <List>
-          {listItems.map(item => (
-            <List.Item key={item.title}>
-              <List.Icon name={item.icon} />
-              <List.Content>
-                <Link prefetch href={item.link}>
-                  <a>{item.title}</a>
-                </Link>
-              </List.Content>
-            </List.Item>
-          ))}
+          {children}
         </List>
       </Card.Content>
     ) : null}
@@ -36,13 +28,14 @@ const UserDropdown = ({ listItems, open, setOpen }) => (
   </>
 );
 UserDropdown.propTypes = {
-  listItems: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-    icon: PropTypes.string.isRequired,
-  })).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
 };
-
+UserDropdown.defaultProps = {
+  children: <div />,
+};
 export default UserDropdown;

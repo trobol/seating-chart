@@ -1,19 +1,26 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
-import SeatingChartLayout from '../components/SeatingChartLayout';
 import Map from '../components/Map';
 import {
-  UserCard, UserCardProfile, UserDropdown,
+  UserCard, UserCardProfile, UserDropdown, UserCardItem, UserCardModalItem,
 } from '../components/UserCard';
 import UserCardLogin from '../components/UserCard/UserCardLogin';
+import Layout from '../components/Layout';
+import TakeModal from '../components/Modals/TakeModal';
+import ReturnModal from '../components/Modals/ReturnModal';
 
 const Index = () => {
   const [open, setOpen] = useState(false);
+  const [takeModal, setTakeModal] = useState(false);
+  const [returnModal, setReturnModal] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isClockedIn, setIsClockedIn] = useState(false);
+  const [hasSeat, setHasSeat] = useState(false);
+  const [seat, setSeat] = useState(0);
   const [date] = useState(new Date());
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState({});
-  const [userOptions, setUserOptions] = useState([]);
   useEffect(() => {
     axios.get('/api/users/get-user').then((res) => {
       if (!res.data.authenticated) {
@@ -30,39 +37,53 @@ const Index = () => {
       axios.get('/api/users/clock'),
       axios.get('/api/seat/user'),
     ]).then((result) => {
-      setUserOptions([
-        result[0].data.types.includes('Admin')
-          ? { title: 'Admin Panel', icon: 'lock', link: '/admin' }
-          : null,
-        { title: 'Timesheets', icon: 'calendar alternate', link: '/user/timesheets' },
-        { title: 'Reservations', icon: 'calendar', link: '/user/reservations' },
-        !_.isEmpty(result[1].data)
-          ? { title: 'Clock Out', icon: 'clock', link: '/user/clock-out' }
-          : { title: 'Clock In', icon: 'clock', link: '/user/clock-in' },
-        !_.isEmpty(result[2].data)
-          ? { title: 'Take Seat', icon: 'caret square right', link: '/user/take' }
-          : { title: 'Leave Seat', icon: 'caret square left', link: '/user/leave' },
-        { title: 'Manage Account', icon: 'edit', link: '/user/manage' },
-        { title: 'Logout', icon: 'sign-out', link: '/logout' },
-      ].filter((e => e !== null)));
+      setIsAdmin(result[0].data.types.includes('Admin'));
+      setIsClockedIn(!_.isEmpty(result[1].data));
+      setHasSeat(!_.isEmpty(result[2].data));
+      if (!_.isEmpty(result[2].data)) {
+        setSeat(result[2].data[0].idseats);
+      }
     });
-  }, [user.idusers]);
+  }, [user, takeModal, returnModal]);
   return (
-    <SeatingChartLayout>
+    <Layout>
       <Map link="/api/map/seats" />
       <UserCard>
         {(
           authenticated
             ? (
               <>
-                <UserCardProfile image={user.image} name={user.name} time={date} />
-                <UserDropdown open={open} setOpen={() => setOpen(!open)} listItems={userOptions} />
+                <UserCardProfile
+                  image={user.image}
+                  name={user.name}
+                  info={`Last Clocked In: ${`${date.toLocaleDateString()} ${date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' })}`}`}
+                />
+                <UserDropdown open={open} setOpen={() => setOpen(!open)}>
+                  {isAdmin
+                    ? <UserCardItem title="Admin Panel" icon="lock" link="admin" />
+                    : <div />
+                    }
+                  <UserCardItem title="Timesheets" icon="calendar alternate" link="/user/timesheets" />
+                  <UserCardItem title="Reservations" icon="calendar" link="/user/reservations" />
+                  {isClockedIn
+                    ? <UserCardItem title="Clock out" icon="clock" link="/api/users/clock-out" />
+                    : <UserCardItem title="Clock in" icon="clock" link="/api/users/clock-in" /> }
+                  {hasSeat
+                    ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" setOpen={setReturnModal} />
+                    : (
+                      <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" setOpen={setTakeModal} />
+                    ) }
+                  <UserCardItem title="Manage Account" icon="edit" link="/user/manage" />
+                  <UserCardItem title="Logout" icon="sign-out" link="/logout" />
+                </UserDropdown>
               </>
             )
             : <UserCardLogin />
         )}
       </UserCard>
-    </SeatingChartLayout>
+      <ReturnModal open={returnModal} setOpen={setReturnModal} seat={seat} />
+      <TakeModal open={takeModal} setOpen={setTakeModal} />
+    </Layout>
   );
 };
 
