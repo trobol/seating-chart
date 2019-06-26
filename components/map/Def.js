@@ -11,7 +11,9 @@ const Def = ({ seats }) => {
   }, [seats]);
   return (
     <defs>
-      {patterns}
+      {(seats !== null && seats !== undefined)
+        ? patterns
+        : null}
     </defs>
   );
 };

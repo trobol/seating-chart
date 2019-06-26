@@ -9,15 +9,19 @@ const TakeModal = ({ open, setOpen }) => {
   const [seats, setSeats] = useState([]);
   const [seat, setSeat] = useState(0);
   const handleSumbit = () => {
-    axios.post('/api/seat/take/', { seat }).then((res) => {
-      console.log({ res });
-    });
+    Promise.resolve(axios.post('/api/seat/take/', { seat }))
+      .then((res) => {
+        console.log({ res });
+      });
     setOpen(false);
   };
   useEffect(() => {
-    axios.get('/api/seat/').then((res) => {
-      setSeats(res.data.filter(e => e.u_id === null).map(e => ({ key: e.idseats, text: e.computer_name, value: e.idseats })));
-    });
+    Promise.resolve(axios.get('/api/seat/'))
+      .then((res) => {
+        if (res.data !== null && res.data !== undefined) {
+          setSeats(res.data.filter(e => e.u_id === null).map(e => ({ key: e.idseats, text: e.computer_name, value: e.idseats })));
+        }
+      });
   }, [seats]);
   return (
     <Modal open={open} size="tiny" closeOnDimmerClick>

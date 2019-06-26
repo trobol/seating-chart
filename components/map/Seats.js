@@ -1,12 +1,14 @@
-import { useState, useEffect, createRef } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const Seats = ({ seats }) => {
   const [styledSeats, setStyledSeats] = useState(null);
   const [seatEvents, setSeatEvents] = useState(null);
   const handleMouseEnter = (e) => {
-    const { id } = e.currentTarget;
-    if (seats.some(seat => seat.idseats === Number(id.slice(4)))) console.log(id);
+    if (seats !== null) {
+      const { id } = e.currentTarget;
+      if (seats.some(seat => seat.idseats === Number(id.slice(4)))) console.log(id);
+    }
   };
   useEffect(() => {
     if (seats !== null) {

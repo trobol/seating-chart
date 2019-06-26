@@ -12,6 +12,9 @@ const UserCard = ({ children }) => (
         left:75%;
         top:3%;
       }
+      div .item:hover{
+        background-color: grey;
+      }
     `}
     </style>
   </Card>

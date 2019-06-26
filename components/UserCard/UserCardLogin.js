@@ -7,7 +7,7 @@ const UserCardLogin = () => (
     <Button.Group widths="2">
       <Button>
         <Icon name="sign in" />
-        <Link href="/login" prefetch><a>Login</a></Link>
+        <Link href="/login" prefetch><a href="/login">Login</a></Link>
       </Button>
       <Button>
         <Icon name="add circle" />

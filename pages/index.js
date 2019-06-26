@@ -3,7 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import Map from '../components/Map';
 import {
-  UserCard, UserCardProfile, UserDropdown, UserCardItem, UserCardModalItem,
+  UserCard, UserCardProfile, UserDropdown, UserCardItem, UserCardModalItem, UserCardAction,
 } from '../components/UserCard';
 import UserCardLogin from '../components/UserCard/UserCardLogin';
 import Layout from '../components/Layout';
@@ -37,14 +37,15 @@ const Index = () => {
       axios.get('/api/users/clock'),
       axios.get('/api/seat/user'),
     ]).then((result) => {
+      console.log(result[1].data.result);
       setIsAdmin(result[0].data.types.includes('Admin'));
-      setIsClockedIn(!_.isEmpty(result[1].data));
+      setIsClockedIn(result[1].data.result.count > 0);
       setHasSeat(!_.isEmpty(result[2].data));
       if (!_.isEmpty(result[2].data)) {
         setSeat(result[2].data[0].idseats);
       }
     });
-  }, [user, takeModal, returnModal]);
+  }, [user]);
   return (
     <Layout>
       <Map link="/api/map/seats" />
@@ -66,8 +67,8 @@ const Index = () => {
                   <UserCardItem title="Timesheets" icon="calendar alternate" link="/user/timesheets" />
                   <UserCardItem title="Reservations" icon="calendar" link="/user/reservations" />
                   {isClockedIn
-                    ? <UserCardItem title="Clock out" icon="clock" link="/api/users/clock-out" />
-                    : <UserCardItem title="Clock in" icon="clock" link="/api/users/clock-in" /> }
+                    ? <UserCardAction title="Clock out" icon="clock" handleClick={() => { Promise.resolve(axios.post('/api/users/clock-out')).then(res => setIsClockedIn(false)); }} />
+                    : <UserCardAction title="Clock in" icon="clock" handleClick={() => { Promise.resolve(axios.post('/api/users/clock-in')).then(res => setIsClockedIn(true)); }} /> }
                   {hasSeat
                     ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" setOpen={setReturnModal} />
                     : (

@@ -3,6 +3,7 @@ import UserCardProfile from './UserCardProfile';
 import UserCard from './UserCard';
 import UserCardItem from './UserCardItem';
 import UserCardModalItem from './UserCardModalItem';
+import UserCardAction from './UserCardAction';
 
 export {
   UserCard,
@@ -10,4 +11,5 @@ export {
   UserDropdown,
   UserCardItem,
   UserCardModalItem,
+  UserCardAction,
 };

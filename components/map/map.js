@@ -14,7 +14,9 @@ const Map = ({ link }) => {
       Promise.resolve(axios.get(url)
         .then((res) => {
           const { seats } = res.data.response;
-          setData(seats);
+          if (seats !== null && seats !== undefined) {
+            setData(seats);
+          }
         }));
     }, 1500);
     return () => clearInterval(interval);

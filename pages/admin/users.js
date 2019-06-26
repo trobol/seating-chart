@@ -8,6 +8,7 @@ import _ from 'lodash';
 import Layout from '../../components/Layout';
 import DeleteModal from '../../components/Modals/DeleteModal';
 import { EditUserModal, AddUserModal } from '../../components/Modals';
+import SearchAction from '../../components/Table/Search';
 
 const Users = () => {
   const [deleteModal, setDeleteModal] = useState(false);
@@ -17,26 +18,12 @@ const Users = () => {
   const [columns, setColumns] = useState(null);
   const [data, setData] = useState(null);
   const [filterData, setFilterData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [value, setValue] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [searchData, setSearchData] = useState([]);
-  const resetState = () => {
-    setIsLoading(false);
-    setValue('');
-    setSearchResults([]);
-    setFilterData(data);
-  };
   const deleteAction = () => {
     Promise.resolve(axios.post(`/api/admin/user/${selectedUser.idusers}`))
       .then((res) => {
         console.log(res);
       });
   };
-  const handleEditButton = () => setEditModal(true);
-  const handleDeleteButton = () => setDeleteModal(true);
-  const handleResultSelect = () => resetState();
-  const handleSearchChange = (_e, obj) => setValue(obj.value);
   // Gets initial data
   useEffect(() => {
     Promise.resolve(axios.get('/api/admin/users/')).then((res) => {
@@ -44,26 +31,10 @@ const Users = () => {
       setData(results);
       setFilterData(results);
       setColumns(fields.map(column => ({ title: column.name, field: column.name })));
-      setSearchData(results.map(row => ({
-        id: row.idusers,
-        title: row.name,
-        description: row.pronoun,
-        image: `/static/users/${row.image}.jpg`,
-      })));
     });
   }, []);
-  // Display correct information on search
-  // eslint-disable-next-line consistent-return
-  useEffect(() => {
-    if (value.length < 1) return resetState();
-    const re = new RegExp(_.escapeRegExp(value), 'i');
-    const isSearchMatch = r => re.test(r.title);
-    const isTableData = r => re.test(r.name);
-    setSearchResults(_.filter(searchData, isSearchMatch));
-    setFilterData(_.filter(filterData, isTableData));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
-  useEffect(() => { console.log('selected user changed'); }, [selectedUser]);
+
+  useEffect(() => { console.log({ selectedUser }); }, [selectedUser]);
   if (data !== null && data !== undefined && columns !== null && columns !== undefined) {
     return (
       <Layout>
@@ -72,12 +43,14 @@ const Users = () => {
             <TableRow>
               <Table.HeaderCell colSpan={columns.length - 1}>Users</Table.HeaderCell>
               <Table.HeaderCell colSpan="2">
-                <Search
-                  loading={isLoading}
-                  onResultSelect={handleResultSelect}
-                  onSearchChange={_.debounce(handleSearchChange, 500, { leading: true })}
-                  results={searchResults}
-                  value={value}
+                <SearchAction
+                  data={data}
+                  updateSearchData={() => data.map(row => ({
+                    id: row.idusers,
+                    title: row.name,
+                    description: row.pronoun,
+                    image: `/static/users/${row.image}.jpg`,
+                  }))}
                 />
               </Table.HeaderCell>
             </TableRow>
@@ -100,8 +73,8 @@ const Users = () => {
                     })
                   }
                   <TableCell>
-                    <Button id={row.idusers} icon onClick={handleEditButton}><Icon name="edit" /></Button>
-                    <Button id={row.idusers} icon onClick={handleDeleteButton}><Icon name="delete" /></Button>
+                    <Button id={row.idusers} icon onClick={() => setEditModal(true)}><Icon name="edit" /></Button>
+                    <Button id={row.idusers} icon onClick={() => setDeleteModal(true)}><Icon name="delete" /></Button>
                   </TableCell>
                 </TableRow>
               ))}
