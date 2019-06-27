@@ -10,10 +10,7 @@ module.exports = (app, isLoggedIn) => {
       else {
         const resultByWeek = result.reduce((acc, { uid, login, logout }) => {
           const startOfWeek = moment(login).subtract(login.getDay() - 1, 'days').format('MM/DD/YYYY');
-          acc[startOfWeek] = (typeof acc[startOfWeek] === 'undefined')
-            ? [{ uid, login, logout }]
-            : [...acc[startOfWeek], { uid, login, logout }];
-          return acc;
+          return (!acc[startOfWeek]) ? { ...acc, [startOfWeek]: [{ uid, login, logout }] } : { ...acc, [startOfWeek]: [...acc[startOfWeek], { uid, login, logout }] };
         }, {});
         res.send({ result: resultByWeek, error });
       }
