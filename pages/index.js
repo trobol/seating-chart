@@ -71,9 +71,7 @@ const Index = () => {
                     : <UserCardAction title="Clock in" icon="clock" handleClick={() => { Promise.resolve(axios.post('/api/users/clock-in')).then(res => setIsClockedIn(true)); }} /> }
                   {hasSeat
                     ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" setOpen={setReturnModal} />
-                    : (
-                      <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" setOpen={setTakeModal} />
-                    ) }
+                    : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" setOpen={setTakeModal} /> }
                   <UserCardItem title="Manage Account" icon="edit" link="/user/manage" />
                   <UserCardItem title="Logout" icon="sign-out" link="/logout" />
                 </UserDropdown>
