@@ -8,13 +8,13 @@ module.exports = (app, isLoggedIn) => {
     app.pool.query(sql, (error, result) => {
       if (error) res.send({ response: error });
       else {
-        const initValue = {};
         const resultByWeek = result.reduce((acc, { uid, login, logout }) => {
           const startOfWeek = moment(login).subtract(login.getDay() - 1, 'days').format('MM/DD/YYYY');
-          acc[startOfWeek] = (typeof acc[startOfWeek] === 'undefined') ? [{ uid, login, logout }] : [...acc[startOfWeek], { uid, login, logout }];
+          acc[startOfWeek] = (typeof acc[startOfWeek] === 'undefined')
+            ? [{ uid, login, logout }]
+            : [...acc[startOfWeek], { uid, login, logout }];
           return acc;
-        }, initValue);
-        console.log({ resultByWeek, error });
+        }, {});
         res.send({ result: resultByWeek, error });
       }
     });
