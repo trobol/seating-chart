@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import {
-  Table, TableHeader, TableBody, TableRow, TableCell, Button, Icon, Search,
+  Table, TableHeader, TableBody, TableRow, TableCell, Button, Icon,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import axios from 'axios';
-import _ from 'lodash';
 import Layout from '../../components/Layout';
 import DeleteModal from '../../components/Modals/DeleteModal';
 import { EditUserModal, AddUserModal } from '../../components/Modals';
