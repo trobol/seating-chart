@@ -1,7 +1,5 @@
-import Layout from '../../components/Layout';
-
-const Admin = () => (
-  <Layout />
+const Index = () => (
+  <div />
 );
 
-export default Admin;
+export default Index;
