@@ -86,9 +86,9 @@ module.exports = (app, isLoggedIn, isAdmin) => {
   });
   // Gets info for individual user
   app.get('api/admin/users/:userId', isLoggedIn, isAdmin, (req, res) => {
-    const { uid } = req.body;
+    const { userId } = req.params;
     const uSql = 'SELECT * FROM `users` WHERE idusers = ?';
-    const sql = mysql.format(uSql, uid);
+    const sql = mysql.format(uSql, userId);
     app.pool.query(sql, (error, results, fields) => {
       if (error) res.status(500).send({ response: error });
       res.send({ response: { results, fields } });
@@ -114,8 +114,8 @@ module.exports = (app, isLoggedIn, isAdmin) => {
   // Delete User
   app.post('api/admin/users/:userId', isLoggedIn, isAdmin, (req, res) => {
     const uSql = 'DELETE FROM `users` WHERE `idsuers`=?';
-    const { uid } = req.body;
-    const sql = mysql.format(uSql, [uid]);
+    const { userId } = req.params;
+    const sql = mysql.format(uSql, [userId]);
     app.pool.query(sql, (error, results) => {
       if (error) res.status(500).send({ response: error });
       else res.send({ response: results });

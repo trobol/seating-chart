@@ -26,7 +26,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       res.send({ response: 'failure' });
     }
   });
-  // Deletes a reservation of user
+  // TODO: Deletes a reservation of user
   app.post('/api/admin/reservations/:reservationId', isLoggedIn, isAdmin, (req, res) => {
     res.send({ response: 'success' });
   });

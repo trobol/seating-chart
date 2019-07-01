@@ -6,28 +6,30 @@ import { GraphColors } from '../Constants';
 const HoursByMonth = () => {
   const canvas = useRef(createRef());
   useEffect(() => {
-    // Promise.resolve(axios.get('/api/'));
-    const canvasRef = canvas.current.getContext('2d');
-    // eslint-disable-next-line no-new
-    new Chart(canvasRef, {
-      type: 'bar',
-      data: {
-        labels: ['Africa', 'Asia', 'Europe', 'Latin America', 'North America'],
-        datasets: [
-          {
-            label: 'Population (millions)',
-            backgroundColor: GraphColors,
-            data: [2478, 5267, 734, 784, 433],
-          },
-        ],
-      },
-      options: {
-        legend: { display: true },
-        title: {
-          display: true,
-          text: 'Predicted world population (millions) in 2050',
+    Promise.resolve(axios.get('/api/admin/metrics/hours/year')).then((res) => {
+      const { data, labels } = res.data;
+      const canvasRef = canvas.current.getContext('2d');
+      // eslint-disable-next-line no-new
+      new Chart(canvasRef, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Hours Worked per Month',
+              backgroundColor: GraphColors,
+              data,
+            },
+          ],
         },
-      },
+        options: {
+          legend: { display: true },
+          title: {
+            display: true,
+            text: 'Total Hours Worked per Month ',
+          },
+        },
+      });
     });
   }, []);
   return (

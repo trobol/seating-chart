@@ -74,7 +74,6 @@ app
       const uSql = 'SELECT * FROM `users_user_type` as uut WHERE uut.`u_id` = ? AND uut.`ut_id` = 1';
       const sql = mysql.format(uSql, [id]);
       server.pool.query(sql, (err, results) => {
-        console.log({ err, results });
         if (results !== null && results.length === 1) {
           handleNext();
         } else {
