@@ -1,5 +1,6 @@
 import { useRef, useEffect, createRef } from 'react';
 import Chart from 'chart.js';
+import GraphColors from '../Constants';
 
 const MyChart = () => {
   const canvas = useRef(createRef());
@@ -13,7 +14,7 @@ const MyChart = () => {
         datasets: [
           {
             label: 'Population (millions)',
-            backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850'],
+            backgroundColor: [GraphColors],
             data: [2478, 5267, 734, 784, 433],
           },
         ],

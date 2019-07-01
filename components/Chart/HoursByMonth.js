@@ -1,9 +1,12 @@
 import { useRef, useEffect, createRef } from 'react';
 import Chart from 'chart.js';
+import axios from 'axios';
+import { GraphColors } from '../Constants';
 
 const HoursByMonth = () => {
   const canvas = useRef(createRef());
   useEffect(() => {
+    // Promise.resolve(axios.get('/api/'));
     const canvasRef = canvas.current.getContext('2d');
     // eslint-disable-next-line no-new
     new Chart(canvasRef, {
@@ -13,7 +16,7 @@ const HoursByMonth = () => {
         datasets: [
           {
             label: 'Population (millions)',
-            backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850'],
+            backgroundColor: GraphColors,
             data: [2478, 5267, 734, 784, 433],
           },
         ],

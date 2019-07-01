@@ -1,11 +1,12 @@
 import Layout from '../../components/Layout';
 import AdminReservationTable from '../../components/Table/Admin/Reservation';
-import MyChart from '../../components/Chart';
+import HoursByMonth from '../../components/Chart/HoursByMonth';
+
 
 const Reservations = () => (
   <Layout>
     <AdminReservationTable />
-    <MyChart />
+    <HoursByMonth />
   </Layout>
 );
 
