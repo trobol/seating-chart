@@ -89,6 +89,7 @@ app
     require('./routes')(server, isLoggedIn, isAdmin, passport);
 
     server.get('/user/*', isLoggedIn);
+    server.get('/admin', isLoggedIn, isAdmin);
     server.get('/admin/*', isLoggedIn, isAdmin);
 
     server.get('/login', (req, res) => {

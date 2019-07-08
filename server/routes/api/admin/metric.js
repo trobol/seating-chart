@@ -34,6 +34,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
             .filter(({ login }) => login >= begin)
             .map(({ login, logout }) => (logout ? { login, logout } : { login, logout: now }))
             .reduce((acc, { login, logout }) => acc + moment(logout).diff(moment(login), 'hours', true), 0);
+          console.log({ hours });
           res.send({ hours });
         } else {
           const hours = result

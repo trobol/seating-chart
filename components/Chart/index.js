@@ -1,5 +1,5 @@
 import MyChart from './Example';
 import HoursbyMonth from './HoursByMonth';
-import Pronouns from './Pronouns';
+import PronounsChart from './Pronouns';
 
-export { MyChart, HoursbyMonth, Pronouns };
+export { MyChart, HoursbyMonth, PronounsChart };

@@ -1,6 +1,6 @@
 import { useRef, useEffect, createRef } from 'react';
 import Chart from 'chart.js';
-import GraphColors from '../Constants';
+import { GraphColors } from '../Constants';
 
 const MyChart = () => {
   const canvas = useRef(createRef());

@@ -32,4 +32,5 @@ module.exports = (app) => {
       dumpToFile: `./.database/${moment().format('x')}.sql`,
     });
   });
+  // TODO: emails students their times at the end of the week
 };

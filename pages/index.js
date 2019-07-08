@@ -37,9 +37,8 @@ const Index = () => {
       axios.get('/api/users/clock'),
       axios.get('/api/seat/user'),
     ]).then((result) => {
-      console.log(result[1].data.result);
       setIsAdmin(result[0].data.types.includes('Admin'));
-      setIsClockedIn(result[1].data.result.count > 0);
+      setIsClockedIn(result[1].data.result[0].count > 0);
       setHasSeat(!_.isEmpty(result[2].data));
       if (!_.isEmpty(result[2].data)) {
         setSeat(result[2].data[0].idseats);
