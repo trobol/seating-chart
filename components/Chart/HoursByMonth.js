@@ -28,12 +28,31 @@ const HoursByMonth = () => {
             display: true,
             text: 'Total Hours Worked per Month ',
           },
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+              },
+            }],
+          },
         },
       });
     });
   }, []);
   return (
-    <canvas ref={canvas} />
+    <div className="chart__container">
+      <canvas ref={canvas} className="chart" />
+      <style>
+        {`
+        .chart__container{
+          position:relative;
+          width: 50vw;
+          height 50vh;
+        }
+      `}
+      </style>
+    </div>
+
   );
 };
 

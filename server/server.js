@@ -10,6 +10,7 @@ const https = require('https');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 
+
 // const flash = require('connect-flash');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -55,6 +56,8 @@ app
 
     // eslint-disable-next-line global-require
     require('./util/passport')(passport, server);
+    // eslint-disable-next-line global-require
+    require('./util/mysql')(server);
 
     server.use(passport.initialize());
     server.use(passport.session());
