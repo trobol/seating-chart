@@ -11,7 +11,7 @@ const HoursWorked = ({ length }) => {
     });
   }, [length]);
   return (
-    <Statistic value={hours} label={`Hours Worked in this ${length}`} />
+    <Statistic value={hours.toFixed(2)} label={`Hours Worked in this ${length}`} />
   );
 };
 
