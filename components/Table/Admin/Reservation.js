@@ -37,6 +37,7 @@ const AdminReservationTable = () => {
                 <SearchAction
                   data={data}
                   updateSearchData={() => data.map(row => ({
+                    key: row.idusers,
                     id: row.idusers,
                     title: row.name,
                     description: row.weekday,

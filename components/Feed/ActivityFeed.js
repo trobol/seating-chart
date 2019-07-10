@@ -10,7 +10,7 @@ const ActivityFeed = () => {
     const interval = setInterval(() => {
       Promise.resolve(axios.get('/api/admin/logs/')).then((res) => {
         const { result, error } = res.data;
-        if (result) setEvents(res.data.result.sort((a, b) => a.time_logged < b.time_logged));
+        if (result) setEvents(res.data.result);
         else console.error(error);
       });
     }, 5000);
@@ -28,9 +28,9 @@ const ActivityFeed = () => {
         <Feed className="activity__feed">
           {
             events
-              ? events.map(event => (
+              ? events.reverse().map(event => (
                 <FeedEvent
-                  key={event.time_logged}
+                  key={Math.random()}
                   image={event.image}
                   content={event.log}
                   date={event.time_logged}
