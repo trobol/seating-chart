@@ -25,7 +25,7 @@ const CardStats = ({ children }) => {
 };
 
 CardStats.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.node).isRequired,
+  children: PropTypes.arrayOf(PropTypes.node),
 };
 
 CardStats.defaultProps = {

@@ -37,16 +37,32 @@ const TabTable = () => {
         </Menu.Menu>
       </TabTableMenu>
       {activeItem === 'home' ? (
-        <div className="charts__container">
+        <>
           <CardStats>
             <HoursWorked length="day" />
             <HoursWorked length="week" />
             <HoursWorked length="month" />
           </CardStats>
-          <HoursbyMonth />
-          <PronounsChart />
-          <ActivityFeed />
-        </div>
+          <div className="charts__container">
+            <HoursbyMonth />
+            <PronounsChart />
+            <ActivityFeed />
+            <style>
+              {`
+                .charts__container{
+                width: 100vw;
+                display:flex;
+                justify-content: spaced-evenly;
+                align-items: center;
+                flex-wrap: wrap;
+                }
+                .charts__container * {
+                    width: ${100 / 2}vw;
+                }
+            `}
+            </style>
+          </div>
+        </>
       ) : <div />}
       {activeItem === 'reservations' ? <AdminReservationTable /> : <div />}
       {activeItem === 'users' ? <AdminUserTable /> : <div />}

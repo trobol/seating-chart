@@ -18,7 +18,7 @@ const ActivityFeed = () => {
   }, []);
 
   return (
-    <Card>
+    <Card className="card__stats">
       <Card.Content>
         <Card.Header>
           {'Recent Activity Feed'}
@@ -40,6 +40,16 @@ const ActivityFeed = () => {
           }
         </Feed>
       </Card.Content>
+      <style>
+        {`
+          .activity__feed{
+            width:100%;
+          }
+          .card_stats{
+            wdith:100%;
+          }
+        `}
+      </style>
     </Card>
   );
 };

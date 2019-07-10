@@ -46,8 +46,6 @@ const HoursByMonth = () => {
         {`
         .chart__container{
           position:relative;
-          width: 50vw;
-          height 50vh;
         }
       `}
       </style>
