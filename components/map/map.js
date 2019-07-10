@@ -6,12 +6,11 @@ import Def from './Def';
 import BackgroundMap from './BackgroundMap';
 import Title from './Title';
 
-const Map = ({ link }) => {
-  const [url] = useState(link);
+const SeatingMap = ({ link }) => {
   const [data, setData] = useState(null);
   useEffect(() => {
     const interval = setInterval(() => {
-      Promise.resolve(axios.get(url)
+      Promise.resolve(axios.get(link)
         .then((res) => {
           const { seats } = res.data.response;
           if (seats !== null && seats !== undefined) {
@@ -20,7 +19,7 @@ const Map = ({ link }) => {
         }));
     }, 1500);
     return () => clearInterval(interval);
-  }, [data, url]);
+  }, [link]);
   return (
     <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 3000 1687" className="map">
       <Def seats={data} />
@@ -35,7 +34,6 @@ const Map = ({ link }) => {
         {`
         .map{
           height:100vh;
-          width:100%;
         }
         `}
       </style>
@@ -43,7 +41,7 @@ const Map = ({ link }) => {
   );
 };
 
-Map.propTypes = {
+SeatingMap.propTypes = {
   link: PropTypes.string.isRequired,
 };
-export default Map;
+export default SeatingMap;

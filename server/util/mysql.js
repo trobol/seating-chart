@@ -1,6 +1,5 @@
 const cron = require('node-cron');
 const moment = require('moment');
-const mysql = require('mysql');
 const mysqldump = require('mysqldump');
 
 const {
@@ -10,13 +9,13 @@ const {
 module.exports = (app) => {
   // logouts all user at midnight
   cron.schedule('59 23 * * *', () => {
-    const now = moment();
-    const sql = mysql.format('UPDATE `user_time_log` SET `logout`=? WHERE `logout` IS NULL', [now]);
+    // eslint-disable-next-line no-console
     console.log('Midnight Mass Logout');
-    app.pool.query(sql);
+    app.pool.query('UPDATE `user_time_log` SET `logout`=NOW() WHERE `logout` IS NULL');
   });
   // forces all users out of their seats at midnight;
   cron.schedule('59 23 * * *', () => {
+    // eslint-disable-next-line no-console
     console.log('Midnight Mass Seat Removal');
     app.pool.query('UPDATE `seats` SET `u_id`=NULL WHERE `u_id` IS NOT NULL');
   });

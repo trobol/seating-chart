@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
-import Map from '../components/Map';
+import SeatingMap from '../components/Map';
 import {
   UserCard, UserCardProfile, UserDropdown, UserCardItem, UserCardModalItem, UserCardAction,
 } from '../components/UserCard';
@@ -37,6 +37,7 @@ const Index = () => {
       axios.get('/api/users/clock'),
       axios.get('/api/seat/user'),
     ]).then((result) => {
+      console.log(!_.isEmpty(result[2].data));
       setIsAdmin(result[0].data.types.includes('Admin'));
       setIsClockedIn(result[1].data.result[0].count > 0);
       setHasSeat(!_.isEmpty(result[2].data));
@@ -47,7 +48,7 @@ const Index = () => {
   }, [user]);
   return (
     <Layout>
-      <Map link="/api/map/seats" />
+      <SeatingMap link="/api/map/seats" />
       <UserCard>
         {(
           authenticated
