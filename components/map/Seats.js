@@ -58,11 +58,15 @@ const Seats = ({ seats }) => {
 
 Seats.propTypes = {
   seats: PropTypes.arrayOf(PropTypes.shape({
-    idseats: PropTypes.number.isRequired,
-    u_id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-  })).isRequired,
+    idseats: PropTypes.number,
+    u_id: PropTypes.number,
+    name: PropTypes.string,
+    path: PropTypes.string,
+  })),
+};
+
+Seats.defaultProps = {
+  seats: null,
 };
 
 export default Seats;

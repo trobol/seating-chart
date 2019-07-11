@@ -24,7 +24,9 @@ const ReturnModal = ({ open, setOpen, seat }) => {
 ReturnModal.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  seat: PropTypes.number.isRequired,
+  seat: PropTypes.oneOfType(
+    [PropTypes.number, PropTypes.any],
+  ).isRequired,
 };
 
 export default ReturnModal;

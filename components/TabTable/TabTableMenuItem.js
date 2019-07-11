@@ -1,7 +1,13 @@
 import { Menu } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-const TabTableMenuItem = ({ name, active, onClick }) => (<Menu.Item name={name} active={active} onClick={onClick}></Menu.Item>);
+const TabTableMenuItem = ({ name, active, onClick }) => (
+  <Menu.Item
+    name={name}
+    active={active}
+    onClick={onClick}
+  />
+);
 
 TabTableMenuItem.propTypes = {
   name: PropTypes.string.isRequired,

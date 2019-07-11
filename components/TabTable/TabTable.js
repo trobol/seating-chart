@@ -13,7 +13,6 @@ import { ActivityFeed } from '../Feed';
 const TabTable = () => {
   const [activeItem, setActiveItem] = useState('home');
   const handleItemClick = (_e, { name }) => setActiveItem(name);
-
   return (
     <>
       <TabTableMenu>
@@ -28,11 +27,22 @@ const TabTable = () => {
           active={activeItem === 'users'}
           onClick={handleItemClick}
         />
+        <TabTableMenuItem
+          name="projects"
+          active={activeItem === 'projects'}
+          onClick={handleItemClick}
+        />
+        <TabTableMenuItem
+          name="timesheets"
+          active={activeItem === 'timesheets'}
+          onClick={handleItemClick}
+        />
         <Menu.Menu position="right">
-          <TabTableMenuItem
+          <Menu.Item
             name="return"
             active={activeItem === 'return'}
-            onClick={handleItemClick}
+            link
+            href="/"
           />
         </Menu.Menu>
       </TabTableMenu>
@@ -51,13 +61,12 @@ const TabTable = () => {
               {`
                 .charts__container{
                 width: 100vw;
-                display:flex;
-                justify-content: spaced-evenly;
-                align-items: center;
-                flex-wrap: wrap;
+                display:grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
                 }
-                .charts__container * {
-                    width: ${100 / 2}vw;
+                .charts_container *{
+                    justify-self: center;
                 }
             `}
             </style>

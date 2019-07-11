@@ -1,12 +1,16 @@
 const mysql = require('mysql');
 
 module.exports = (app, isLoggedIn) => {
-  app.get('/api/users/clock', isLoggedIn, (req, res) => {
-    const uSql = 'SELECT COUNT(*) as count FROM `user_time_log` WHERE `u_id` = ? AND `logout` IS NULL';
-    const sql = mysql.format(uSql, [req.user.idusers]);
-    app.pool.query(sql, (error, result) => {
-      res.send({ result });
-    });
+  app.get('/api/users/clock', (req, res) => {
+    if (req.isAuthenticated()) {
+      const uSql = 'SELECT COUNT(*) as count FROM `user_time_log` WHERE `u_id` = ? AND `logout` IS NULL';
+      const sql = mysql.format(uSql, [req.user.idusers]);
+      app.pool.query(sql, (error, result) => {
+        res.send({ result });
+      });
+    } else {
+      res.send({ authenicated: false });
+    }
   });
   app.post('/api/users/clock-in', isLoggedIn, (req, res) => {
     // Check if user already clocked in

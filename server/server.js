@@ -81,7 +81,7 @@ app
           handleNext();
         } else {
           console.log('Unauthorized User');
-          res.status(401).send({ response: 'Unauthorized User' }).redirect('/');
+          res.status(401).send({ response: 'Unauthorized User' });
         }
       });
     };

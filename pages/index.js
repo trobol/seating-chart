@@ -37,9 +37,8 @@ const Index = () => {
       axios.get('/api/users/clock'),
       axios.get('/api/seat/user'),
     ]).then((result) => {
-      console.log(!_.isEmpty(result[2].data));
-      setIsAdmin(result[0].data.types.includes('Admin'));
-      setIsClockedIn(result[1].data.result[0].count > 0);
+      setIsAdmin(result[0].data.types !== undefined && (result[0].data.types.includes('Admin')));
+      setIsClockedIn(result[1].data.result !== undefined && result[1].data.result[0].count > 0);
       setHasSeat(!_.isEmpty(result[2].data));
       if (!_.isEmpty(result[2].data)) {
         setSeat(result[2].data[0].idseats);
@@ -49,6 +48,7 @@ const Index = () => {
   return (
     <Layout>
       <SeatingMap link="/api/map/seats" />
+      <style>{'.map{float:right;}'}</style>
       <UserCard>
         {(
           authenticated

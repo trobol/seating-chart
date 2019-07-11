@@ -1,10 +1,12 @@
-import { Feed, Card } from 'semantic-ui-react';
+import { Feed, Card, Loader } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import _ from 'lodash';
 import FeedEvent from './FeedEvent';
 
 const ActivityFeed = () => {
   const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,8 +19,16 @@ const ActivityFeed = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (_.isEmpty(events)) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [events]);
+
   return (
-    <Card className="card__stats">
+    <Card className="activity__feed__card" fluid>
       <Card.Content>
         <Card.Header>
           {'Recent Activity Feed'}
@@ -28,7 +38,7 @@ const ActivityFeed = () => {
         <Feed className="activity__feed">
           {
             events
-              ? events.reverse().map(event => (
+              ? events.map(event => (
                 <FeedEvent
                   key={Math.random()}
                   image={event.image}
@@ -36,8 +46,9 @@ const ActivityFeed = () => {
                   date={event.time_logged}
                 />
               ))
-              : (<div />)
+              : <div />
           }
+          <Loader active={isLoading} inline />
         </Feed>
       </Card.Content>
       <style>
@@ -45,8 +56,12 @@ const ActivityFeed = () => {
           .activity__feed{
             width:100%;
           }
-          .card_stats{
-            wdith:100%;
+          .activity__feed__card{
+            justify-self:center;
+            wdith:90%;
+          }
+          .ui.fluid.card{
+            width:90%;
           }
         `}
       </style>

@@ -4,13 +4,25 @@ const mysql = require('mysql');
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets timesheets info for a user
   app.get('/api/admin/timesheets/', isLoggedIn, isAdmin, (req, res) => {
-    const sql = 'SELECT `u_id` as uid, `login`, `logout` FROM `user_time_log`';
+    const sql = 'SELECT `u_id` as uid, `name`, `login`, `logout` FROM `user_time_log` INNER JOIN `users` ON `users`.`idusers`=`user_time_log`.`u_id`';
     app.pool.query(sql, (error, result) => {
       if (error) res.send({ response: error });
       else {
-        const resultByWeek = result.reduce((acc, { uid, login, logout }) => {
+        const resultByWeek = result.reduce((acc, {
+          uid, name, login, logout,
+        }) => {
           const startOfWeek = moment(login).subtract(login.getDay() - 1, 'days').format('MM/DD/YYYY');
-          return (!acc[startOfWeek]) ? { ...acc, [startOfWeek]: [{ uid, login, logout }] } : { ...acc, [startOfWeek]: [...acc[startOfWeek], { uid, login, logout }] };
+          return (!acc[startOfWeek]) ? {
+            ...acc,
+            [startOfWeek]: [{
+              uid, name, login, logout,
+            }],
+          } : {
+            ...acc,
+            [startOfWeek]: [...acc[startOfWeek], {
+              uid, name, login, logout,
+            }],
+          };
         }, {});
         res.send({ result: resultByWeek, error });
       }
