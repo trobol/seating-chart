@@ -11,16 +11,18 @@ module.exports = (app, isLoggedIn, isAdmin) => {
         const resultByWeek = result.reduce((acc, {
           uid, name, login, logout,
         }) => {
-          const startOfWeek = moment(login).subtract(login.getDay() - 1, 'days').format('MM/DD/YYYY');
+          const startOfWeek = moment(login).subtract(login.getDay() - 1, 'days').format('MMM Do YYYY');
+          const now = moment();
+          const hours = moment(logout || now).diff(moment(login), 'hours', true);
           return (!acc[startOfWeek]) ? {
             ...acc,
             [startOfWeek]: [{
-              uid, name, login, logout,
+              uid, name, login, logout, hours,
             }],
           } : {
             ...acc,
             [startOfWeek]: [...acc[startOfWeek], {
-              uid, name, login, logout,
+              uid, name, login, logout, hours,
             }],
           };
         }, {});
@@ -37,7 +39,19 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       else {
         const resultByWeek = result.reduce((acc, { uid, login, logout }) => {
           const startOfWeek = moment(login).subtract(login.getDay() - 1, 'days').format('MM/DD/YYYY');
-          return (!acc[startOfWeek]) ? { ...acc, [startOfWeek]: [{ uid, login, logout }] } : { ...acc, [startOfWeek]: [...acc[startOfWeek], { uid, login, logout }] };
+          const now = moment();
+          const hours = moment(logout || now).diff(moment(login), 'hours', true);
+          return (!acc[startOfWeek]) ? {
+            ...acc,
+            [startOfWeek]: [{
+              uid, login, logout, hours,
+            }],
+          } : {
+            ...acc,
+            [startOfWeek]: [...acc[startOfWeek], {
+              uid, login, logout, hours,
+            }],
+          };
         }, {});
         res.send({ result: resultByWeek, error });
       }

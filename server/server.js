@@ -5,8 +5,6 @@ const uuid = require('uuid/v4');
 const passport = require('passport');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
-const devcert = require('devcert');
-const https = require('https');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 
