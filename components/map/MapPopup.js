@@ -8,9 +8,8 @@ const MapPopup = ({ seats, seatNum, trigger }) => {
   useEffect(() => setSeat(seats ? seats.filter(el => el.sid === seatNum)[0] : null), [seatNum, seats]);
   return (seat ? (
     <Popup trigger={trigger}>
-      <Popup.Header>{seat.computerName}</Popup.Header>
       <Popup.Content>
-        <Card image={seat.image} header={seat.name} />
+        <Card image={seat.image} header={seat.name} meta={seat.computerName} />
       </Popup.Content>
     </Popup>
   ) : trigger);

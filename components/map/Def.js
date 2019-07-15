@@ -26,8 +26,8 @@ const UserIconPattern = ({ id, path }) => (
 
 Def.propTypes = {
   seats: PropTypes.arrayOf(PropTypes.shape({
-    idseats: PropTypes.number,
-    u_id: PropTypes.number,
+    sid: PropTypes.number,
+    uid: PropTypes.number,
     name: PropTypes.string,
     path: PropTypes.string,
   })),
