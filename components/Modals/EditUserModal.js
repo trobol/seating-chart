@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  Button, Header, Modal, ModalActions, ModalDescription, Form, FormGroup, FormInput, FormSelect, FormButton, ModalContent, Image,
+  Button, Header, Modal, Form, Image,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -61,46 +61,46 @@ const EditUserModal = ({ open, setOpen, user }) => {
   return (
     <Modal open={open}>
       <Header>Edit User</Header>
-      <ModalContent image>
+      <Modal.Content image>
         <Image wrapped size="medium" src={`/static/users/${user.image}.jpg`} />
-        <ModalDescription>
+        <Modal.Description>
           <Form action={isAdmin ? `/api/admin/users/edit/${user.idusers}` : `/api/users/edit/${user.idusers}`}>
-            <FormGroup>
-              <FormInput focus value={user.name} label="Name" />
-              <FormSelect value={user.pronoun} options={Pronouns} label="Pronouns" />
-            </FormGroup>
-            <FormInput focus value={user.email} label="Email" />
-            <FormInput focus value={user.username} label="Username" />
+            <Form.Group>
+              <Form.Input focus value={user.name} label="Name" />
+              <Form.Select value={user.pronoun} options={Pronouns} label="Pronouns" />
+            </Form.Group>
+            <Form.Input focus value={user.email} label="Email" />
+            <Form.Input focus value={user.username} label="Username" />
             {isAdmin
               ? (
-                <FormGroup>
-                  <FormInput focus type="password" label="Password" value={password} readOnly />
-                  <FormButton className="reset__button" onClick={() => setPasswordReset(true)}>Reset Password</FormButton>
+                <Form.Group>
+                  <Form.Input focus type="password" label="Password" value={password} readOnly />
+                  <Form.Button className="reset__button" onClick={() => setPasswordReset(true)}>Reset Password</Form.Button>
                   <style>
                     {'.reset__button{align-self: flex-end}'}
                   </style>
-                </FormGroup>
+                </Form.Group>
               )
               : (
-                <FormGroup>
-                  <FormInput focus type="password" label="Current Password" />
-                  <FormInput focus type="password" label="New Password" />
-                  <FormInput focus type="password" label="Confirm New Password" />
-                </FormGroup>
+                <Form.Group>
+                  <Form.Input focus type="password" label="Current Password" />
+                  <Form.Input focus type="password" label="New Password" />
+                  <Form.Input focus type="password" label="Confirm New Password" />
+                </Form.Group>
               )
             }
-            <FormInput focus label="Primary Phone" placeholder="(XXX)XXX-XXXX" />
-            <FormInput focus type="file" placeholder={user.image} />
-            <FormSelect multiple options={allMajors} defaultValue={major} label="Majors" onChange={(_e, d) => setMajor(d.value)} />
-            <FormSelect multiple options={allUserType} defaultValue={userType} label="User Types" onChange={(_e, d) => setUserType(d.value)} />
-            <FormSelect multiple options={allProjects} defaultValue={project} label="Projects" onChange={(_e, d) => setProject(d.value)} />
+            <Form.Input focus label="Primary Phone" placeholder="(XXX)XXX-XXXX" />
+            <Form.Input focus type="file" placeholder={user.image} />
+            <Form.Select multiple options={allMajors} defaultValue={major} label="Majors" onChange={(_e, d) => setMajor(d.value)} />
+            <Form.Select multiple options={allUserType} defaultValue={userType} label="User Types" onChange={(_e, d) => setUserType(d.value)} />
+            <Form.Select multiple options={allProjects} defaultValue={project} label="Projects" onChange={(_e, d) => setProject(d.value)} />
           </Form>
-        </ModalDescription>
-      </ModalContent>
-      <ModalActions>
+        </Modal.Description>
+      </Modal.Content>
+      <Modal.Actions>
         <Button color="red" onClick={() => setOpen(false)}>No</Button>
         <Button color="green" onClick={() => setOpen(false)}>Yes</Button>
-      </ModalActions>
+      </Modal.Actions>
     </Modal>
   );
 };

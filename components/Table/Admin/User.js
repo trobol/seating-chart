@@ -32,7 +32,7 @@ const AdminUserTable = () => {
     });
   }, []);
 
-  useEffect(() => { console.log({ selectedUser }); }, [selectedUser]);
+  // useEffect(() => { console.log({ selectedUser }); }, [selectedUser]);
   if (data !== null && data !== undefined && columns !== null && columns !== undefined) {
     return (
       <>
