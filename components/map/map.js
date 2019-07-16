@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import _ from 'lodash';
 import Seats from './Seats';
 import Def from './Def';
 import BackgroundMap from './BackgroundMap';
@@ -8,15 +9,20 @@ import Title from './Title';
 
 const SeatingMap = ({ link }) => {
   const [data, setData] = useState(null);
+  const [newData, setNewData] = useState(null);
+  useEffect(() => {
+    if (!_.isEqual(data, newData)) {
+      console.log(!_.isEqual(data, newData), { data, newData });
+      setData(newData);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newData]);
   useEffect(() => {
     const interval = setInterval(() => {
-      Promise.resolve(axios.get(link)
-        .then((res) => {
-          const { seats } = res.data.response;
-          if (seats !== null && seats !== undefined) {
-            setData(seats);
-          }
-        }));
+      Promise.resolve(axios.get(link)).then((res) => {
+        const { seats } = res.data.response;
+        setNewData(seats);
+      });
     }, 1500);
     return () => clearInterval(interval);
   }, [link]);

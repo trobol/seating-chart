@@ -1,15 +1,30 @@
 
 import PropTypes from 'prop-types';
-import { Popup, Card } from 'semantic-ui-react';
+import {
+  Popup, Image, Icon, Button, Divider,
+} from 'semantic-ui-react';
 import { useEffect, useState } from 'react';
 
 const MapPopup = ({ seats, seatNum, trigger }) => {
   const [seat, setSeat] = useState(null);
-  useEffect(() => setSeat(seats ? seats.filter(el => el.sid === seatNum)[0] : null), [seatNum, seats]);
+  useEffect(() => {
+    const newSeat = seats ? seats.filter(el => el.sid === seatNum)[0] : null;
+    if (newSeat !== seat) {
+      setSeat(newSeat);
+    } else if (newSeat === undefined) {
+      setSeat(null);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seats]);
   return (seat ? (
-    <Popup trigger={trigger}>
+    <Popup trigger={trigger} hoverable>
+      <Popup.Header>{seat.computerName}</Popup.Header>
       <Popup.Content>
-        <Card image={seat.image} header={seat.name} meta={seat.computerName} />
+        <Image size="small" src={seat.image} />
+        {seat.name}
+        <Divider />
+        <Button icon={<Icon name="slack" size="large" />} />
+        <Button icon={<Icon name="mail" size="large" />} />
       </Popup.Content>
     </Popup>
   ) : trigger);

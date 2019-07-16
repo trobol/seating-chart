@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import MapPopup from './MapPopup';
 
@@ -40,6 +40,7 @@ const seatCircles = [
 const Seats = ({ seats }) => {
   const [styledSeats, setStyledSeats] = useState(null);
   const [seatEvents, setSeatEvents] = useState(null);
+  const seatCirclesNode = useMemo(() => seatCircles.map((seatCircle, idx) => <MapPopup key={Math.random()} trigger={seatCircle} seats={seats || null} seatNum={idx + 1} />), [seats]);
   useEffect(() => {
     if (seats !== null) {
       setStyledSeats(seats.flatMap(seat => `#Seat${seat.sid}{fill:url(#Seat${seat.sid})}`));
@@ -47,7 +48,7 @@ const Seats = ({ seats }) => {
   }, [seats]);
   return (
     <g id="Seats">
-      {seatCircles.map((seatCircle, idx) => <MapPopup trigger={seatCircle} seats={seats || null} seatNum={idx + 1} />)}
+      {seatCirclesNode}
       <style>
         {styledSeats}
       </style>

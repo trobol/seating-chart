@@ -6,12 +6,18 @@ const { SALTROUNDS } = process.env;
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets All Users
   app.get('/api/admin/users/', isLoggedIn, isAdmin, (req, res) => {
-    const { uid } = req.body;
-    const uSql = 'SELECT * FROM `users`';
-    const sql = mysql.format(uSql, [uid]);
+    const sql = 'SELECT u.*, GROUP_CONCAT(DISTINCT p.project SEPARATOR ",") as projects, GROUP_CONCAT(DISTINCT ut.type SEPARATOR ",") as userTypes,  GROUP_CONCAT(DISTINCT m.major SEPARATOR ",") as majors'
+    + ' FROM `users` as u '
+    + ' LEFT JOIN `user_project` as up ON u.`idusers` = up.`u_id`'
+    + ' LEFT JOIN `projects` as p ON p.`idprojects` = up.`p_id`'
+    + ' LEFT JOIN `users_user_type` as uut ON u.`idusers` = uut.`u_id`'
+    + ' LEFT JOIN `user_type` as ut ON uut.`ut_id` = ut.`iduser_type`'
+    + ' LEFT JOIN `user_major` as um ON u.`idusers` = um.`u_id`'
+    + ' LEFT JOIN `major` as m ON m.`idmajor` = um.`m_id`'
+    + ' GROUP BY u.idusers';
     app.pool.query(sql, (error, results, fields) => {
       if (error) res.send({ response: error });
-      res.send({ response: { results, fields } });
+      else res.send({ response: { results, fields } });
     });
   });
   // Posts new user
@@ -59,7 +65,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
                           connection.release();
                         }));
                     } catch (generalError) {
-                      console.log(generalError);
+                      console.error(generalError);
                     }
                   }
                 });

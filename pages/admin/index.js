@@ -16,7 +16,7 @@ const Admin = () => {
   return (
     <Layout>
       <Menu pointing secondary>
-        <img src="/static/lcdi_banner.png" alt="LCDI BANNER" />
+        <img src="/static/lcdi_banner.png" alt="LCDI BANNER" style={{ paddingLeft: '1vw', paddingRight: '1vw' }} />
         <Menu.Item name="home" active={activeItem === 'home'} onClick={handleItemClick} />
         <Menu.Item
           name="reservations"
