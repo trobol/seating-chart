@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import _ from 'lodash';
@@ -6,26 +6,18 @@ import Seats from './Seats';
 import Def from './Def';
 import BackgroundMap from './BackgroundMap';
 import Title from './Title';
+import useInterval from '../Util';
 
 const SeatingMap = ({ link }) => {
   const [data, setData] = useState(null);
-  const [newData, setNewData] = useState(null);
-  useEffect(() => {
-    if (!_.isEqual(data, newData)) {
-      console.log(!_.isEqual(data, newData), { data, newData });
-      setData(newData);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newData]);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      Promise.resolve(axios.get(link)).then((res) => {
-        const { seats } = res.data.response;
-        setNewData(seats);
-      });
-    }, 1500);
-    return () => clearInterval(interval);
-  }, [link]);
+  useInterval(() => {
+    Promise.resolve(axios.get(link)).then((res) => {
+      const { seats } = res.data.response;
+      if (!_.isEqual(data, seats)) {
+        setData(seats);
+      }
+    });
+  }, 1500);
   return (
     <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 3000 1687" className="map">
       <Def seats={data} />

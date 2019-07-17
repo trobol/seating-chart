@@ -1,15 +1,23 @@
 import PropTypes from 'prop-types';
-import { List } from 'semantic-ui-react';
-import { useEffect } from 'react';
+import { List, Loader } from 'semantic-ui-react';
+import { useState } from 'react';
 
 const UserCardAction = ({ title, icon, handleClick }) => {
-  useEffect(() => {}, []);
+  const [loading, setLoading] = useState(false);
   return (
     <List.Item key={title} onClick={handleClick}>
-      <List.Icon name={icon} />
-      <List.Content>
-        {title}
-      </List.Content>
+      {loading
+        ? <Loader />
+        : (
+          <>
+            <List.Icon name={icon} />
+            <List.Content>
+              {title}
+            </List.Content>
+          </>
+        )
+      }
+
     </List.Item>
   );
 };

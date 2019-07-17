@@ -6,7 +6,7 @@ module.exports = (app, isLoggedIn) => {
       const uSql = 'SELECT COUNT(*) as count FROM `user_time_log` WHERE `u_id` = ? AND `logout` IS NULL';
       const sql = mysql.format(uSql, [req.user.idusers]);
       app.pool.query(sql, (error, result) => {
-        res.send({ result });
+        res.send({ clock: result });
       });
     } else {
       res.send({ authenicated: false });

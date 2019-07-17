@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
@@ -9,6 +10,7 @@ import UserCardLogin from '../components/UserCard/UserCardLogin';
 import Layout from '../components/Layout';
 import TakeModal from '../components/Modals/TakeModal';
 import ReturnModal from '../components/Modals/ReturnModal';
+import useInterval from '../components/Util';
 
 const Index = () => {
   const [open, setOpen] = useState(false);
@@ -16,7 +18,6 @@ const Index = () => {
   const [returnModal, setReturnModal] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isClockedIn, setIsClockedIn] = useState(false);
-  const [hasSeat, setHasSeat] = useState(false);
   const [seat, setSeat] = useState(0);
   const [date] = useState(new Date());
   const [authenticated, setAuthenticated] = useState(false);
@@ -31,20 +32,18 @@ const Index = () => {
       }
     });
   }, []);
-  useEffect(() => {
+
+  useInterval(() => {
     Promise.all([
       axios.get('/api/users/get-user-types'),
       axios.get('/api/users/clock'),
       axios.get('/api/seat/user'),
-    ]).then((result) => {
-      setIsAdmin(result[0].data.types !== undefined && (result[0].data.types.includes('Admin')));
-      setIsClockedIn(result[1].data.result !== undefined && result[1].data.result[0].count > 0);
-      setHasSeat(!_.isEmpty(result[2].data));
-      if (!_.isEmpty(result[2].data)) {
-        setSeat(result[2].data[0].idseats);
-      }
+    ]).then(([adminRes, clockRes, seatRes]) => {
+      !_.isEmpty(adminRes.data.types) ? setIsAdmin(adminRes.data.types.includes('Admin')) : setIsAdmin(false);
+      !_.isEmpty(clockRes.data.clock) ? setIsClockedIn(clockRes.data.clock[0].count > 0) : setIsClockedIn(false);
+      !_.isEmpty(seatRes.data.seat) ? setSeat(seatRes.data.seat[0].sid) : setSeat(0);
     });
-  }, [user]);
+  }, 1500);
   return (
     <Layout>
       <SeatingMap link="/api/map/seats" />
@@ -67,9 +66,9 @@ const Index = () => {
                   <UserCardItem title="Timesheets" icon="calendar alternate" link="/user/timesheets" />
                   <UserCardItem title="Reservations" icon="calendar" link="/user/reservations" />
                   {isClockedIn
-                    ? <UserCardAction title="Clock out" icon="clock" handleClick={() => { Promise.resolve(axios.post('/api/users/clock-out')).then(res => setIsClockedIn(false)); }} />
-                    : <UserCardAction title="Clock in" icon="clock" handleClick={() => { Promise.resolve(axios.post('/api/users/clock-in')).then(res => setIsClockedIn(true)); }} /> }
-                  {hasSeat
+                    ? <UserCardAction title="Clock out" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/users/clock-out'))} />
+                    : <UserCardAction title="Clock in" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/users/clock-in'))} /> }
+                  {seat !== 0
                     ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" setOpen={setReturnModal} />
                     : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" setOpen={setTakeModal} /> }
                   <UserCardItem title="Manage Account" icon="edit" link="/user/manage" />
