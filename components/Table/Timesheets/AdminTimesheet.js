@@ -8,22 +8,21 @@ import WeekTimesheetTable from './WeekTimesheet';
 import AdminUserTimesheet from './AdminUserTimesheet';
 
 const AdminTimesheet = () => {
+  console.log(moment().startOf('week').add(1, 'days').format('MMM Do YYYY'));
   const [timesheets, setTimesheets] = useState(null);
-  const [selectedWeek, setSelectedWeek] = useState(moment().format('MMM Do YYYY'));
+  const [selectedWeek, setSelectedWeek] = useState(moment().startOf('week').add(1, 'days').format('MMM Do YYYY'));
   const [users, setUsers] = useState(null);
   const handleItemClick = (e, { name }) => setSelectedWeek(name);
   useEffect(() => {
     Promise.resolve(axios.get('/api/admin/timesheets/')).then((res) => {
-      console.log(moment().format('MMM Do YYYY'));
-      setTimesheets(res.data.result);
       console.log(res.data.result);
+      setTimesheets(res.data.result);
     });
   }, []);
   useEffect(() => {
     Promise.resolve(axios.get('/api/admin/timesheets/user/')).then((res) => {
-      console.log(moment().format('MMM Do YYYY'));
-      setUsers(res.data.result);
       console.log(res.data.result);
+      setUsers(res.data.result);
     });
   }, []);
   return (
@@ -39,7 +38,7 @@ const AdminTimesheet = () => {
         </Grid.Column>
         <Grid.Column stretched width={12} style={{ paddingBottom: '0px' }}>
           <Segment>
-            { timesheets !== null
+            { timesheets !== null && timesheets[selectedWeek] !== undefined
               ? <WeekTimesheetTable timesheet={timesheets[selectedWeek]} week={selectedWeek} />
               : <div />
             }

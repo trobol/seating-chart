@@ -5,7 +5,6 @@ const mysql = require('mysql');
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets timesheets info for a user
   app.get('/api/admin/timesheets(/user)?/', isLoggedIn, isAdmin, (req, res) => {
-    console.log(req.params[0]);
     const sql = 'SELECT `u_id` as uid, `name`, `login`, `logout` FROM `user_time_log` INNER JOIN `users` ON `users`.`idusers`=`user_time_log`.`u_id`';
     app.pool.query(sql, (error, result) => {
       if (error) res.send({ response: error });
@@ -17,35 +16,10 @@ module.exports = (app, isLoggedIn, isAdmin) => {
           const now = moment();
           const hours = moment(logout || now).diff(moment(login), 'hours', true);
           return (acc[uid])
-            ? (acc[uid][startOfWeek]) ? {
-              ...acc,
-              [uid]: {
-                ...acc[uid],
-                times: {
-                  ...acc[uid].times,
-                  [startOfWeek]: acc[uid].times[startOfWeek] + hours,
-                },
-              },
-            } : {
-              ...acc,
-              [uid]: {
-                ...acc[uid],
-                times: {
-                  ...acc[uid].times,
-                  [startOfWeek]: hours,
-                },
-              },
-            }
-            : {
-              ...acc,
-              [uid]: {
-                uid,
-                name,
-                times: {
-                  [startOfWeek]: hours,
-                },
-              },
-            };
+            ? (acc[uid].times[startOfWeek])
+              ? { ...acc, [uid]: { ...acc[uid], times: { ...acc[uid].times, [startOfWeek]: (acc[uid].times[startOfWeek] + hours) } } }
+              : { ...acc, [uid]: { ...acc[uid], times: { ...acc[uid].times, [startOfWeek]: hours } } }
+            : { ...acc, [uid]: { uid, name, times: { [startOfWeek]: hours } } };
         }, {});
         res.send({ result: newResult, error });
       } else {
@@ -55,17 +29,9 @@ module.exports = (app, isLoggedIn, isAdmin) => {
           const startOfWeek = moment(login).subtract(login.getDay() - 1, 'days').format('MMM Do YYYY');
           const now = moment();
           const hours = moment(logout || now).diff(moment(login), 'hours', true);
-          return (!acc[startOfWeek]) ? {
-            ...acc,
-            [startOfWeek]: [{
-              uid, name, login, logout, hours,
-            }],
-          } : {
-            ...acc,
-            [startOfWeek]: [...acc[startOfWeek], {
-              uid, name, login, logout, hours,
-            }],
-          };
+          return (acc[startOfWeek] && acc[startOfWeek][uid])
+            ? { ...acc, [startOfWeek]: { ...acc[startOfWeek], [uid]: { ...acc[startOfWeek][uid], hours: (acc[startOfWeek][uid].hours + hours) } } }
+            : { ...acc, [startOfWeek]: { ...acc[startOfWeek], [uid]: { uid, name, hours } } };
         }, {});
         res.send({ result: resultByWeek, error });
       }

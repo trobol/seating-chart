@@ -2,7 +2,7 @@ import { Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 const AdminUserTimesheet = ({ user }) => {
-  console.log({ user }, user.times.length);
+  console.log({ user });
   return (
     <Table celled compact selectable sortable>
       <Table.Header>
