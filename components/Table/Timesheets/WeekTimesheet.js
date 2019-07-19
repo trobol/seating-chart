@@ -4,7 +4,7 @@ import moment from 'moment';
 // TODO: format login and logout times and create total times columns
 // BUG: something is going wrong here
 const WeekTimesheetTable = ({ timesheet, week }) => {
-  console.log({ timesheet });
+  console.log({ timesheet }, Object.keys(timesheet[1]));
   return (
     <Table celled compact selectable sortable>
       <Table.Header>
@@ -19,14 +19,14 @@ const WeekTimesheetTable = ({ timesheet, week }) => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {timesheet !== undefined ? timesheet.map(row => (
+        {timesheet !== undefined ? Object.keys(timesheet).map(row => (
           <Table.Row>
             {
-          Object.keys(row).map((key) => {
+          Object.keys(timesheet[row]).map((key) => {
             if (key === 'uid' || key === 'tid') return null;
-            if (key === 'login' || key === 'logout') return <Table.Cell>{moment(row[key]).format('LLL')}</Table.Cell>;
-            if (key === 'hours') return <Table.Cell>{row[key].toFixed(2)}</Table.Cell>;
-            return (<Table.Cell>{row[key]}</Table.Cell>);
+            if (key === 'login' || key === 'logout') return <Table.Cell>{moment(timesheet[row][key]).format('LLL')}</Table.Cell>;
+            if (key === 'hours') return <Table.Cell>{timesheet[row][key].toFixed(2)}</Table.Cell>;
+            return (<Table.Cell>{timesheet[row][key]}</Table.Cell>);
           })
           }
           </Table.Row>
@@ -37,6 +37,11 @@ const WeekTimesheetTable = ({ timesheet, week }) => {
 };
 
 WeekTimesheetTable.propTypes = {
+  timesheet: PropTypes.arrayOf(PropTypes.shape({
+    uid: PropTypes.string,
+    name: PropTypes.string,
+    hours: PropTypes.number,
+  })).isRequired,
   week: PropTypes.string.isRequired,
 };
 

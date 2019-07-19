@@ -12,7 +12,11 @@ module.exports = (passport, server) => {
   passport.deserializeUser((idusers, done) => {
     const sql = mysql.format('SELECT * FROM USERS WHERE `idusers` = ?', [idusers]);
     server.pool.query(sql, (error, results) => {
-      done(error, results[0]);
+      if (error) {
+        done(error, results);
+      } else {
+        done(error, results[0]);
+      }
     });
   });
 

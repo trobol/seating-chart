@@ -7,6 +7,7 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
+const os = require('os');
 
 
 // const flash = require('connect-flash');
@@ -45,12 +46,23 @@ app
     server.use(cors());
     server.use(fileUpload());
 
-    server.pool = mysql.createPool({
+    let dbConfig = {
       host: MYSQL_HOST,
-      user: 'root',
-      password: '',
+      user: MYSQL_USERNAME,
+      password: MYSQL_PASSWORD,
       database: MYSQL_DATABASE,
-    });
+    };
+    // Mac requires additional configurations in order
+    // to connect to mysql
+    if (os.platform() == 'darwin') {
+      dbConfig = {
+        ...dbConfig,
+        port: 8889,
+        socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock',
+      };
+    }
+
+    server.pool = mysql.createPool(dbConfig);
 
     // eslint-disable-next-line global-require
     require('./util/passport')(passport, server);

@@ -40,7 +40,7 @@
     "formsy-semantic-ui-react": "^0.3.5",
     "https": "^1.0.0",
     "jQuery": "^1.7.4",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.14",
     "material-table": "^1.29.1",
     "moment": "^2.24.0",
     "mui-datatables": "^2.1.0",
