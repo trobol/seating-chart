@@ -34,13 +34,13 @@ const EditUserModal = ({ open, setOpen, user }) => {
   // about a users major, user type, and projects
   useEffect(() => {
     const { majors, userTypes, projects } = user;
-    if (!_.isEmpty(majors) && !_.isEmpty(allMajors)) {
+    if (!_.isUndefined(majors) && !_.isEmpty(majors) && !_.isEmpty(allMajors)) {
       setMajor(majors.split(',').reduce((acc, el) => [...acc, allMajors.find(elem => elem.text === el).value], []));
     }
-    if (!_.isEmpty(userTypes)) {
+    if (!_.isUndefined(userTypes) && !_.isEmpty(userTypes) && !_.isEmpty(allUserType)) {
       setUserType(userTypes.split(',').reduce((acc, el) => [...acc, allUserType.find(elem => elem.text === el).value], []));
     }
-    if (!_.isEmpty(projects)) {
+    if (!_.isUndefined(projects) && !_.isEmpty(projects) && !_.isEmpty(allProjects)) {
       setProject(projects.split(',').reduce((acc, el) => [...acc, allProjects.find(elem => elem.text === el).value], []));
     }
   }, [allMajors, allProjects, allUserType, user]);
@@ -62,7 +62,7 @@ const EditUserModal = ({ open, setOpen, user }) => {
     <Modal open={open}>
       <Header>Edit User</Header>
       <Modal.Content image>
-        <Image wrapped size="medium" src={`/static/users/${user.image}.jpg`} />
+        <Image wrapped size="medium" src={user.path} />
         <Modal.Description>
           <Form action={isAdmin ? `/api/admin/users/edit/${user.idusers}` : `/api/users/edit/${user.idusers}`}>
             <Form.Group>

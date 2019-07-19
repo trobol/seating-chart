@@ -10,7 +10,16 @@ module.exports = (passport, server) => {
   });
 
   passport.deserializeUser((idusers, done) => {
-    const sql = mysql.format('SELECT * FROM USERS WHERE `idusers` = ?', [idusers]);
+    const uSql = 'SELECT u.*, GROUP_CONCAT(DISTINCT p.project SEPARATOR ",") as projects, GROUP_CONCAT(DISTINCT ut.type SEPARATOR ",") as userTypes,  GROUP_CONCAT(DISTINCT m.major SEPARATOR ",") as majors'
+    + ' FROM `users` as u '
+    + ' LEFT JOIN `user_project` as up ON u.`idusers` = up.`u_id`'
+    + ' LEFT JOIN `projects` as p ON p.`idprojects` = up.`p_id`'
+    + ' LEFT JOIN `users_user_type` as uut ON u.`idusers` = uut.`u_id`'
+    + ' LEFT JOIN `user_type` as ut ON uut.`ut_id` = ut.`iduser_type`'
+    + ' LEFT JOIN `user_major` as um ON u.`idusers` = um.`u_id`'
+    + ' LEFT JOIN `major` as m ON m.`idmajor` = um.`m_id`'
+    + ' WHERE u.`idusers` = ?';
+    const sql = mysql.format(uSql, [idusers]);
     server.pool.query(sql, (error, results) => {
       if (error) {
         done(error, results);

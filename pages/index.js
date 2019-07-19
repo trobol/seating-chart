@@ -11,11 +11,13 @@ import Layout from '../components/Layout';
 import TakeModal from '../components/Modals/TakeModal';
 import ReturnModal from '../components/Modals/ReturnModal';
 import useInterval from '../components/Util';
+import EditUserModal from '../components/Modals/EditUserModal';
 
 const Index = () => {
   const [open, setOpen] = useState(false);
   const [takeModal, setTakeModal] = useState(false);
   const [returnModal, setReturnModal] = useState(false);
+  const [editUserModal, setEditUserModal] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [seat, setSeat] = useState(0);
@@ -54,7 +56,7 @@ const Index = () => {
             ? (
               <>
                 <UserCardProfile
-                  image={user.image}
+                  image={user.path}
                   name={user.name}
                   info={`Last Clocked In: ${`${date.toLocaleDateString()} ${date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' })}`}`}
                 />
@@ -71,7 +73,7 @@ const Index = () => {
                   {seat !== 0
                     ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" setOpen={setReturnModal} />
                     : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" setOpen={setTakeModal} /> }
-                  <UserCardItem title="Manage Account" icon="edit" link="/user/manage" />
+                  <UserCardModalItem title="Manage Account" icon="edit" link="/" setOpen={setEditUserModal} />
                   <UserCardItem title="Logout" icon="sign-out" link="/logout" />
                 </UserDropdown>
               </>
@@ -79,6 +81,7 @@ const Index = () => {
             : <UserCardLogin />
         )}
       </UserCard>
+      {authenticated ? (<EditUserModal open={editUserModal} setOpen={setEditUserModal} user={user} />) : null }
       <ReturnModal open={returnModal} setOpen={setReturnModal} seat={seat} />
       <TakeModal open={takeModal} setOpen={setTakeModal} />
     </Layout>

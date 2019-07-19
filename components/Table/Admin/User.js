@@ -26,9 +26,11 @@ const AdminUserTable = () => {
   useEffect(() => {
     Promise.resolve(axios.get('/api/admin/users/')).then((res) => {
       const { fields, results } = res.data.response;
+      console.log({ results });
       setData(results);
       setFilterData(results);
-      setColumns(fields.map(column => ({ title: column.name, field: column.name })));
+      setColumns(Object.keys(results[0]).map(key => ({ title: key, field: key })));
+      // setColumns(fields.map(column => ({ title: column.name, field: column.name })));
     });
   }, []);
 
@@ -47,7 +49,7 @@ const AdminUserTable = () => {
                     id: row.idusers,
                     title: row.name,
                     description: row.pronoun,
-                    image: `/static/users/${row.image}.jpg`,
+                    image: row.path,
                   }))}
                 />
               </Table.HeaderCell>

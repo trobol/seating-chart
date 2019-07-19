@@ -12,10 +12,10 @@ module.exports = (app) => {
       // therefore we need to give it the base
       fs.stat(`${base}/static/users/${user.image}.jpg`, (err) => {
         if (err) {
-          user.image = '/static/users/guest.jpg';
+          user.path = '/static/users/guest.jpg';
           res.send({ user, authenticated: true });
         } else {
-          user.image = `/static/users/${user.image}.jpg`;
+          user.path = `/static/users/${user.image}.jpg`;
           res.send({ user, authenticated: true });
         }
       });

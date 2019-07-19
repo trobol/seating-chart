@@ -1,7 +1,9 @@
 const mysql = require('mysql');
 const bcyrpt = require('bcrypt');
+const { isValidPath, ProjectBase } = require('../../../util/utility');
 
 const { SALTROUNDS } = process.env;
+
 
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets All Users
@@ -17,7 +19,18 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     + ' GROUP BY u.idusers';
     app.pool.query(sql, (error, results, fields) => {
       if (error) res.send({ response: error });
-      else res.send({ response: { results, fields } });
+      else {
+        const resImagePath = results.map(async (user) => {
+          console.log(`${ProjectBase}/static/users/${user.image}.jpg`);
+          if (await isValidPath(`${ProjectBase}/static/users/${user.image}.jpg`)) {
+            return { ...user, path: `/static/users/${user.image}.jpg` };
+          }
+          return { ...user, path: '/static/users/guest.jpg' };
+        });
+        Promise.all(resImagePath).then((result) => {
+          res.send({ response: { results: result, fields } });
+        });
+      }
     });
   });
   // Posts new user
