@@ -18,6 +18,11 @@ const EditUserModal = ({ open, setOpen, user }) => {
   const [major, setMajor] = useState([]);
   const [userType, setUserType] = useState([]);
   const [project, setProject] = useState([]);
+  const resetForm = () => {
+    setMajor([]);
+    setUserType([]);
+    setProject([]);
+  };
   // Gets all the majors, user types, and projects
   useEffect(() => {
     Promise.all([
@@ -33,6 +38,7 @@ const EditUserModal = ({ open, setOpen, user }) => {
   // Automatically fills in form with correct information
   // about a users major, user type, and projects
   useEffect(() => {
+    resetForm();
     const { majors, userTypes, projects } = user;
     if (!_.isUndefined(majors) && !_.isEmpty(majors) && !_.isEmpty(allMajors)) {
       setMajor(majors.split(',').reduce((acc, el) => [...acc, allMajors.find(elem => elem.text === el).value], []));
@@ -59,7 +65,7 @@ const EditUserModal = ({ open, setOpen, user }) => {
     passwordReset ? setPassword('ChangeMe!') : setPassword('');
   }, [passwordReset]);
   return (
-    <Modal open={open}>
+    <Modal open={open} onClose={resetForm}>
       <Header>Edit User</Header>
       <Modal.Content image>
         <Image wrapped size="medium" src={user.path} />

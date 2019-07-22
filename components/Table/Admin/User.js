@@ -25,8 +25,7 @@ const AdminUserTable = () => {
     // Gets initial data
   useEffect(() => {
     Promise.resolve(axios.get('/api/admin/users/')).then((res) => {
-      const { fields, results } = res.data.response;
-      console.log({ results });
+      const { results } = res.data.response;
       setData(results);
       setFilterData(results);
       setColumns(Object.keys(results[0]).map(key => ({ title: key, field: key })));

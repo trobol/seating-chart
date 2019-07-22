@@ -21,7 +21,6 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       if (error) res.send({ response: error });
       else {
         const resImagePath = results.map(async (user) => {
-          console.log(`${ProjectBase}/static/users/${user.image}.jpg`);
           if (await isValidPath(`${ProjectBase}/static/users/${user.image}.jpg`)) {
             return { ...user, path: `/static/users/${user.image}.jpg` };
           }

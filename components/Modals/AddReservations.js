@@ -1,10 +1,13 @@
 import {
-  Button, Header, Modal, ModalActions, ModalDescription, Form, FormField, FormInput, FormSelect, Search, FormGroup, FormTextArea,
+  Button, Header, Modal, ModalActions, ModalDescription, Form, FormField, FormInput, FormSelect, Search, FormGroup, FormTextArea, Message,
 } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
 import _ from 'lodash';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import UserSearch from '../Form/AddReservationsForm/UserSearch';
+import StartEndGroup from '../Form/AddReservationsForm/StartEndGroup';
 
 // https://react.semantic-ui.com/modules/search/#types-standard
 
@@ -22,8 +25,6 @@ const weekdays = [
 const seats = Array.from(Array(32), (x, index) => ({ key: (index + 1), text: `${index + 1}`, value: `${index + 1}` }));
 
 const AddReservationModal = ({ open, setOpen }) => {
-  const [userData, setUserData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [seat, setSeat] = useState(null);
@@ -33,11 +34,8 @@ const AddReservationModal = ({ open, setOpen }) => {
   const [weekday, setWeekday] = useState(null);
   const [expires, setExpires] = useState(new Date());
   const [reason, setReason] = useState('');
-  const resetSearchState = () => {
-    setIsLoading(false);
-    setValue('');
-    setSearchResults([]);
-  };
+
+  // TODO: Data Validation
   const handleSumbit = () => {
     console.log('submitting data');
     const postData = {
@@ -50,26 +48,7 @@ const AddReservationModal = ({ open, setOpen }) => {
       .catch(err => console.log(err));
     setOpen(false);
   };
-  useEffect(() => {
-    Promise.resolve(axios.get('/api/admin/users/')).then((res) => {
-      const { results } = res.data.response;
-      setUserData(results.map(row => ({
-        id: row.idusers,
-        title: row.name,
-        description: row.pronoun,
-        image: `/static/users/${row.image}.jpg`,
-      })));
-    });
-  }, []);
-  useEffect(resetSearchState, [user]);
-  // eslint-disable-next-line consistent-return
-  useEffect(() => {
-    if (value.length < 1) return resetSearchState();
-    const re = new RegExp(_.escapeRegExp(value), 'i');
-    const isMatch = r => re.test(r.title);
-    setSearchResults(_.filter(userData, isMatch));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+
   return (
     <Modal open={open} size="small" closeOnDimmerClick>
       <Header>Add Reservation</Header>
@@ -78,26 +57,16 @@ const AddReservationModal = ({ open, setOpen }) => {
           <FormSelect fluid label="Seat" placeholder="Seat" options={seats} onChange={e => setSeat(e.target.innerText)} required />
           <FormGroup widths="equal">
             <FormField>
-              <Search
-                loading={isLoading}
-                onResultSelect={(e, obj) => setUser((userData.filter(s => s.id === obj.result.id))[0])}
-                onSearchChange={_.debounce((e, obj) => setValue(obj.value), 500, { leading: true })}
-                results={searchResults}
-                value={value}
-              />
+              <UserSearch value={[value, setValue]} searchResults={[searchResults, setSearchResults]} user={[user, setUser]} />
             </FormField>
             <FormField>
               <input readOnly value={user.title} required />
               <input hidden value={user.id} required />
             </FormField>
           </FormGroup>
-          <FormGroup widths="equal">
-            <FormInput label="Start Time" type="time" onChange={e => setStart(e.target.value)} required />
-            <FormInput label="End Time" type="time" onChange={e => setEnd(e.target.value)} required />
-            <FormSelect fluid label="Weekday" options={weekdays} onChange={(_e, d) => setWeekday(d.value)} required />
-          </FormGroup>
+          <StartEndGroup start={[start, setStart]} end={[end, setEnd]} weekday={[weekday, setWeekday]} />
           <FormGroup label="Expiration" widths="equal">
-            <FormInput label="Date" type="date" required onChange={({ target }) => setExpires(target.valueAsDate)} />
+            <FormInput label="Expiration Date" type="date" required onChange={({ target }) => setExpires(target.valueAsDate)} />
           </FormGroup>
           <FormTextArea label="Reason" required onChange={e => setReason(e.target.value)} />
         </Form>
