@@ -1,6 +1,6 @@
 import { Modal, Button } from 'semantic-ui-react';
 import {
-  useState, useRef, createRef, useEffect,
+  useState, useEffect,
 } from 'react';
 import _ from 'lodash';
 import Layout from '../../components/Layout';
@@ -26,14 +26,15 @@ const ModalThree = ({ open, setOpen }) => (
 
 );
 
-const BaseModal = ({ active, open, setOpen }) => {
+const BaseModal = ({
+  children, active, open, setOpen,
+}) => {
   const modalOptions = [
     { name: 'one', modal: (<ModalOne open={open} setOpen={setOpen} />) },
     { name: 'two', modal: (<ModalTwo open={open} setOpen={setOpen} />) },
     { name: 'three', modal: (<ModalThree open={open} setOpen={setOpen} />) },
   ];
   useEffect(() => {
-    console.log(_.isEmpty(modalOptions.filter(option => option.name === active)));
     if (!_.isEmpty(modalOptions.filter(option => option.name === active))) setOpen(true);
     else setOpen(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -41,6 +42,7 @@ const BaseModal = ({ active, open, setOpen }) => {
   return (
     <Modal open={open}>
       {modalOptions.map(({ name, modal }) => (name === active ? modal : null))}
+      {active === 'custom' ? children : null}
     </Modal>
   );
 };
@@ -57,6 +59,14 @@ const Guest = () => {
       <Button onClick={() => setOpen(true)}>Open</Button>
     </Layout>
   );
+};
+
+BaseModal.propTypes = {
+  active: ('one' || 'two' || 'three' || 'custom'),
+};
+
+BaseModal.defaultProps = {
+  active: null,
 };
 
 export default Guest;

@@ -21,7 +21,7 @@ const TakeModal = ({ open, setOpen }) => {
       });
   }, []);
   return (
-    <Modal open={open} size="tiny" closeOnDimmerClick>
+    <>
       <Header>Take Seat</Header>
       <Form>
         <Form.Select fluid label="Seat" options={seats} onChange={(_e, d) => setSeat(d.value)} required />
@@ -30,7 +30,7 @@ const TakeModal = ({ open, setOpen }) => {
         <Button color="red" onClick={() => setOpen(false)}>Cancel</Button>
         <Button color="green" onClick={handleSumbit}>Submit</Button>
       </ModalActions>
-    </Modal>
+    </>
   );
 };
 

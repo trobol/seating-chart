@@ -50,7 +50,7 @@ const AddReservationModal = ({ open, setOpen }) => {
   };
 
   return (
-    <Modal open={open} size="small" closeOnDimmerClick>
+    <>
       <Header>Add Reservation</Header>
       <ModalDescription>
         <Form>
@@ -75,7 +75,7 @@ const AddReservationModal = ({ open, setOpen }) => {
         <Button color="red" onClick={() => setOpen(false)}>Cancel</Button>
         <Button type="submit" color="green" onClick={handleSumbit}>Submit</Button>
       </ModalActions>
-    </Modal>
+    </>
   );
 };
 

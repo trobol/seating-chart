@@ -9,11 +9,11 @@ import { ActivityFeed } from '../../components/Feed';
 import Layout from '../../components/Layout';
 import { AdminTimesheet } from '../../components/Table/Timesheets';
 import AdminProject from '../../components/Table/Projects/AdminProject';
+import { BaseModal } from '../../components/Modals';
 
 const Admin = () => {
   const [activeItem, setActiveItem] = useState('home');
   const handleItemClick = (_e, { name }) => setActiveItem(name);
-  const BaseModal = useRef(createRef());
   return (
     <Layout>
       <Menu pointing secondary>
@@ -79,7 +79,6 @@ const Admin = () => {
       {activeItem === 'users' ? <AdminUserTable /> : <div />}
       {activeItem === 'timesheets' ? <AdminTimesheet /> : <div />}
       {activeItem === 'projects' ? <AdminProject /> : <div />}
-      <Modal ref={BaseModal} />
     </Layout>
   );
 };

@@ -10,14 +10,14 @@ const ReturnModal = ({ open, setOpen, seat }) => {
     setOpen(false);
   };
   return (
-    <Modal open={open} size="tiny">
+    <>
       <Header>Return Seat</Header>
       <Modal.Description>Would you like to return your seat?</Modal.Description>
       <ModalActions>
         <Button color="red" onClick={() => setOpen(false)}>No</Button>
         <Button color="green" onClick={handleSumbit}>Yes</Button>
       </ModalActions>
-    </Modal>
+    </>
   );
 };
 

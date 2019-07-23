@@ -1,5 +1,7 @@
 import { Modal } from 'semantic-ui-react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 import TakeModal from './TakeModal';
 import ReturnModal from './ReturnModal';
 import EditUserModal from './EditUserModal';
@@ -7,31 +9,51 @@ import AddReservationModal from './AddReservations';
 import CreateUserModal from './CreateUserModal';
 
 const BaseModal = ({
- children, modalContents, open, setOpen 
+  children, active, setActive, open, setOpen,
 }) => {
-  const [content, setContent] = useState(null);
+  const modalOptions = [
+    { name: 'take', modal: (<TakeModal open={open} setOpen={setOpen} />) },
+    { name: 'add-reservations', modal: (<AddReservationModal open={open} setOpen={setOpen} />) },
+  ];
   useEffect(() => {
-    switch (modalContents) {
-      case TakeModal:
-        setContent(<TakeModal open={open} setOpen={setOpen} />);
-        break;
-
-      default:
-        break;
+    console.log({ active }, modalOptions.filter(option => option.name === active),
+      modalOptions.map(({ name, modal }) => (name === active ? modal : null)));
+    if (!_.isEmpty(modalOptions.filter(option => option.name === active))) setOpen(true);
+    else if (!_.isNull(children)) setOpen(true);
+    else setOpen(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+  useEffect(() => {
+    console.log({ open });
+    if (open === false) {
+      setActive('');
     }
-  }, [modalContents, open, setOpen]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
   return (
-    <Modal>
+    <Modal open={open}>
+      {modalOptions.map(({ name, modal }) => (name === active ? modal : <div />))}
       {children}
-      {content}
     </Modal>
   );
 };
 
+BaseModal.propTypes = {
+  children: PropTypes.node,
+  active: ('take' || 'add-reservations' || 'custom'),
+  open: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired,
+};
+
+BaseModal.defaultProps = {
+  children: <div />,
+  active: null,
+
+};
+
 export {
-  TakeModal,
   ReturnModal,
+  BaseModal,
   EditUserModal,
-  AddReservationModal,
   CreateUserModal,
 };

@@ -12,11 +12,12 @@ import TakeModal from '../components/Modals/TakeModal';
 import ReturnModal from '../components/Modals/ReturnModal';
 import useInterval from '../components/Util';
 import EditUserModal from '../components/Modals/EditUserModal';
+import { BaseModal } from '../components/Modals';
 
 const Index = () => {
   const [open, setOpen] = useState(false);
-  const [takeModal, setTakeModal] = useState(false);
-  const [returnModal, setReturnModal] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [activeModal, setActiveModal] = useState('');
   const [editUserModal, setEditUserModal] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isClockedIn, setIsClockedIn] = useState(false);
@@ -71,8 +72,8 @@ const Index = () => {
                     ? <UserCardAction title="Clock out" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/users/clock-out'))} />
                     : <UserCardAction title="Clock in" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/users/clock-in'))} /> }
                   {seat !== 0
-                    ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" setOpen={setReturnModal} />
-                    : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" setOpen={setTakeModal} /> }
+                    ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" onClick={() => setActiveModal('return')} />
+                    : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" onClick={() => setActiveModal('take')} /> }
                   <UserCardModalItem title="Manage Account" icon="edit" link="/" setOpen={setEditUserModal} />
                   <UserCardItem title="Logout" icon="sign-out" link="/logout" />
                 </UserDropdown>
@@ -82,8 +83,9 @@ const Index = () => {
         )}
       </UserCard>
       {authenticated ? (<EditUserModal open={editUserModal} setOpen={setEditUserModal} user={user} />) : null }
-      <ReturnModal open={returnModal} setOpen={setReturnModal} seat={seat} />
-      <TakeModal open={takeModal} setOpen={setTakeModal} />
+      <BaseModal open={modal} setOpen={setModal} active={activeModal} setActive={setActiveModal}>
+        {activeModal === 'return' ? <ReturnModal open={modal} setOpen={setModal} seat={seat} /> : null}
+      </BaseModal>
     </Layout>
   );
 };

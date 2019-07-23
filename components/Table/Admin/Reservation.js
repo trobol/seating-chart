@@ -10,6 +10,7 @@ import DeleteModal from '../../Modals/DeleteModal';
 import AddReservationModal from '../../Modals/AddReservations';
 import ActionModal from '../Action';
 import SearchAction from '../Search';
+import { BaseModal } from '../../Modals';
 
 const AdminReservationTable = () => {
   const [deleteModal, setDeleteModal] = useState(false);
