@@ -12,7 +12,8 @@ const AdminTimesheet = () => {
   const [timesheets, setTimesheets] = useState(null);
   const [selectedWeek, setSelectedWeek] = useState(moment().startOf('week').add(1, 'days').format('MMM Do YYYY'));
   const [users, setUsers] = useState(null);
-  const handleItemClick = (e, { name }) => setSelectedWeek(name);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [activeItem, setActiveItem] = useState('week');
   useEffect(() => {
     Promise.resolve(axios.get('/api/admin/timesheets/')).then((res) => {
       console.log(res.data.result);
@@ -25,26 +26,44 @@ const AdminTimesheet = () => {
       setUsers(res.data.result);
     });
   }, []);
+  useEffect(() => console.log({ selectedUser }), [selectedUser]);
   return (
     <>
       <Grid className="timesheet__grid" style={{ width: '90vw', paddingLeft: '5vw' }}>
         <Grid.Column width={4} style={{ paddingBottom: '0px' }}>
           <Menu fluid vertical tabular style={{ maxHeight: '100vh', overflowY: 'auto' }} className="timesheet__side">
-            {timesheets !== null
-              ? Object.keys(timesheets).map(week => <Menu.Item key={week} name={week} active={selectedWeek === week} onClick={handleItemClick}></Menu.Item>)
+            {activeItem === 'week' && timesheets !== null
+              ? Object.keys(timesheets).map(week => <Menu.Item key={week} name={week} active={selectedWeek === week} onClick={(e, { name }) => setSelectedWeek(name)}></Menu.Item>)
+              : <div />
+            }
+            {activeItem === 'user' && users !== null
+              ? Object.keys(users).map(uid => <Menu.Item key={uid} index={uid} name={users[uid].name} active={selectedUser === uid} onClick={(e, { index }) => setSelectedUser(index)}></Menu.Item>)
               : <div />
             }
           </Menu>
         </Grid.Column>
         <Grid.Column stretched width={12} style={{ paddingBottom: '0px' }}>
           <Segment>
-            { timesheets !== null && timesheets[selectedWeek] !== undefined
-              ? <WeekTimesheetTable timesheet={timesheets[selectedWeek]} week={selectedWeek} />
+            { activeItem === 'week' && timesheets !== null && timesheets[selectedWeek] !== undefined
+              ? (
+                <WeekTimesheetTable
+                  timesheet={timesheets[selectedWeek]}
+                  week={selectedWeek}
+                  user={[selectedUser, setSelectedUser]}
+                  item={[activeItem, setActiveItem]}
+                />
+              )
               : <div />
             }
             <Divider />
-            {users
-              ? <AdminUserTimesheet user={users[1]} />
+            {activeItem === 'user' && users
+              ? (
+                <AdminUserTimesheet
+                  user={users[selectedUser]}
+                  week={[selectedWeek, setSelectedWeek]}
+                  item={[activeItem, setActiveItem]}
+                />
+              )
               : <div />
             }
           </Segment>

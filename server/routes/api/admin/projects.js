@@ -4,7 +4,7 @@ const mysql = require('mysql');
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets All Project Info
   app.get('/api/admin/projects(/user)?/', isLoggedIn, isAdmin, (req, res) => {
-    const sql = 'SELECT `project`, `name`, `idusers` as uid FROM `projects`'
+    const sql = 'SELECT `idprojects` as pid,`project`, `name`, `idusers` as uid FROM `projects`'
     + ' INNER JOIN `user_project` ON `projects`.`idprojects` = `user_project`.`p_id` '
     + 'INNER JOIN `users` ON `user_project`.`u_id` = `users`.`idusers` ';
     app.pool.query(sql, (error, results) => {
@@ -12,16 +12,20 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       else if (req.params[0]) {
         res.send({
           users:
-          results.reduce((acc, { project, name, uid }) => (acc[uid]
-            ? { ...acc, [uid]: { ...acc[uid], projects: [...acc[uid].projects, project] } }
-            : { ...acc, [uid]: { name, uid, projects: [project] } }), []),
+          results.reduce((acc, {
+            pid, project, name, uid,
+          }) => (acc[uid]
+            ? { ...acc, [uid]: { ...acc[uid], projects: [...acc[uid].projects, { project, pid }] } }
+            : { ...acc, [uid]: { name, uid, projects: [{ project, pid }] } }), []),
         });
       } else {
         res.send({
           projects:
-        results.reduce((acc, { project, name, uid }) => (acc[project]
-          ? { ...acc, [project]: [...acc[project], { name, uid }] }
-          : { ...acc, [project]: [{ name, uid }] }), {}),
+        results.reduce((acc, {
+          pid, project, name, uid,
+        }) => (acc[project]
+          ? { ...acc, [project]: { ...acc[project], users: [...acc[project].users, { name, uid }] } }
+          : { ...acc, [project]: { pid, users: [{ name, uid }] } }), {}),
         });
       }
     });

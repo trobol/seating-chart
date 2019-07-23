@@ -37,7 +37,7 @@ const AdminProject = () => {
         <Grid.Column stretched width={12} style={{ paddingBottom: '0px' }}>
           <Segment>
             { projects !== null && projects[selectedProject] !== undefined
-              ? <AdminProjectTable users={projects[selectedProject]} project={selectedProject} />
+              ? <AdminProjectTable users={projects[selectedProject].users} project={selectedProject} />
               : <div />
             }
             <Divider />
