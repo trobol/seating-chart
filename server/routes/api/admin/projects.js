@@ -4,11 +4,26 @@ const mysql = require('mysql');
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets All Project Info
   app.get('/api/admin/projects(/user)?/', isLoggedIn, isAdmin, (req, res) => {
-    const sql = 'SELECT `project`, `name` FROM `projects` INNER JOIN `user_project` ON `projects`.`idprojects` = `user_project`.`p_id` INNER JOIN `users` ON `user_project`.`u_id` = `users`.`idusers`';
+    const sql = 'SELECT `project`, `name`, `idusers` as uid FROM `projects`'
+    + ' INNER JOIN `user_project` ON `projects`.`idprojects` = `user_project`.`p_id` '
+    + 'INNER JOIN `users` ON `user_project`.`u_id` = `users`.`idusers` ';
     app.pool.query(sql, (error, results) => {
       if (error) res.send({ response: error });
-      else if (req.params[0]) res.send({ projects: results.reduce((acc, { project, name }) => (acc[project] ? { ...acc, [project]: [...acc[project], name] } : { ...acc, [project]: [name] }), {}) });
-      else res.send({ projects: results });
+      else if (req.params[0]) {
+        res.send({
+          users:
+          results.reduce((acc, { project, name, uid }) => (acc[uid]
+            ? { ...acc, [uid]: { ...acc[uid], projects: [...acc[uid].projects, project] } }
+            : { ...acc, [uid]: { name, uid, projects: [project] } }), []),
+        });
+      } else {
+        res.send({
+          projects:
+        results.reduce((acc, { project, name, uid }) => (acc[project]
+          ? { ...acc, [project]: [...acc[project], { name, uid }] }
+          : { ...acc, [project]: [{ name, uid }] }), {}),
+        });
+      }
     });
   });
   // Gets Specific Project Info

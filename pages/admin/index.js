@@ -8,6 +8,7 @@ import CardStats from '../../components/Statistics/CardStats';
 import { ActivityFeed } from '../../components/Feed';
 import Layout from '../../components/Layout';
 import { AdminTimesheet } from '../../components/Table/Timesheets';
+import AdminProject from '../../components/Table/Projects/AdminProject';
 
 const Admin = () => {
   const [activeItem, setActiveItem] = useState('home');
@@ -77,6 +78,7 @@ const Admin = () => {
       {activeItem === 'reservations' ? <AdminReservationTable /> : <div />}
       {activeItem === 'users' ? <AdminUserTable /> : <div />}
       {activeItem === 'timesheets' ? <AdminTimesheet /> : <div />}
+      {activeItem === 'projects' ? <AdminProject /> : <div />}
     </Layout>
 
   );

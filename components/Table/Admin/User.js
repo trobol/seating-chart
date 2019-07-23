@@ -5,7 +5,7 @@ import {
 import 'semantic-ui-css/semantic.min.css';
 import axios from 'axios';
 import DeleteModal from '../../Modals/DeleteModal';
-import { EditUserModal, AddUserModal } from '../../Modals';
+import { EditUserModal, CreateUserModal } from '../../Modals';
 import SearchAction from '../Search';
 
 const AdminUserTable = () => {
@@ -98,7 +98,7 @@ const AdminUserTable = () => {
             </>
           )
           : null}
-        <AddUserModal open={addModal} setOpen={setAddModal} />
+        <CreateUserModal open={addModal} setOpen={setAddModal} />
       </>
     );
   }

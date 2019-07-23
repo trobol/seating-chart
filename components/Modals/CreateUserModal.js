@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const Pronouns = ['He/Him', 'She/Her', 'They/Them'].map(e => ({ key: e, text: e, value: e }));
 
-const AddUserModal = ({ open, setOpen }) => {
+const CreateUserModal = ({ open, setOpen }) => {
   const [imageSource, setImageSource] = useState('/static/users/guest.jpg');
   const [allMajors, setAllMajors] = useState([]);
   const [allUserType, setAllUserType] = useState([]);
@@ -137,9 +137,9 @@ const AddUserModal = ({ open, setOpen }) => {
   );
 };
 
-AddUserModal.propTypes = {
+CreateUserModal.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
 };
 
-export default AddUserModal;
+export default CreateUserModal;
