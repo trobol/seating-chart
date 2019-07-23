@@ -35,7 +35,6 @@ const WeekTimesheetTable = ({
           }
             <Table.Cell>
               <Button id={selectedUser} icon onClick={() => {}}><Icon name="edit" /></Button>
-              <Button id={selectedUser} icon onClick={() => {}}><Icon name="delete" /></Button>
             </Table.Cell>
           </Table.Row>
         )) : <div />}

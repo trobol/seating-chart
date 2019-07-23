@@ -30,8 +30,8 @@ const AdminReservationTable = () => {
     return (
       <Layout>
         <Table celled compact selectable sortable>
-          <TableHeader>
-            <TableRow>
+          <Table.Header>
+            <Table.Row>
               <Table.HeaderCell colSpan={columns.length - 1}>Reservations</Table.HeaderCell>
               <Table.HeaderCell colSpan="2">
                 <SearchAction
@@ -45,13 +45,13 @@ const AdminReservationTable = () => {
                   }))}
                 />
               </Table.HeaderCell>
-            </TableRow>
+            </Table.Row>
             {columns.map(({ title }) => <Table.HeaderCell key={title}>{title}</Table.HeaderCell>)}
             <Table.HeaderCell>delete</Table.HeaderCell>
-          </TableHeader>
-          <TableBody>
+          </Table.Header>
+          <Table.Body>
             {data.map(row => (
-              <TableRow>
+              <Table.Row>
                 {
               Object.keys(row).map((key) => {
                 if (key === 'expires') {
@@ -62,14 +62,14 @@ const AdminReservationTable = () => {
                 return (<TableCell>{row[key]}</TableCell>);
               })
             }
-                <TableCell>
+                <Table.Cell>
                   <ActionModal icon="delete" setOpen={setDeleteModal}>
                     <DeleteModal open={deleteModal} setOpen={setDeleteModal} deleteAction={deleteAction} data={row} />
                   </ActionModal>
-                </TableCell>
-              </TableRow>
+                </Table.Cell>
+              </Table.Row>
             ))}
-          </TableBody>
+          </Table.Body>
           <Table.Footer fullWidth>
             <Table.Row>
               <Table.HeaderCell colSpan={columns.length + 1}>

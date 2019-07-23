@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Menu } from 'semantic-ui-react';
+import { useState, useRef, createRef } from 'react';
+import { Menu, Modal } from 'semantic-ui-react';
 import AdminReservationTable from '../../components/Table/Admin/Reservation';
 import AdminUserTable from '../../components/Table/Admin/User';
 import { PronounsChart, HoursbyMonth } from '../../components/Chart';
@@ -13,7 +13,7 @@ import AdminProject from '../../components/Table/Projects/AdminProject';
 const Admin = () => {
   const [activeItem, setActiveItem] = useState('home');
   const handleItemClick = (_e, { name }) => setActiveItem(name);
-
+  const BaseModal = useRef(createRef());
   return (
     <Layout>
       <Menu pointing secondary>
@@ -79,8 +79,8 @@ const Admin = () => {
       {activeItem === 'users' ? <AdminUserTable /> : <div />}
       {activeItem === 'timesheets' ? <AdminTimesheet /> : <div />}
       {activeItem === 'projects' ? <AdminProject /> : <div />}
+      <Modal ref={BaseModal} />
     </Layout>
-
   );
 };
 

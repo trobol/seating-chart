@@ -23,7 +23,6 @@ const AdminUserTimesheet = ({ user, week, item }) => {
           <Table.Cell onClick={() => setActiveItem('week')}>{user.times[key].toFixed(2)}</Table.Cell>
           <Table.Cell>
             <Button id={selectedWeek} icon onClick={() => {}}><Icon name="edit" /></Button>
-            <Button id={selectedWeek} icon onClick={() => {}}><Icon name="delete" /></Button>
           </Table.Cell>
         </Table.Row>
       ))}
