@@ -1,7 +1,7 @@
-import { Card, Feed } from 'semantic-ui-react';
+import { Card, Feed, Loader } from 'semantic-ui-react';
 
 const OnlineUsersFeed = () => (
-  <Card>
+  <Card fluid>
     <Card.Content>
       <Card.Header>
         {'Current Online Users'}
@@ -9,6 +9,7 @@ const OnlineUsersFeed = () => (
     </Card.Content>
     <Card.Content>
       <Feed className="online__users__feed" />
+      <Loader />
     </Card.Content>
   </Card>
 

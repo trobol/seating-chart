@@ -9,7 +9,7 @@ const UserCard = ({ children }) => (
       {`
       .user__card{
         position: absolute !important;
-        left:75%;
+        left:65%;
         top:3%;
       }
       div .item:hover{

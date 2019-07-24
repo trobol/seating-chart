@@ -105,7 +105,7 @@ const CreateUserModal = ({ open, setOpen }) => {
     });
   }, []);
   return (
-    <Modal open={open} size="large" closeOnDimmerClick>
+    <>
       <Header>Add User</Header>
       <ModalContent image scrolling>
         <Image wrapped size="medium" src={imageSource} />
@@ -133,7 +133,7 @@ const CreateUserModal = ({ open, setOpen }) => {
         <Button onClick={() => { setOpen(false); resetForm(); }}>Cancel</Button>
         <Button type="submit" onClick={handleSumbit}>Submit</Button>
       </ModalActions>
-    </Modal>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
+import { Card, Progress } from 'semantic-ui-react';
 import SeatingMap from '../components/Map';
 import {
   UserCard, UserCardProfile, UserDropdown, UserCardItem, UserCardModalItem, UserCardAction,
@@ -13,6 +14,8 @@ import ReturnModal from '../components/Modals/ReturnModal';
 import useInterval from '../components/Util';
 import EditUserModal from '../components/Modals/EditUserModal';
 import { BaseModal } from '../components/Modals';
+import OnlineUsersFeed from '../components/Feed/OnlineUsersFeed';
+import UserLogFeed from '../components/Feed/UserLogFeed';
 
 const Index = () => {
   const [open, setOpen] = useState(false);
@@ -49,10 +52,25 @@ const Index = () => {
   }, 1500);
   return (
     <Layout>
-      <SeatingMap link="/api/map/seats" />
-      <style>{'.map{float:right;}'}</style>
-      <UserCard>
-        {(
+      <div className="grid__container">
+        <div className="timesheet">
+          <UserLogFeed />
+          <Card fluid>
+            <Card.Content>
+              <Card.Header>
+                {'Your Current Reservation'}
+              </Card.Header>
+            </Card.Content>
+            <Card.Content>
+              <Progress indicating percent={50.0} />
+            </Card.Content>
+
+          </Card>
+        </div>
+        <div className="map__container">
+          <SeatingMap link="/api/map/seats" />
+          <UserCard>
+            {(
           authenticated
             ? (
               <>
@@ -74,18 +92,37 @@ const Index = () => {
                   {seat !== 0
                     ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" onClick={() => setActiveModal('return')} />
                     : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" onClick={() => setActiveModal('take')} /> }
-                  <UserCardModalItem title="Manage Account" icon="edit" link="/" setOpen={setEditUserModal} />
+                  <UserCardModalItem title="Manage Account" icon="edit" link="/" onClick={() => setActiveModal('edit-user')} />
                   <UserCardItem title="Logout" icon="sign-out" link="/logout" />
                 </UserDropdown>
               </>
             )
             : <UserCardLogin />
         )}
-      </UserCard>
-      {authenticated ? (<EditUserModal open={editUserModal} setOpen={setEditUserModal} user={user} />) : null }
-      <BaseModal open={modal} setOpen={setModal} active={activeModal} setActive={setActiveModal}>
-        {activeModal === 'return' ? <ReturnModal open={modal} setOpen={setModal} seat={seat} /> : null}
-      </BaseModal>
+          </UserCard>
+        </div>
+        <div className="active__user">
+          <OnlineUsersFeed />
+        </div>
+      </div>
+      <style>
+        {`.grid__container{
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas: 
+          "left map right"
+      }
+      .map__conatiner{
+        grid-area: map;
+      }
+      .timesheet{
+        grid-area: left;
+      }
+      .active__user{
+        grid-area: right;
+      }`}
+      </style>
+      <BaseModal open={modal} setOpen={setModal} active={activeModal} setActive={setActiveModal} data={user} />
     </Layout>
   );
 };
