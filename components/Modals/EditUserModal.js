@@ -9,20 +9,23 @@ import _ from 'lodash';
 const Pronouns = ['He/Him', 'She/Her', 'They/Them'].map(e => ({ key: e, text: e, value: e }));
 
 const EditUserModal = ({ open, setOpen, user }) => {
+  console.log({ user });
   const [isAdmin, setIsAdmin] = useState(false);
   const [passwordReset, setPasswordReset] = useState(false);
   const [password, setPassword] = useState('');
   const [allMajors, setAllMajors] = useState([]);
   const [allUserType, setAllUserType] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
-  const [major, setMajor] = useState([]);
-  const [userType, setUserType] = useState([]);
-  const [project, setProject] = useState([]);
-  const resetForm = () => {
-    setMajor([]);
-    setUserType([]);
-    setProject([]);
+  const [major, setMajor] = useState(null);
+  const [userType, setUserType] = useState(null);
+  const [project, setProject] = useState(null);
+
+  const handleSumbit = () => {
+    Promise.resolve(axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}` : `/api/users/edit/${user.idusers}`))
+      .then(res => console.log(res));
+    setOpen(false);
   };
+
   // Gets all the majors, user types, and projects
   useEffect(() => {
     Promise.all([
@@ -38,16 +41,18 @@ const EditUserModal = ({ open, setOpen, user }) => {
   // Automatically fills in form with correct information
   // about a users major, user type, and projects
   useEffect(() => {
-    resetForm();
     const { majors, userTypes, projects } = user;
     if (!_.isUndefined(majors) && !_.isEmpty(majors) && !_.isEmpty(allMajors)) {
-      setMajor(majors.split(',').reduce((acc, el) => [...acc, allMajors.find(elem => elem.text === el).value], []));
+      const m = majors.split(',').reduce((acc, el) => [...acc, allMajors.find(elem => elem.text === el).value], []);
+      setMajor(!_.isNull(m) ? m : []);
     }
     if (!_.isUndefined(userTypes) && !_.isEmpty(userTypes) && !_.isEmpty(allUserType)) {
-      setUserType(userTypes.split(',').reduce((acc, el) => [...acc, allUserType.find(elem => elem.text === el).value], []));
+      const ut = userTypes.split(',').reduce((acc, el) => [...acc, allUserType.find(elem => elem.text === el).value], []);
+      setUserType(!_.isNull(ut) ? ut : []);
     }
     if (!_.isUndefined(projects) && !_.isEmpty(projects) && !_.isEmpty(allProjects)) {
-      setProject(projects.split(',').reduce((acc, el) => [...acc, allProjects.find(elem => elem.text === el).value], []));
+      const p = projects.split(',').reduce((acc, el) => [...acc, allProjects.find(elem => elem.text === el).value], []);
+      setProject(!_.isNull(p) ? p : []);
     }
   }, [allMajors, allProjects, allUserType, user]);
   useEffect(() => {
@@ -64,13 +69,14 @@ const EditUserModal = ({ open, setOpen, user }) => {
     // eslint-disable-next-line no-unused-expressions
     passwordReset ? setPassword('ChangeMe!') : setPassword('');
   }, [passwordReset]);
+  useEffect(() => console.log(project), [project]);
   return (
-    <Modal open={open} onClose={resetForm}>
+    <>
       <Header>Edit User</Header>
       <Modal.Content image>
         <Image wrapped size="medium" src={user.path} />
         <Modal.Description>
-          <Form action={isAdmin ? `/api/admin/users/edit/${user.idusers}` : `/api/users/edit/${user.idusers}`}>
+          <Form>
             <Form.Group>
               <Form.Input focus value={user.name} label="Name" />
               <Form.Select value={user.pronoun} options={Pronouns} label="Pronouns" />
@@ -97,17 +103,17 @@ const EditUserModal = ({ open, setOpen, user }) => {
             }
             <Form.Input focus label="Primary Phone" placeholder="(XXX)XXX-XXXX" />
             <Form.Input focus type="file" placeholder={user.image} />
-            <Form.Select multiple options={allMajors} defaultValue={major} label="Majors" onChange={(_e, d) => setMajor(d.value)} />
-            <Form.Select multiple options={allUserType} defaultValue={userType} label="User Types" onChange={(_e, d) => setUserType(d.value)} />
-            <Form.Select multiple options={allProjects} defaultValue={project} label="Projects" onChange={(_e, d) => setProject(d.value)} />
+            {!_.isNull(userType) ? <Form.Select multiple options={allMajors} defaultValue={major} label="Majors" onChange={(_e, d) => setMajor(d.value)} /> : <div /> }
+            {!_.isNull(userType) ? <Form.Select multiple options={allUserType} defaultValue={userType} label="User Types" onChange={(_e, d) => setUserType(d.value)} /> : <div /> }
+            {!_.isNull(project) ? <Form.Select multiple options={allProjects} defaultValue={project} label="Projects" onChange={(_e, d) => setProject(d.value)} /> : <div /> }
           </Form>
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
         <Button color="red" onClick={() => setOpen(false)}>No</Button>
-        <Button color="green" onClick={() => setOpen(false)}>Yes</Button>
+        <Button color="green" onClick={handleSumbit}>Yes</Button>
       </Modal.Actions>
-    </Modal>
+    </>
   );
 };
 

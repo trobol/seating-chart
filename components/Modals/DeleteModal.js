@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const DeleteModal = ({
   open, setOpen, deleteAction, data,
 }) => (
-  <Modal open={open}>
+  <>
     <Header>Delete</Header>
     <ModalDescription>
       <Header> Are you sure you want to delete this item?</Header>
@@ -16,7 +16,7 @@ const DeleteModal = ({
       <Button color="red" onClick={() => setOpen(false)}>No</Button>
       <Button color="green" onClick={() => { setOpen(false); deleteAction(data); }}>Yes</Button>
     </ModalActions>
-  </Modal>
+  </>
 );
 DeleteModal.propTypes = {
   open: PropTypes.bool.isRequired,

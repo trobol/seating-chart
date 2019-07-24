@@ -7,17 +7,22 @@ import ReturnModal from './ReturnModal';
 import EditUserModal from './EditUserModal';
 import AddReservationModal from './AddReservations';
 import CreateUserModal from './CreateUserModal';
+import DeleteModal from './DeleteModal';
 
 const BaseModal = ({
-  children, active, setActive, open, setOpen,
+  children, active, setActive, open, setOpen, action, data,
 }) => {
   const modalOptions = [
     { name: 'take', modal: (<TakeModal open={open} setOpen={setOpen} />) },
+    { name: 'return', modal: (<ReturnModal open={open} setOpen={setOpen} seat={data} />) },
     { name: 'add-reservations', modal: (<AddReservationModal open={open} setOpen={setOpen} />) },
+    { name: 'delete', modal: (<DeleteModal open={open} setOpen={setOpen} deleteAction={action} data={data} />) },
+    { name: 'create-user', modal: (<CreateUserModal open={open} setOpen={setOpen} />) },
+    { name: 'edit-user', modal: (<EditUserModal open={open} setOpen={setOpen} user={data} />) },
   ];
   useEffect(() => {
-    console.log({ active }, modalOptions.filter(option => option.name === active),
-      modalOptions.map(({ name, modal }) => (name === active ? modal : null)));
+    console.log({ active, children }, modalOptions.filter(option => option.name === active),
+      modalOptions.map(({ name, modal }) => (name === active ? modal : null)), !_.isNull(children));
     if (!_.isEmpty(modalOptions.filter(option => option.name === active))) setOpen(true);
     else if (!_.isNull(children)) setOpen(true);
     else setOpen(false);
@@ -40,15 +45,20 @@ const BaseModal = ({
 
 BaseModal.propTypes = {
   children: PropTypes.node,
-  active: ('take' || 'add-reservations' || 'custom'),
+  active: ('take' || 'return' || 'add-reservations' || 'delete' || 'creat-user' || 'edit-user' || 'custom'),
+  setActive: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
+  action: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.any,
 };
 
 BaseModal.defaultProps = {
-  children: <div />,
+  children: null,
   active: null,
-
+  action: null,
+  data: null,
 };
 
 export {

@@ -1,22 +1,20 @@
 import { useState, useEffect } from 'react';
 import {
-  Table, TableHeader, TableBody, TableRow, TableCell,
+  Table, TableCell, Button,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import axios from 'axios';
 import moment from 'moment';
 import Layout from '../../Layout';
-import DeleteModal from '../../Modals/DeleteModal';
-import AddReservationModal from '../../Modals/AddReservations';
-import ActionModal from '../Action';
 import SearchAction from '../Search';
 import { BaseModal } from '../../Modals';
 
 const AdminReservationTable = () => {
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [addModal, setAddModal] = useState(false);
   const [columns, setColumns] = useState(null);
   const [data, setData] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState('');
+  const [selectedReservation, setSelectedReservation] = useState(null);
   const deleteAction = (row) => {
     Promise.resolve(axios.post(`/api/admin/reservations/${row.id}`)).then(res => console.log(res));
   };
@@ -52,7 +50,7 @@ const AdminReservationTable = () => {
           </Table.Header>
           <Table.Body>
             {data.map(row => (
-              <Table.Row>
+              <Table.Row onMouseEnter={() => setSelectedReservation(data[row.id - 1])}>
                 {
               Object.keys(row).map((key) => {
                 if (key === 'expires') {
@@ -64,9 +62,7 @@ const AdminReservationTable = () => {
               })
             }
                 <Table.Cell>
-                  <ActionModal icon="delete" setOpen={setDeleteModal}>
-                    <DeleteModal open={deleteModal} setOpen={setDeleteModal} deleteAction={deleteAction} data={row} />
-                  </ActionModal>
+                  <Button icon="delete" onClick={() => setActiveModal('delete')} />
                 </Table.Cell>
               </Table.Row>
             ))}
@@ -74,14 +70,19 @@ const AdminReservationTable = () => {
           <Table.Footer fullWidth>
             <Table.Row>
               <Table.HeaderCell colSpan={columns.length + 1}>
-                <ActionModal icon="time" title="Add Reservation" setOpen={setAddModal}>
-                  <AddReservationModal open={addModal} setOpen={setAddModal} />
-                </ActionModal>
+                <Button icon="time" content="Add Reservation" onClick={() => setActiveModal('add-reservations')} />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
         </Table>
-
+        <BaseModal
+          open={open}
+          setOpen={setOpen}
+          setActive={setActiveModal}
+          active={activeModal}
+          action={deleteAction}
+          data={selectedReservation}
+        />
         <style>{'.ui.table{width:90%; margin-left:5%}'}</style>
       </Layout>
     );
