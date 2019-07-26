@@ -3,21 +3,19 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import FeedEvent from './FeedEvent';
+import useInterval from '../Util';
 
 const ActivityFeed = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      Promise.resolve(axios.get('/api/admin/logs/')).then((res) => {
-        const { result, error } = res.data;
-        if (result) setEvents(res.data.result);
-        else console.error(error);
-      });
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  useInterval(() => {
+    Promise.resolve(axios.get('/api/admin/logs/')).then((res) => {
+      const { result, error } = res.data;
+      if (result) setEvents(res.data.result);
+      else console.error(error);
+    });
+  }, 5000);
 
   useEffect(() => {
     if (_.isEmpty(events)) {

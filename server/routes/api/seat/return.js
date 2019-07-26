@@ -9,8 +9,9 @@ module.exports = (app, isLoggedIn) => {
       app.pool.query(sql, (error) => {
         if (error) {
           res.send({ response: error });
+        } else {
+          res.send({ response: 'success' });
         }
-        res.send({ response: 'success' });
       });
     } else {
       res.send({ response: 'No Seat Selected' });

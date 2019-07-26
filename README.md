@@ -85,6 +85,10 @@ WIW_ACCOUNT_ID=ACCOUNT_ID
 
 [Git Tutorial](https://git-scm.com/docs/gittutorial)
 
+[Moment JS](https://momentjs.com/)
+
+[Lodash](https://lodash.com/docs/4.17.14)
+
 ## Other Important Sites
 
 [Material Tables](https://mbrn.github.io/material-table/#/)

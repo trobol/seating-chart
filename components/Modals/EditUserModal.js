@@ -9,7 +9,6 @@ import _ from 'lodash';
 const Pronouns = ['He/Him', 'She/Her', 'They/Them'].map(e => ({ key: e, text: e, value: e }));
 
 const EditUserModal = ({ open, setOpen, user }) => {
-  console.log({ user });
   const [isAdmin, setIsAdmin] = useState(false);
   const [passwordReset, setPasswordReset] = useState(false);
   const [password, setPassword] = useState('');
@@ -69,7 +68,7 @@ const EditUserModal = ({ open, setOpen, user }) => {
     // eslint-disable-next-line no-unused-expressions
     passwordReset ? setPassword('ChangeMe!') : setPassword('');
   }, [passwordReset]);
-  useEffect(() => console.log(project), [project]);
+
   return (
     <>
       <Header>Edit User</Header>

@@ -3,12 +3,14 @@ import {
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { useEffect } from 'react';
 
 const ReturnModal = ({ open, setOpen, seat }) => {
   const handleSumbit = () => {
     axios.post('/api/seat/return', { seat }).then(res => console.log(res));
     setOpen(false);
   };
+  useEffect(() => console.log({ seat }), [seat]);
   return (
     <>
       <Header>Return Seat</Header>

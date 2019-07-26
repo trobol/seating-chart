@@ -10,6 +10,9 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     });
   });
   // Creates a reservation for a user
+  // TODO: Validate that the new reservation doesn't over lap with any other
+  //       reservations and that the user doesn't have a prexisting reservation
+  //       during that time period at another computer
   app.post('/api/admin/reservations', isLoggedIn, isAdmin, (req, res) => {
     const uSql = 'INSERT INTO `reservations`(`s_id`, `u_id`, `weekday`, `start`, `end`, `expires`, `reason`) VALUES (?,?,?,?,?,?,?)';
     const {
@@ -17,7 +20,8 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     } = req.query;
     if (![sid, uid, weekday, start, end, expires, reason]
       .filter(e => e === null && e === undefined).length) {
-      const sql = mysql.format(uSql, [sid, uid, weekday, start, end, expires, reason]);
+      const expiration = new Date(expires);
+      const sql = mysql.format(uSql, [sid, uid, weekday, start, end, expiration, reason]);
       app.pool.query(sql, (error, results) => {
         if (error) res.send({ response: error });
         else res.send({ response: results });
