@@ -1,5 +1,5 @@
-import { useState, useRef, createRef } from 'react';
-import { Menu, Modal } from 'semantic-ui-react';
+import { useState } from 'react';
+import { Menu } from 'semantic-ui-react';
 import AdminReservationTable from '../../components/Table/Admin/Reservation';
 import AdminUserTable from '../../components/Table/Admin/User';
 import { PronounsChart, HoursbyMonth } from '../../components/Chart';
@@ -9,7 +9,6 @@ import { ActivityFeed } from '../../components/Feed';
 import Layout from '../../components/Layout';
 import { AdminTimesheet } from '../../components/Table/Timesheets';
 import AdminProject from '../../components/Table/Projects/AdminProject';
-import { BaseModal } from '../../components/Modals';
 
 const Admin = () => {
   const [activeItem, setActiveItem] = useState('home');
@@ -37,6 +36,11 @@ const Admin = () => {
         <Menu.Item
           name="timesheets"
           active={activeItem === 'timesheets'}
+          onClick={handleItemClick}
+        />
+        <Menu.Item
+          name="seats"
+          active={activeItem === 'seats'}
           onClick={handleItemClick}
         />
         <Menu.Menu position="right">
@@ -79,6 +83,7 @@ const Admin = () => {
       {activeItem === 'users' ? <AdminUserTable /> : <div />}
       {activeItem === 'timesheets' ? <AdminTimesheet /> : <div />}
       {activeItem === 'projects' ? <AdminProject /> : <div />}
+      {activeItem === 'seats' ? <h1>SEATS</h1> : <div />}
     </Layout>
   );
 };

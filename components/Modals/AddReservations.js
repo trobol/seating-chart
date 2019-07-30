@@ -12,16 +12,6 @@ import useInterval from '../Util';
 
 // https://react.semantic-ui.com/modules/search/#types-standard
 
-const weekdays = [
-  { key: 1, text: 'Monday', value: 1 },
-  { key: 2, text: 'Tuesday', value: 2 },
-  { key: 3, text: 'Wednesday', value: 3 },
-  { key: 4, text: 'Thursday', value: 4 },
-  { key: 5, text: 'Friday', value: 5 },
-  { key: 6, text: 'Saturday', value: 6 },
-  { key: 7, text: 'Sunday', value: 7 },
-];
-
 // TODO: Make this a request to the server from number of seats
 const seats = Array.from(Array(32), (x, index) => ({ key: (index + 1), text: `${index + 1}`, value: `${index + 1}` }));
 
@@ -46,16 +36,8 @@ const AddReservationModal = ({ open, setOpen }) => {
     });
   }, 1000);
 
+  // Validates that the current reservation does not overlap with any other reservations
   useEffect(() => {
-    console.log({
-      end,
-      expires,
-      reservations,
-      seat,
-      start,
-      weekday,
-      bool: (!!start || !!end || !!seat || !!weekday || !!expires),
-    });
     if (!start || !end || !seat || !weekday || !expires);
     else {
       const overlaps = reservations
@@ -75,6 +57,11 @@ const AddReservationModal = ({ open, setOpen }) => {
       }
     }
   }, [end, expires, reservations, seat, start, user.id, weekday]);
+
+  // TODO: Validate that the user doesn't have any other reservations at the same time.
+  useEffect(() => {
+
+  });
 
   // TODO: Data Validation
   const handleSumbit = () => {
@@ -118,7 +105,7 @@ const AddReservationModal = ({ open, setOpen }) => {
       </ModalDescription>
       <ModalActions>
         <Button color="red" onClick={() => setOpen(false)}>Cancel</Button>
-        <Button type="submit" color="green" onClick={handleSumbit}>Submit</Button>
+        <Button type="submit" color="green" onClick={handleSumbit} disabled={error.isActive}>Submit</Button>
       </ModalActions>
     </>
   );

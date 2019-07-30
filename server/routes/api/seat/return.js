@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 
-module.exports = (app, isLoggedIn) => {
+module.exports = (app, isLoggedIn, isAdmin) => {
   app.post('/api/seat/return/', isLoggedIn, (req, res) => {
     const { seat } = req.body;
     const update = 'UPDATE `seats` SET `u_id`=NULL WHERE `idseats`=?';
@@ -16,5 +16,8 @@ module.exports = (app, isLoggedIn) => {
     } else {
       res.send({ response: 'No Seat Selected' });
     }
+  });
+  app.get('/api/seat/force(-all)?/', isLoggedIn, isAdmin, (req, res) => {
+    res.send(req.body);
   });
 };

@@ -14,7 +14,7 @@ const ReservationProgess = () => {
   const [remaining, setRemaining] = useState(null);
   const [hasReservation, setHasReservation] = useState(null);
   useEffect(() => {
-    Promise.resolve(axios.get('/api/user/reservations'))
+    Promise.resolve(axios.get('/api/users/reservations/today'))
       .then((res) => {
         console.log({ res });
         const { start, end } = res.data.result[0];

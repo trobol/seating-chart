@@ -64,7 +64,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       }
     });
   });
-  // #TODO: Edits Timesheet of user
+  // TODO: Edits Timesheet of user
   app.post('/api/admin/timesheets/edit/:userId', isLoggedIn, isAdmin, (req, res) => {
     res.send({ response: 'success' });
   });
