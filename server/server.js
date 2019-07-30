@@ -54,7 +54,7 @@ app
     };
     // Mac requires additional configurations in order
     // to connect to mysql
-    if (os.platform() == 'darwin') {
+    if (os.platform() === 'darwin') {
       dbConfig = {
         ...dbConfig,
         port: 8889,

@@ -17,9 +17,8 @@ const StartEndGroup = ({
   end: [end, setEnd],
   weekday: [weekday, setWeekday],
 }) => {
-  const [error, setError] = useState({ isActive: false, header: 'No Error', content: 'No Error' });
+  const [error, setError] = useState({ isActive: false, header: 'Error', content: 'Error' });
   useEffect(() => {
-    console.log({ start, end, error });
     if (start === null || end === null);
     else {
       const [startDate, endDate] = [moment(start, 'k:m'), moment(end, 'k:m')];
@@ -34,7 +33,6 @@ const StartEndGroup = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [start, end]);
 
-  useEffect(() => {}, [weekday]);
 
   return (
     <>

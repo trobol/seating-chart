@@ -21,15 +21,12 @@ const BaseModal = ({
     { name: 'edit-user', modal: (<EditUserModal open={open} setOpen={setOpen} user={data} />) },
   ];
   useEffect(() => {
-    console.log({ active, children }, modalOptions.filter(option => option.name === active),
-      modalOptions.map(({ name, modal }) => (name === active ? modal : null)), !_.isNull(children));
     if (!_.isEmpty(modalOptions.filter(option => option.name === active))) setOpen(true);
     else if (!_.isNull(children)) setOpen(true);
     else setOpen(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
   useEffect(() => {
-    console.log({ open });
     if (open === false) {
       setActive('');
     }

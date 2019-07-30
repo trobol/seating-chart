@@ -12,9 +12,13 @@ const SeatingMap = ({ link }) => {
   const [data, setData] = useState(null);
   useInterval(() => {
     Promise.resolve(axios.get(link)).then((res) => {
-      const { seats } = res.data.response;
-      if (!_.isEqual(data, seats)) {
-        setData(seats);
+      try {
+        const { seats } = res.data.response;
+        if (!_.isEqual(data, seats)) {
+          setData(seats);
+        }
+      } catch (error) {
+        console.error(error);
       }
     });
   }, 1500);

@@ -5,9 +5,11 @@ import {
 import 'semantic-ui-css/semantic.min.css';
 import axios from 'axios';
 import moment from 'moment';
+import _ from 'lodash';
 import Layout from '../../Layout';
 import SearchAction from '../Search';
 import { BaseModal } from '../../Modals';
+import useInterval from '../../Util';
 
 const AdminReservationTable = () => {
   const [columns, setColumns] = useState(null);
@@ -18,13 +20,17 @@ const AdminReservationTable = () => {
   const deleteAction = (row) => {
     Promise.resolve(axios.post(`/api/admin/reservations/${row.id}`)).then(res => console.log(res));
   };
-  useEffect(() => {
+  useInterval(() => {
     Promise.resolve(axios.get('/api/admin/reservations/')).then((res) => {
-      const { fields, results } = res.data.response;
-      setData(results);
-      setColumns(fields.map(column => ({ title: column.name, field: column.name })));
+      const { fields, results } = res.data;
+      if (!_.isEqual(results, data)) {
+        setData(results);
+      }
+      if (!_.isEqual(fields, columns)) {
+        setColumns(fields.map(column => ({ title: column.name, field: column.name })));
+      }
     });
-  }, []);
+  }, 1000);
   if (data !== null && data !== undefined && columns !== null && columns !== undefined) {
     return (
       <Layout>

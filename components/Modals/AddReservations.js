@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import UserSearch from '../Form/AddReservationsForm/UserSearch';
 import StartEndGroup from '../Form/AddReservationsForm/StartEndGroup';
+import useInterval from '../Util';
 
 // https://react.semantic-ui.com/modules/search/#types-standard
 
@@ -34,6 +35,46 @@ const AddReservationModal = ({ open, setOpen }) => {
   const [weekday, setWeekday] = useState(null);
   const [expires, setExpires] = useState(new Date());
   const [reason, setReason] = useState('');
+  const [reservations, setReservations] = useState(null);
+  const [error, setError] = useState({ isActive: false, header: 'Error', content: 'No Error' });
+
+
+  useInterval(() => {
+    Promise.resolve(axios.get('/api/admin/reservations/')).then((res) => {
+      const { results } = res.data;
+      if (!_.isEqual(reservations, results)) setReservations(results);
+    });
+  }, 1000);
+
+  useEffect(() => {
+    console.log({
+      end,
+      expires,
+      reservations,
+      seat,
+      start,
+      weekday,
+      bool: (!!start || !!end || !!seat || !!weekday || !!expires),
+    });
+    if (!start || !end || !seat || !weekday || !expires);
+    else {
+      const overlaps = reservations
+        .filter(r => r.seat === Number(seat) && r.weekday === Number(weekday) && moment(r.expires) > moment())
+        .flatMap((r) => {
+          const [nStart, nEnd, rStart, rEnd] = [moment(start, 'k:m'), moment(end, 'k:m'), moment(r.start, 'k:m'), moment(r.end, 'k:m')];
+          if ((nStart < rStart && nEnd < rStart) || (nStart > rEnd && nEnd > rEnd)) {
+            return true;
+          }
+          return false;
+        })
+        .includes(false);
+      if (overlaps) {
+        setError({ isActive: true, content: 'This reservation overlaps with another' });
+      } else {
+        setError({ isActive: false });
+      }
+    }
+  }, [end, expires, reservations, seat, start, user.id, weekday]);
 
   // TODO: Data Validation
   const handleSumbit = () => {
@@ -64,10 +105,14 @@ const AddReservationModal = ({ open, setOpen }) => {
               <input hidden value={user.id} required />
             </FormField>
           </FormGroup>
-          <StartEndGroup start={[start, setStart]} end={[end, setEnd]} weekday={[weekday, setWeekday]} />
+          <StartEndGroup start={[start, setStart]} end={[end, setEnd]} weekday={[weekday, setWeekday]} uid={user.id} seat={seat} />
           <FormGroup label="Expiration" widths="equal">
             <FormInput label="Expiration Date" type="date" required onChange={({ target }) => setExpires(target.valueAsDate)} />
           </FormGroup>
+          { error.isActive
+            ? <Message negative header={error.header} content={error.content} />
+            : <div />
+          }
           <FormTextArea label="Reason" required onChange={e => setReason(e.target.value)} />
         </Form>
       </ModalDescription>

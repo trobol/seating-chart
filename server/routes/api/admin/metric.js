@@ -21,6 +21,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     });
   });
   // Gets data about hours depending on length of time specified
+  // There could be timezone issues but would really affect anything atm
   app.get('/api/admin/metrics/hours/:length', isLoggedIn, isAdmin, (req, res) => {
     const { length } = req.params;
     const sql = 'SELECT `idtime_log`, `u_id`, `login`, `logout` FROM `user_time_log` WHERE 1';
