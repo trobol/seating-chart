@@ -6,6 +6,7 @@ const UserReservationModal = ({ user }) => {
   const [reservations, setReservations] = useState({});
   useEffect(() => {
     Promise.resolve(axios.get('/api/users/reservations'));
+    // commit purposes
   });
   return (
     <>
