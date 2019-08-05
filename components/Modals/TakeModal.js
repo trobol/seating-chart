@@ -15,8 +15,11 @@ const TakeModal = ({ open, setOpen }) => {
   useEffect(() => {
     Promise.resolve(axios.get('/api/seat/'))
       .then((res) => {
-        if (res.data !== null && res.data !== undefined) {
-          setSeats(res.data.filter(e => e.u_id === null).map(e => ({ key: e.idseats, text: e.computer_name, value: e.idseats })));
+        if (res.data !== null && res.data.seats !== undefined) {
+          console.log(res);
+          setSeats(res.data.seats
+            .filter(({ uid }) => uid === null)
+            .map(({ sid, computerName }) => ({ key: sid, text: computerName, value: sid })));
         }
       });
   }, []);

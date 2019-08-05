@@ -9,10 +9,15 @@ import { ActivityFeed } from '../../components/Feed';
 import Layout from '../../components/Layout';
 import { AdminTimesheet } from '../../components/Table/Timesheets';
 import AdminProject from '../../components/Table/Projects/AdminProject';
+import { BaseModal } from '../../components/Modals';
 
 const Admin = () => {
   const [activeItem, setActiveItem] = useState('home');
+  const [open, setOpen] = useState(false);
   const handleItemClick = (_e, { name }) => setActiveItem(name);
+  const handleSeatsClick = () => {
+    setOpen(true);
+  };
   return (
     <Layout>
       <Menu pointing secondary>
@@ -41,7 +46,7 @@ const Admin = () => {
         <Menu.Item
           name="seats"
           active={activeItem === 'seats'}
-          onClick={handleItemClick}
+          onClick={handleSeatsClick}
         />
         <Menu.Menu position="right">
           <Menu.Item
@@ -83,7 +88,7 @@ const Admin = () => {
       {activeItem === 'users' ? <AdminUserTable /> : <div />}
       {activeItem === 'timesheets' ? <AdminTimesheet /> : <div />}
       {activeItem === 'projects' ? <AdminProject /> : <div />}
-      {activeItem === 'seats' ? <h1>SEATS</h1> : <div />}
+      <BaseModal open={open} setOpen={setOpen} active={open ? 'force-return' : null} setActive={() => {}} />
     </Layout>
   );
 };

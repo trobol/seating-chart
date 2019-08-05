@@ -8,6 +8,7 @@ import EditUserModal from './EditUserModal';
 import AddReservationModal from './AddReservations';
 import CreateUserModal from './CreateUserModal';
 import DeleteModal from './DeleteModal';
+import ForceReturnModal from './ForceReturn';
 
 const BaseModal = ({
   children, active, setActive, open, setOpen, action, data,
@@ -19,6 +20,7 @@ const BaseModal = ({
     { name: 'delete', modal: (<DeleteModal open={open} setOpen={setOpen} deleteAction={action} data={data} />) },
     { name: 'create-user', modal: (<CreateUserModal open={open} setOpen={setOpen} />) },
     { name: 'edit-user', modal: (<EditUserModal open={open} setOpen={setOpen} user={data} />) },
+    { name: 'force-return', modal: (<ForceReturnModal open={open} setOpen={setOpen} />) },
   ];
   useEffect(() => {
     if (!_.isEmpty(modalOptions.filter(option => option.name === active))) setOpen(true);
@@ -42,7 +44,7 @@ const BaseModal = ({
 
 BaseModal.propTypes = {
   children: PropTypes.node,
-  active: ('take' || 'return' || 'add-reservations' || 'delete' || 'creat-user' || 'edit-user' || 'custom'),
+  active: ('take' || 'return' || 'add-reservations' || 'delete' || 'creat-user' || 'edit-user' || 'force-return' || 'custom'),
   setActive: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,

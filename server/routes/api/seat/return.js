@@ -17,9 +17,10 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       res.send({ response: 'No Seat Selected' });
     }
   });
-  app.get('/api/seat/force(-all)?/', isLoggedIn, isAdmin, (req, res) => {
+  app.post('/api/seat/force(-all)?/', isLoggedIn, isAdmin, (req, res) => {
     if (req.params[0] === '-all') {
-      const sql = 'UPDATE `seats` SET `u_id`=NULL WHERE 1';
+      console.log(req.params);
+      const sql = 'UPDATE `seats` SET `u_id`=NULL WHERE `u_id` IS NOT NULL';
       app.pool.query(sql, (error) => {
         if (error) {
           res.send({ response: error });

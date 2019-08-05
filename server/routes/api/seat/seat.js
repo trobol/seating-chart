@@ -5,7 +5,10 @@ module.exports = (app, isLoggedIn) => {
     const sql = 'SELECT * FROM seats';
     app.pool.query(sql, (error, result) => {
       if (error) res.status(500).send(error);
-      else res.send(result);
+      else {
+        const seats = result.map(e => ({ sid: e.idseats, uid: e.u_id, computerName: e.computer_name }));
+        res.send({ seats });
+      }
     });
   });
   app.get('/api/seat/user/', isLoggedIn, (req, res) => {
