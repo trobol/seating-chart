@@ -1,6 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const mysql = require('mysql');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 module.exports = (passport, server) => {
   passport.serializeUser((user, done) => {

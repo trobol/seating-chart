@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const bcyrpt = require('bcrypt');
+const bcyrpt = require('bcryptjs');
 const { isValidPath, ProjectBase } = require('../../../util/utility');
 
 const { SALTROUNDS } = process.env;

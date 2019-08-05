@@ -124,10 +124,8 @@ WIW_ACCOUNT_ID=ACCOUNT_ID
 
 ## Other Important Sites
 
-[Material Tables](https://mbrn.github.io/material-table/#/)
-
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
 ## Inspirational Quotes
 
-Ubuntu Server VM, Nginx to serve static assets and proxy for node. Pretty simple.
+*"Ubuntu Server VM, Nginx to serve static assets and proxy for node. Pretty simple."* --[freebit](https://www.reddit.com/r/node/comments/9ovqkq/selfhosted_deployment_nodejs_server/)
