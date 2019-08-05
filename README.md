@@ -47,13 +47,45 @@ Signed,
 Adam DeCosta, Kevin Eaton, Jackson Michaels
 
 ## Back-End Design
+
 ![Database Design](documentation_assets/database_layout.png?raw=true "Database Design")
 *This Database Diagram was made using MySQL Workbench*
 
 ### Database
+
 :key: = Primary Key
 :small_orange_diamond: = Non-Null Foreign Key
 :small_blue_diamond: = Non-Null Value
+
+## Development Server
+
+### Set-Up
+
+*The development server has already been created this only serves as a guide to help new possible new development servers in the future*
+
+#### Server Configurations
+
+- Ubuntu Server VM
+- [Nginx](https://www.nginx.com/)
+- Node
+- Git CLI
+- MySql
+- phpMyAdmin (optional but highly recommended)
+- [PM2](http://pm2.keymetrics.io/docs/usage/quick-start/)
+
+*this should be sent as a support ticket as [here](https://support.lcdi/)*
+
+#### MySql Set-Up
+
+Any seating chart server creates monthly backups of the database but it is best to use the production server backups as that will contain the most up to date and stable information. Backups will be located in `.database/` folder. Choose the most recent back up file. Now on the new server, open phpMyAdmin and create a new databse called `seating` and then import the database.
+
+#### Serving Seating Chart
+
+Follow the first three steps of [Installation Guide](#Installation) in the `/var/www/html/` folder. This will install all the packages that you need.
+
+Set up your `.env` with correct credentials.
+
+Run `pm2 start --name seating-chart server/server.js`. This starts the projects on port 3000 and a reserve proxy should be redirecting it to port 80 via nginx. If this is not the case then check the nginx config files with the help of network admins.
 
 ### WhenIWork API Integration
 
@@ -71,6 +103,7 @@ WIW_USERNAME=USERNAME
 WIW_PASSWORD=PASSWORD
 WIW_ACCOUNT_ID=ACCOUNT_ID
 ```
+
 ## Tutorials before you start working on Seating Chart
 
 [Introduction to Javascript](https://www.w3schools.com/js/)
@@ -94,3 +127,7 @@ WIW_ACCOUNT_ID=ACCOUNT_ID
 [Material Tables](https://mbrn.github.io/material-table/#/)
 
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+
+## Inspirational Quotes
+
+Ubuntu Server VM, Nginx to serve static assets and proxy for node. Pretty simple.

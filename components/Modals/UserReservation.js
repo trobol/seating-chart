@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Form, Modal } from 'semantic-ui-react';
+import { Form, Modal, Table } from 'semantic-ui-react';
 import axios from 'axios';
+import _ from 'lodash';
+import useInterval from '../Util';
 
 const UserReservationModal = ({ user }) => {
   const [reservations, setReservations] = useState({});
-  useEffect(() => {
-    Promise.resolve(axios.get('/api/users/reservations'));
-    // commit purposes
-  });
+  useInterval(() => {
+    Promise.resolve(axios.get('/api/users/reservations'))
+      .then((res) => {
+        console.log({ res });
+      });
+  }, 1000);
   return (
     <>
       <Modal.Header> Reservations </Modal.Header>

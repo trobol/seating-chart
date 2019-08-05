@@ -21,6 +21,7 @@ module.exports = (app) => {
   });
   // Backs up database every first of the month
   cron.schedule('* * 1 1-12 *', () => {
+    // TODO: if .database folder doesn't exist create it then dump
     mysqldump({
       connection: {
         host: MYSQL_HOST,
