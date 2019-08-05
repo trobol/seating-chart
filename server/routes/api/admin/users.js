@@ -91,10 +91,10 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     }
   });
   app.post('/api/admin/users/image/', isLoggedIn, isAdmin, (req, res) => {
+    console.log(req.files.file, ProjectBase, __dirname);
     const image = req.files.file;
-    const { PWD } = process.env;
     // https://codeburst.io/asynchronous-file-upload-with-node-and-react-ea2ed47306dd
-    image.mv(`${PWD}/static/users/${req.body.filename}.jpg`, (err) => {
+    image.mv(`${ProjectBase}/static/users/${req.body.filename}.jpg`, (err) => {
       if (err) {
         res.status(500).send({ err });
       } else {
