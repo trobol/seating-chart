@@ -9,6 +9,7 @@ import AddReservationModal from './AddReservations';
 import CreateUserModal from './CreateUserModal';
 import DeleteModal from './DeleteModal';
 import ForceReturnModal from './ForceReturn';
+import UserReservationModal from './UserReservationModal';
 
 const BaseModal = ({
   children, active, setActive, open, setOpen, action, data,
@@ -21,6 +22,7 @@ const BaseModal = ({
     { name: 'create-user', modal: (<CreateUserModal open={open} setOpen={setOpen} />) },
     { name: 'edit-user', modal: (<EditUserModal open={open} setOpen={setOpen} user={data} />) },
     { name: 'force-return', modal: (<ForceReturnModal open={open} setOpen={setOpen} />) },
+    { name: 'user-reservations', modal: (<UserReservationModal open={open} setOpen={setOpen} />) },
   ];
   useEffect(() => {
     if (!_.isEmpty(modalOptions.filter(option => option.name === active))) setOpen(true);

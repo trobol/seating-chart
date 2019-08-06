@@ -20,7 +20,7 @@ module.exports = (app) => {
   app.get('/api/users/reservations/', (req, res) => {
     if (req.isAuthenticated()) {
       const { idusers } = req.user;
-      const sql = mysql.format('SELECT * FROM reservations WHERE u_id=?', [idusers]);
+      const sql = mysql.format('SELECT * FROM reservations WHERE u_id=? AND expires > NOW()', [idusers]);
       app.pool.query(sql, (error, result) => {
         if (error) res.send({ error });
         else res.send({ result });
@@ -56,7 +56,8 @@ module.exports = (app) => {
   app.post('/api/users/reservations/:reservationId', (req, res) => {
     if (req.isAuthenticated()) {
       const { reservationId } = req.params;
-      const sql = mysql.format('DELETE FROM reservations WHERE idreservations=?', [reservationId]);
+      const { idusers } = req.user;
+      const sql = mysql.format('DELETE FROM reservations WHERE idreservations=? AND u_id=?', [reservationId, idusers]);
       app.pool.query(sql, (error, result) => {
         if (error) res.send({ error });
         else res.send({ result });

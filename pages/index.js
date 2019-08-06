@@ -74,7 +74,7 @@ const Index = () => {
                     : <div />
                     }
                   <UserCardItem title="Timesheets" icon="calendar alternate" link="/user/timesheets" />
-                  <UserCardItem title="Reservations" icon="calendar" link="/user/reservations" />
+                  <UserCardModalItem title="Reservations" icon="calendar" link="/user/reservations" onClick={() => setActiveModal('user-reservations')} />
                   {isClockedIn
                     ? <UserCardAction title="Clock out" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/users/clock-out'))} />
                     : <UserCardAction title="Clock in" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/users/clock-in'))} /> }

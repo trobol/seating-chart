@@ -1,5 +1,5 @@
 import {
-  Modal, ModalActions, Header, Form, Button,
+  Modal, Header, Form, Button,
 } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -29,10 +29,10 @@ const TakeModal = ({ open, setOpen }) => {
       <Form>
         <Form.Select fluid label="Seat" options={seats} onChange={(_e, d) => setSeat(d.value)} required />
       </Form>
-      <ModalActions>
+      <Modal.Actions>
         <Button color="red" onClick={() => setOpen(false)}>Cancel</Button>
         <Button color="green" onClick={handleSumbit}>Submit</Button>
-      </ModalActions>
+      </Modal.Actions>
     </>
   );
 };

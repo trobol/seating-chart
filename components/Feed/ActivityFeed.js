@@ -12,6 +12,7 @@ const ActivityFeed = () => {
   useInterval(() => {
     Promise.resolve(axios.get('/api/admin/logs/')).then((res) => {
       const { result, error } = res.data;
+      console.log(result);
       if (result) setEvents(res.data.result);
       else console.error(error);
     });

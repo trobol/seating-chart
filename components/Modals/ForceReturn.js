@@ -14,13 +14,9 @@ const ForceReturnModal = ({ open, setOpen }) => {
   const handleSumbit = () => {
     console.log(seat);
     if (returnAll) {
-      Promise.resolve(axios.post('api/seat/force-all/')).then((res) => {
-        console.log(res);
-      });
+      Promise.resolve(axios.post('api/seat/force-all/'));
     } else {
-      Promise.resolve(axios.post('api/seat/force/', { seat })).then((res) => {
-        console.log(res);
-      });
+      Promise.resolve(axios.post('api/seat/force/', { seat }));
     }
     setOpen(false);
   };
