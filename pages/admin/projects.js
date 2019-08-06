@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../../components/Layout';
+import HoursByWeek from '../../components/Chart/WeekChart';
 
 const Projects = () => {
   const [projects, setProjects] = useState({});
@@ -10,9 +11,7 @@ const Projects = () => {
     });
   }, []);
   return (
-    <Layout>
-      <Table />
-    </Layout>
+    <HoursByWeek />
   );
 };
 
