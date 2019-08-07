@@ -20,7 +20,7 @@ module.exports = (app) => {
   app.get('/api/users/reservations/', (req, res) => {
     if (req.isAuthenticated()) {
       const { idusers } = req.user;
-      const sql = mysql.format('SELECT * FROM reservations WHERE u_id=? AND expires > NOW()', [idusers]);
+      const sql = mysql.format('SELECT `idreservations` as rid, `u_id` as uid, `s_id` as sid, weekday, start, end, expires, reason FROM reservations WHERE u_id=? AND expires > NOW()', [idusers]);
       app.pool.query(sql, (error, result) => {
         if (error) res.send({ error });
         else res.send({ result });

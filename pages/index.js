@@ -13,6 +13,7 @@ import { BaseModal } from '../components/Modals';
 import OnlineUsersFeed from '../components/Feed/OnlineUsersFeed';
 import UserLogFeed from '../components/Feed/UserLogFeed';
 import ReservationProgess from '../components/Progress/Reservation';
+import UserReservationTable from '../components/Table/User/Reservation';
 
 const Index = () => {
   const [open, setOpen] = useState(false);
@@ -73,15 +74,13 @@ const Index = () => {
                     ? <UserCardItem title="Admin Panel" icon="lock" link="admin" />
                     : <div />
                     }
-                  <UserCardItem title="Timesheets" icon="calendar alternate" link="/user/timesheets" />
-                  <UserCardModalItem title="Reservations" icon="calendar" link="/user/reservations" onClick={() => setActiveModal('user-reservations')} />
                   {isClockedIn
                     ? <UserCardAction title="Clock out" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/users/clock-out'))} />
                     : <UserCardAction title="Clock in" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/users/clock-in'))} /> }
                   {seat !== 0
                     ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" onClick={() => setActiveModal('return')} />
                     : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" onClick={() => setActiveModal('take')} /> }
-                  <UserCardModalItem title="Manage Account" icon="edit" link="/" onClick={() => setActiveModal('edit-user')} />
+                  <UserCardItem title="Manage Account" icon="edit" link="/user/manage" />
                   <UserCardItem title="Logout" icon="sign-out" link="/logout" />
                 </UserDropdown>
               </>

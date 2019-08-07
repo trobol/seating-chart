@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Form, Input, Dropdown } from 'formsy-semantic-ui-react';
 import axios from 'axios';
+import { Card, Image } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
+import EditUserForm from '../../components/Form/EditUser';
+import UserReservationTable from '../../components/Table/User/Reservation';
+import AdminUserTimesheet from '../../components/Table/Timesheets/AdminUserTimesheet';
+import UserTimesheetTable from '../../components/Table/User/Timesheet';
 
 const Pronouns = ['He/Him', 'She/Her', 'They/Them'].map(e => ({ key: e, text: e, value: e }));
 
@@ -28,12 +32,57 @@ const Manage = () => {
 
   return (
     <Layout>
-      <Form>
-        <Input type="text" name="name" value={user.name} label="Full Name" />
-        <Dropdown name="pronoun" placeholder="Your Pronouns" value={user.pronoun} selection options={Pronouns} />
-      </Form>
+      <div className="user__manage">
+        <Card fluid className="user__manage__information">
+          <h1>User Information</h1>
+          <Card.Content>
+            <EditUserForm user={user} />
+          </Card.Content>
+        </Card>
+        <Card fluid className="user__manage__reservations">
+          <h1>User Reservations</h1>
+          <Card.Content>
+            <UserReservationTable />
+          </Card.Content>
+        </Card>
+
+        <Card fluid className="user__manage__timesheets">
+          <h1>User Timesheets</h1>
+          <Card.Content>
+            <UserTimesheetTable />
+          </Card.Content>
+        </Card>
+
+      </div>
+      <style>
+        {`
+        @media only screen and (min-width: 1250px) {
+          .user__manage{
+            height: 95vh;
+            top: 2.5vh;
+            display: grid;
+            grid-template-columns: 1vw 1fr 1fr 1fr 1vw;
+            grid-column-gap: 1%;
+            grid-template-areas: ". information reservation timesheets ."
+          }
+          .user__manage * {
+            margin: 0px !important;
+          }
+          .user__manage__information{
+            grid-area: information;
+          }
+          .user__manage__reservations{
+            grid-area: reservation;
+          }
+          .user__manage__timesheets{
+            grid-area: timesheets;
+          }
+        }
+
+        
+        `}
+      </style>
     </Layout>
   );
 };
-
 export default Manage;

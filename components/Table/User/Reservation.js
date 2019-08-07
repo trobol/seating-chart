@@ -7,18 +7,19 @@ import axios from 'axios';
 import moment from 'moment';
 import _ from 'lodash';
 import useInterval from '../../Util';
-
+import { BaseModal } from '../../Modals';
 
 const UserReservationTable = () => {
   const [data, setData] = useState(null);
   const [selectedReservation, setSelectedReservation] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState('');
   const deleteAction = (row) => {
     Promise.resolve(axios.post(`/api/users/reservations/${row.id}`));
   };
   useInterval(() => {
     Promise.resolve(axios.get('/api/users/reservations/')).then((res) => {
       const { result } = res.data;
-      console.log({ result, data });
       if (!_.isEqual(result, data)) {
         setData(result);
       }
@@ -30,10 +31,8 @@ const UserReservationTable = () => {
         <Table celled compact selectable sortable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan={Object.keys(data[0]).length}>Reservations</Table.HeaderCell>
-            </Table.Row>
-            <Table.Row>
-              {Object.keys(data[0]).map((key => <Table.HeaderCell>{key}</Table.HeaderCell>))}
+              {Object.keys(data[0]).map((key => <Table.HeaderCell key={key}>{key}</Table.HeaderCell>))}
+              <Table.HeaderCell>Delete</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -49,19 +48,27 @@ const UserReservationTable = () => {
               return (<TableCell>{row[key]}</TableCell>);
             })
           }
+                <Table.Cell><Button icon="delete" onClick={() => setActiveModal('delete')} /></Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
           <Table.Footer fullWidth>
             <Table.Row>
-              <Table.HeaderCell colSpan={Object.keys(data[0]).length}>
-                <Button icon="time" content="Add Reservation" />
+              <Table.HeaderCell colSpan={Object.keys(data[0]).length + 1}>
+                <Button icon="time" content="Add Reservation" onClick={() => setActiveModal('add-reservations')} />
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
         </Table>
       ) : (<Message content="You have no reservations" />)}
-      <style>{'.ui.table{width:90%; margin-left:5%}'}</style>
+      <BaseModal
+        open={open}
+        setOpen={setOpen}
+        setActive={setActiveModal}
+        active={activeModal}
+        action={deleteAction}
+        data={selectedReservation}
+      />
     </>
   );
 };
