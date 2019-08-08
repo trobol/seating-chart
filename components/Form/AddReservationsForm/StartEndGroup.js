@@ -16,6 +16,7 @@ const StartEndGroup = ({
   start: [start, setStart],
   end: [end, setEnd],
   weekday: [weekday, setWeekday],
+  isError,
 }) => {
   const [error, setError] = useState({ isActive: false, header: 'Error', content: 'Error' });
   useEffect(() => {
@@ -33,6 +34,9 @@ const StartEndGroup = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [start, end]);
 
+  useEffect(() => {
+    isError(error.isActive);
+  });
 
   return (
     <>

@@ -1,5 +1,5 @@
 import {
-  Button, Header, Modal, ModalActions, ModalDescription, Form, FormField, FormInput, FormSelect, Search, FormGroup, FormTextArea, Message,
+  Button, Header, Modal, Form, Message,
 } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
 import _ from 'lodash';
@@ -80,33 +80,40 @@ const AddReservationModal = ({ open, setOpen }) => {
   return (
     <>
       <Header>Add Reservation</Header>
-      <ModalDescription>
+      <Modal.Description>
         <Form>
-          <FormSelect fluid label="Seat" placeholder="Seat" options={seats} onChange={e => setSeat(e.target.innerText)} required />
-          <FormGroup widths="equal">
-            <FormField>
+          <Form.Select fluid label="Seat" placeholder="Seat" options={seats} onChange={e => setSeat(e.target.innerText)} required />
+          <Form.Group widths="equal">
+            <Form.Field>
               <UserSearch value={[value, setValue]} searchResults={[searchResults, setSearchResults]} user={[user, setUser]} />
-            </FormField>
-            <FormField>
+            </Form.Field>
+            <Form.Field>
               <input readOnly value={user.title} required />
               <input hidden value={user.id} required />
-            </FormField>
-          </FormGroup>
-          <StartEndGroup start={[start, setStart]} end={[end, setEnd]} weekday={[weekday, setWeekday]} uid={user.id} seat={seat} />
-          <FormGroup label="Expiration" widths="equal">
-            <FormInput label="Expiration Date" type="date" required onChange={({ target }) => setExpires(target.valueAsDate)} />
-          </FormGroup>
-          { error.isActive
+            </Form.Field>
+          </Form.Group>
+          <StartEndGroup
+            start={[start, setStart]}
+            end={[end, setEnd]}
+            weekday={[weekday, setWeekday]}
+            uid={user.id}
+            seat={seat}
+            isError={isError => (isError ? setError({ isActive: isError }) : null)}
+          />
+          <Form.Group label="Expiration" widths="equal">
+            <Form.Input label="Expiration Date" type="date" required onChange={({ target }) => setExpires(target.valueAsDate)} />
+          </Form.Group>
+          { error.isActive && error.content
             ? <Message negative header={error.header} content={error.content} />
             : <div />
           }
-          <FormTextArea label="Reason" required onChange={e => setReason(e.target.value)} />
+          <Form.TextArea label="Reason" required onChange={e => setReason(e.target.value)} />
         </Form>
-      </ModalDescription>
-      <ModalActions>
+      </Modal.Description>
+      <Modal.Actions>
         <Button color="red" onClick={() => setOpen(false)}>Cancel</Button>
         <Button type="submit" color="green" onClick={handleSumbit} disabled={error.isActive}>Submit</Button>
-      </ModalActions>
+      </Modal.Actions>
     </>
   );
 };

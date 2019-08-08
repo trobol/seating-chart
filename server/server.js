@@ -48,8 +48,8 @@ app
 
     let dbConfig = {
       host: MYSQL_HOST,
-      user: 'root',
-      password: '',
+      user: MYSQL_USERNAME,
+      password: MYSQL_PASSWORD,
       database: MYSQL_DATABASE,
     };
     // Mac requires additional configurations in order

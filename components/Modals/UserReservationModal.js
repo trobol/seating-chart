@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Form, Modal, Table } from 'semantic-ui-react';
+import { useState } from 'react';
+import {
+  Form, Modal,
+} from 'semantic-ui-react';
 import axios from 'axios';
 import _ from 'lodash';
 import useInterval from '../Util';
+import UserReservationTable from '../Table/User/Reservation';
+
 
 const UserReservationModal = ({ user }) => {
   const [reservations, setReservations] = useState({});
@@ -16,7 +20,7 @@ const UserReservationModal = ({ user }) => {
     <>
       <Modal.Header> Reservations </Modal.Header>
       <Modal.Description>
-        <Table />
+        <UserReservationTable />
         <Form>
           {'IDK YET'}
         </Form>

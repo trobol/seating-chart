@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const FeedEvent = ({ image, content, date }) => (
   <Feed.Event>
-    <Feed.Label image={`/static/users/${image}.jpg`} />
+    <Feed.Label image={image} />
     <Feed.Content>
       <Feed.Date>{moment(date).fromNow()}</Feed.Date>
       <Feed.Summary>{content}</Feed.Summary>
