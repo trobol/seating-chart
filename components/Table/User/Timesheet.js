@@ -1,18 +1,13 @@
 import { useState } from 'react';
-import { Table, Button, Message } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import axios from 'axios';
 import _ from 'lodash';
-import { BaseModal } from '../../Modals';
+import moment from 'moment';
 import useInterval from '../../Util';
 
+// TODO: Pagination of timesheet
 const UserTimesheetTable = () => {
   const [data, setData] = useState(null);
-  const [selectedReservation, setSelectedReservation] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [activeModal, setActiveModal] = useState('');
-  const deleteAction = (row) => {
-    Promise.resolve(axios.post(`/api/users/reservations/${row.id}`));
-  };
 
   useInterval(() => {
     Promise.resolve(axios.get('/api/users/timesheets')).then((res) => {
@@ -43,6 +38,8 @@ const UserTimesheetTable = () => {
                   : (<div />)}
                 {Object.keys(shift).map((key) => {
                   if (key === 'uid' || key === 'tid') return null;
+                  if (key === 'hours') return (<Table.Cell>{shift[key].toFixed(2)}</Table.Cell>);
+                  if (key === 'login' || key === 'logout') return (<Table.Cell>{moment(shift[key]).format('MM/DD/YY hh:mma')}</Table.Cell>);
                   return (<Table.Cell>{shift[key]}</Table.Cell>);
                 })}
               </Table.Row>
@@ -52,14 +49,6 @@ const UserTimesheetTable = () => {
           )}
         </Table.Body>
       </Table>
-      <BaseModal
-        open={open}
-        setOpen={setOpen}
-        setActive={setActiveModal}
-        active={activeModal}
-        action={deleteAction}
-        data={selectedReservation}
-      />
     </>
   );
 };

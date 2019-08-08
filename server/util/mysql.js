@@ -25,8 +25,8 @@ module.exports = (app) => {
     mysqldump({
       connection: {
         host: MYSQL_HOST,
-        user: 'root',
-        password: '',
+        user: MYSQL_USERNAME,
+        password: MYSQL_PASSWORD,
         database: MYSQL_DATABASE,
       },
       dumpToFile: `./.database/${moment().format('x')}.sql`,

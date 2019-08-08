@@ -44,12 +44,23 @@ const CreateUserModal = ({ open, setOpen }) => {
     setImage(e.target.files[0]);
     setImageSource(URL.createObjectURL(e.target.files[0]));
   };
-  const handleUserName = (_, d) => {
-    const regExp = new RegExp('^[a-zA-Z ]*$');
-    if (regExp.test(d.value)) {
-      setName(d.value);
-      setUserName(d.value.toLowerCase().replace(' ', '.'));
+  const handleUserName = (_, { value }) => {
+    const regExp = new RegExp(/^([a-z])(?:[a-z'\-]+) ([a-z'\- ]+)/i);
+    const match = value.toLowerCase().match(regExp);
+    if (match) {
+      setName(value);
+      console.log(match);
+      console.log(match[2].replace(/['\- ] /, ''));
+      setUserName(match[1] + match[2].replace(/[ \-']/g, ''));
     }
+    /*
+    if (regExp.test(value)) {
+      setName(value);
+      const splitName = value.toLowerCase().split(' ');
+      console.log({ splitName });
+      // TODO: Username first initial last name
+      setUserName(value.toLowerCase().split(' '));
+    } */
   };
   const handleSumbit = () => {
     const filename = name.replace(' ', '');

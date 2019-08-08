@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  Button, Header, Modal, Form, Image, Container,
+  Form, Image,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -12,6 +12,8 @@ const EditUserForm = ({ user }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [passwordReset, setPasswordReset] = useState(false);
   const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState(undefined);
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState(undefined);
   const [allMajors, setAllMajors] = useState([]);
   const [allUserType, setAllUserType] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
@@ -22,7 +24,9 @@ const EditUserForm = ({ user }) => {
 
   const handleSumbit = () => {
     setIsSubmitting(true);
-    Promise.resolve(axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}` : `/api/users/edit/${user.idusers}`))
+    Promise.resolve(axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}` : '/api/users/edit/', {
+      passwordReset, password, newPassword, major, userType, project,
+    }))
       .then((res) => {
         console.log(res);
         setIsSubmitting(false);
@@ -36,9 +40,12 @@ const EditUserForm = ({ user }) => {
       axios.get('/api/users/user-types'),
       axios.get('/api/users/projects'),
     ]).then((res) => {
-      setAllMajors(res[0].data.majors.map(e => ({ key: e.idmajor, text: e.major, value: e.idmajor })));
-      setAllUserType(res[1].data.userType.map(e => ({ key: e.iduser_type, text: e.type, value: e.iduser_type })));
-      setAllProjects(res[2].data.projects.map(e => ({ key: e.idprojects, text: e.project, value: e.idprojects })));
+      setAllMajors(res[0].data.majors
+        .map(e => ({ key: e.idmajor, text: e.major, value: e.idmajor })));
+      setAllUserType(res[1].data.userType
+        .map(e => ({ key: e.iduser_type, text: e.type, value: e.iduser_type })));
+      setAllProjects(res[2].data.projects
+        .map(e => ({ key: e.idprojects, text: e.project, value: e.idprojects })));
     });
   }, []);
   // Automatically fills in form with correct information
@@ -73,6 +80,14 @@ const EditUserForm = ({ user }) => {
     passwordReset ? setPassword('ChangeMe!') : null;
   }, [passwordReset]);
 
+  useEffect(() => {
+    console.log({ newPassword, newPasswordConfirm });
+    if (newPassword !== undefined && newPasswordConfirm !== undefined) {
+      if (newPassword === newPasswordConfirm);
+      else console.error({ newPassword, newPasswordConfirm }, ' do not match');
+    }
+  }, [newPassword, newPasswordConfirm]);
+
   return (
     <div className="user__edit__form__container">
       <Image src={user.path} className="user__edit__form__image" />
@@ -95,18 +110,18 @@ const EditUserForm = ({ user }) => {
           )
           : (
             <Form.Group>
-              <Form.Input focus type="password" label="Current Password" />
-              <Form.Input focus type="password" label="New Password" />
-              <Form.Input focus type="password" label="Confirm New Password" />
+              <Form.Input focus type="password" label="Current Password" onChange={e => setPassword(e.target.value)} />
+              <Form.Input focus type="password" label="New Password" onBlur={e => setNewPassword(e.target.value)} />
+              <Form.Input focus type="password" label="Confirm New Password" onBlur={e => setNewPasswordConfirm(e.target.value)} />
             </Form.Group>
           )
         }
-        <Form.Input focus label="Primary Phone" placeholder="(XXX)XXX-XXXX" />
-        <Form.Input focus type="file" placeholder={user.image} />
+        <Form.Input focus label="Primary Phone" placeholder="(XXX) XXX-XXXX" />
+        <Form.Input focus label="Image Upload (Only JPG)" type="file" placeholder={user.image} />
         {!_.isNull(userType) ? <Form.Select multiple options={allMajors} defaultValue={major} label="Majors" onChange={(_e, d) => setMajor(d.value)} /> : <div /> }
         {!_.isNull(userType) ? <Form.Select multiple options={allUserType} defaultValue={userType} label="User Types" onChange={(_e, d) => setUserType(d.value)} /> : <div /> }
         {!_.isNull(project) ? <Form.Select multiple options={allProjects} defaultValue={project} label="Projects" onChange={(_e, d) => setProject(d.value)} /> : <div /> }
-        <Form.Button onClick={handleSumbit} disabled={isSumbitting}>Update</Form.Button>
+        <Form.Button label="Update" onClick={handleSumbit} disabled={isSumbitting}>Update</Form.Button>
       </Form>
       <style>
         {`

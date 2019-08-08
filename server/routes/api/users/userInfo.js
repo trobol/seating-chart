@@ -23,4 +23,15 @@ module.exports = (app) => {
       res.json({ authenticated: false });
     }
   });
+  app.post('/api/users/edit/', (req, res) => {
+    if (req.isAuthenticated()) {
+      const { user } = req;
+      const {
+        passwordReset, password, newPassword, major, userType, project,
+      } = req.body;
+      res.send({ user, authenticated: true });
+    } else {
+      res.send({ authenticated: false });
+    }
+  });
 };
