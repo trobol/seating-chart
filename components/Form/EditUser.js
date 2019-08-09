@@ -11,12 +11,19 @@ const Pronouns = ['He/Him', 'She/Her', 'They/Them'].map(e => ({ key: e, text: e,
 const EditUserForm = ({ user }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [passwordReset, setPasswordReset] = useState(false);
-  const [password, setPassword] = useState('');
-  const [newPassword, setNewPassword] = useState(undefined);
-  const [newPasswordConfirm, setNewPasswordConfirm] = useState(undefined);
   const [allMajors, setAllMajors] = useState([]);
   const [allUserType, setAllUserType] = useState([]);
   const [allProjects, setAllProjects] = useState([]);
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState(undefined);
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState(undefined);
+  const [name, setName] = useState(undefined);
+  const [pronoun, setPronoun] = useState('');
+  const [username, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [image, setImage] = useState(null);
+  const [imageSource, setImageSource] = useState('');
   const [major, setMajor] = useState(null);
   const [userType, setUserType] = useState(null);
   const [project, setProject] = useState(null);
@@ -24,6 +31,19 @@ const EditUserForm = ({ user }) => {
 
   const handleSumbit = () => {
     setIsSubmitting(true);
+    const filename = user.image;
+    const data = new FormData();
+    data.append('file', image);
+    data.append('filename', filename);
+    data.append('idusers', user.idusers);
+
+    Promise.all([
+      axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}` : '/api/users/edit/', {
+        passwordReset, password, newPassword, major, userType, project, name, pronoun, username, email, phone, image,
+      }),
+      axios.post(isAdmin ? '/api/admin/users/image' : '/api/users/image', data),
+    ]);
+
     Promise.resolve(axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}` : '/api/users/edit/', {
       passwordReset, password, newPassword, major, userType, project,
     }))
@@ -31,6 +51,11 @@ const EditUserForm = ({ user }) => {
         console.log(res);
         setIsSubmitting(false);
       });
+  };
+
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+    setImageSource(URL.createObjectURL(e.target.files[0]));
   };
 
   // Gets all the majors, user types, and projects
@@ -90,14 +115,14 @@ const EditUserForm = ({ user }) => {
 
   return (
     <div className="user__edit__form__container">
-      <Image src={user.path} className="user__edit__form__image" />
+      <Image src={user.path} className="user__edit__form__image" circular />
       <Form className="user__edit__form">
         <Form.Group>
-          <Form.Input focus value={user.name} label="Name" />
-          <Form.Select value={user.pronoun} options={Pronouns} label="Pronouns" />
+          <Form.Input focus value={user.name} label="Name" onChange={(_e, { value }) => setName(value)} />
+          <Form.Select value={user.pronoun} options={Pronouns} label="Pronouns" onChange={(_e, { value }) => setPronoun(value)} />
         </Form.Group>
-        <Form.Input focus value={user.email} label="Email" />
-        <Form.Input focus value={user.username} label="Username" />
+        <Form.Input focus value={user.email} label="Email" onChange={(_e, { value }) => setEmail(value)} />
+        <Form.Input focus value={user.username} label="Username" disabled onChange={(_e, { value }) => setUserName(value)} />
         {isAdmin
           ? (
             <Form.Group>
@@ -116,8 +141,8 @@ const EditUserForm = ({ user }) => {
             </Form.Group>
           )
         }
-        <Form.Input focus label="Primary Phone" placeholder="(XXX) XXX-XXXX" />
-        <Form.Input focus label="Image Upload (Only JPG)" type="file" placeholder={user.image} />
+        <Form.Input focus label="Primary Phone" placeholder="(XXX) XXX-XXXX" onChange={(_e, { value }) => setPhone(value)} />
+        <Form.Input focus label="Image Upload (Only JPG)" type="file" placeholder={user.image} value={imageSource} onChange={handleFileChange} />
         {!_.isNull(userType) ? <Form.Select multiple options={allMajors} defaultValue={major} label="Majors" onChange={(_e, d) => setMajor(d.value)} /> : <div /> }
         {!_.isNull(userType) ? <Form.Select multiple options={allUserType} defaultValue={userType} label="User Types" onChange={(_e, d) => setUserType(d.value)} /> : <div /> }
         {!_.isNull(project) ? <Form.Select multiple options={allProjects} defaultValue={project} label="Projects" onChange={(_e, d) => setProject(d.value)} /> : <div /> }
@@ -147,7 +172,9 @@ EditUserForm.propTypes = {
   user: PropTypes.shape({
     idusers: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
     pronoun: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
     majors: PropTypes.string,
     projects: PropTypes.string,
     userTypes: PropTypes.string,

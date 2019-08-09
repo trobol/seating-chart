@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  Button, Header, Modal, ModalActions, ModalDescription, Form, FormGroup, FormInput, FormSelect, ModalContent, Image,
+  Button, Header, Modal, Form, Image,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -49,18 +49,8 @@ const CreateUserModal = ({ open, setOpen }) => {
     const match = value.toLowerCase().match(regExp);
     if (match) {
       setName(value);
-      console.log(match);
-      console.log(match[2].replace(/['\- ] /, ''));
       setUserName(match[1] + match[2].replace(/[ \-']/g, ''));
     }
-    /*
-    if (regExp.test(value)) {
-      setName(value);
-      const splitName = value.toLowerCase().split(' ');
-      console.log({ splitName });
-      // TODO: Username first initial last name
-      setUserName(value.toLowerCase().split(' '));
-    } */
   };
   const handleSumbit = () => {
     const filename = name.replace(' ', '');
@@ -118,32 +108,32 @@ const CreateUserModal = ({ open, setOpen }) => {
   return (
     <>
       <Header>Add User</Header>
-      <ModalContent image scrolling>
+      <Modal.Content image scrolling>
         <Image wrapped size="medium" src={imageSource} />
-        <ModalDescription>
+        <Modal.Description>
           <Form>
-            <FormGroup>
-              <FormInput focus label="Name" onChange={handleUserName} required />
-              <FormSelect focus options={Pronouns} label="Pronouns" onChange={(_e, d) => setPronoun(d.value)} required />
-            </FormGroup>
-            <FormInput focus label="Email" onChange={(_e, d) => setEmail(d.value)} />
-            <FormInput focus label="Username" value={username} readOnly />
-            <FormGroup>
-              <FormInput focus type="password" label="Password" onChange={(_e, d) => setPassword(d.value)} required />
-              <FormInput focus type="password" label="Confirm Password" onChange={(_e, d) => setPasswordConfirmation(d.value)} required />
-            </FormGroup>
-            <FormInput focus label="Primary Phone" placeholder="(XXX)XXX-XXXX" onChange={(_e, d) => setPhone(d.value)} required />
-            <FormInput focus type="file" label="Image (Must be JPG)" onChange={handleFileChange} required />
-            <FormSelect multiple options={allMajors} label="Majors" onChange={(_e, d) => setMajor(d.value)} />
-            <FormSelect multiple options={allUserType} label="User Types" onChange={(_e, d) => setUserType(d.value)} required />
-            <FormSelect multiple options={allProjects} label="Projects" onChange={(_e, d) => setProjects(d.value)} required />
+            <Form.Group>
+              <Form.Input focus label="Name" onChange={handleUserName} required />
+              <Form.Select focus options={Pronouns} label="Pronouns" onChange={(_e, d) => setPronoun(d.value)} required />
+            </Form.Group>
+            <Form.Input focus label="Email" onChange={(_e, d) => setEmail(d.value)} />
+            <Form.Input focus label="Username" value={username} readOnly />
+            <Form.Group>
+              <Form.Input focus type="password" label="Password" onChange={(_e, d) => setPassword(d.value)} required />
+              <Form.Input focus type="password" label="Confirm Password" onChange={(_e, d) => setPasswordConfirmation(d.value)} required />
+            </Form.Group>
+            <Form.Input focus label="Primary Phone" placeholder="(XXX)XXX-XXXX" onChange={(_e, d) => setPhone(d.value)} required />
+            <Form.Input focus type="file" label="Image (Must be JPG)" onChange={handleFileChange} required />
+            <Form.Select multiple options={allMajors} label="Majors" onChange={(_e, d) => setMajor(d.value)} />
+            <Form.Select multiple options={allUserType} label="User Types" onChange={(_e, d) => setUserType(d.value)} required />
+            <Form.Select multiple options={allProjects} label="Projects" onChange={(_e, d) => setProjects(d.value)} required />
           </Form>
-        </ModalDescription>
-      </ModalContent>
-      <ModalActions>
+        </Modal.Description>
+      </Modal.Content>
+      <Modal.Actions>
         <Button onClick={() => { setOpen(false); resetForm(); }}>Cancel</Button>
         <Button type="submit" onClick={handleSumbit}>Submit</Button>
-      </ModalActions>
+      </Modal.Actions>
     </>
   );
 };

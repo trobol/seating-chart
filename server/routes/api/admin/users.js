@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const bcyrpt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const { isValidPath, ProjectBase } = require('../../../util/utility');
 
 const { SALTROUNDS } = process.env;
@@ -45,7 +45,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       const userTypeSql = 'INSERT INTO `users_user_type`(`u_id`, `ut_id`) VALUES ';
       const projectSql = 'INSERT INTO `user_project`(`u_id`, `p_id`) VALUES ';
       const majorSql = 'INSERT INTO `user_major`(`u_id`,`m_id`) VALUES ';
-      bcyrpt.hash(password, Number(SALTROUNDS), (error, hash) => {
+      bcrypt.hash(password, Number(SALTROUNDS), (error, hash) => {
         app.pool.getConnection((_error, connection) => {
           connection.beginTransaction((err) => {
             if (err) res.send({ err });
@@ -91,16 +91,28 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     }
   });
   app.post('/api/admin/users/image/', isLoggedIn, isAdmin, (req, res) => {
-    console.log(req.files.file, ProjectBase, __dirname);
-    const image = req.files.file;
     // https://codeburst.io/asynchronous-file-upload-with-node-and-react-ea2ed47306dd
-    image.mv(`${ProjectBase}/static/users/${req.body.filename}.jpg`, (err) => {
-      if (err) {
-        res.status(500).send({ err });
-      } else {
-        res.send({ response: 'success' });
-      }
-    });
+    const image = req.files.file;
+    const { filename, idusers } = req.body;
+    const { user } = req;
+    console.log({ image });
+    if (!idusers && !user.path && idusers === user.idusers) {
+      image.mv(`${ProjectBase + user.path}`, (err) => {
+        if (err) {
+          res.status(500).send({ err });
+        } else {
+          res.send({ response: 'success' });
+        }
+      });
+    } else {
+      image.mv(`${ProjectBase}/static/users/${filename}.jpg`, (err) => {
+        if (err) {
+          res.status(500).send({ err });
+        } else {
+          res.send({ response: 'success' });
+        }
+      });
+    }
   });
   // Gets info for individual user
   app.get('api/admin/users/:userId', isLoggedIn, isAdmin, (req, res) => {
@@ -114,10 +126,14 @@ module.exports = (app, isLoggedIn, isAdmin) => {
   });
   // Edit/Update User;
   app.post('api/admin/users/edit/:userId', isLoggedIn, isAdmin, (req, res) => {
+    const sqls = [];
     const uSql = 'UPDATE `users` SET `name`=?,`pronoun`=?,`email`=?,`username`=?,`image`=?,`wiw_id`=?,`primary_phone`=?,`slack_id`=? WHERE idusers=?';
     const {
-      name, pronoun, email, username, image, primaryPhone, wiwId, slackId,
+      passwordReset, password, newPassword, major, userType, project, name, pronoun, username, email, phone,
     } = req.body;
+
+
+
     if (![name, pronoun, email, username, image, primaryPhone].filter(e => e === null).length) {
       const sql = mysql.format(uSql,
         [name, pronoun, email, username, image, wiwId, primaryPhone, slackId]);
@@ -129,6 +145,46 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       res.status(500).send({ response: 'failure' });
     }
   });
+
+  // Used to edit major, userType, or Project
+  // TODO: make regular expression for parameters
+  app.get('/api/admin/users/edit/:userId/:field', isLoggedIn, isAdmin, (req, res) => {
+    res.send(req.params);
+  });
+
+  app.post('/api/admin/users/reset/:userId', isLoggedIn, isAdmin, (req, res) => {
+    const {
+      passwordReset, password, newPassword,
+    } = req.body;
+    const { userId } = req.params;
+
+    try {
+      app.pool.getConnection((_error, connection) => {
+        connection.beginTransaction((err) => {
+          if (err) res.send({ err });
+          else if (passwordReset) {
+            const sql = mysql.format(
+              'SELECT `user_hash`.`password_hash`, `users`.`username`, `users`.`idusers` FROM `users` INNER JOIN `user_hash` ON `users`.`idusers` = `user_hash`.`u_id` WHERE `users`.`username` = ?;', [username],
+            );
+            app.pool.query(sql, (error, results) => {
+              if (error) res.send({ err });
+              if (!results.length) {
+                throw new Error('No User Found');
+              } else {
+                const compare = bcrypt.compareSync(password, results[0].password_hash);
+                if (compare) {
+                  const hash = bcrypt.hashSync(newPassword, Number(SALTROUNDS));
+                }
+              }
+            });
+          }
+        });
+      });
+    } catch (error) {
+      res.send({ error });
+    }
+  });
+
   // Delete User
   app.post('api/admin/users/:userId', isLoggedIn, isAdmin, (req, res) => {
     const uSql = 'DELETE FROM `users` WHERE `idsuers`=?';

@@ -4,7 +4,7 @@ import {
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import axios from 'axios';
-import { EditUserModal, BaseModal } from '../../Modals';
+import { BaseModal } from '../../Modals';
 import SearchAction from '../Search';
 
 const AdminUserTable = () => {
@@ -31,7 +31,10 @@ const AdminUserTable = () => {
     });
   }, []);
 
-  // useEffect(() => { console.log({ selectedUser }); }, [selectedUser]);
+  // useEffect(() => console.log({ data }), [data]);
+
+  // useEffect(() => console.log({ selectedUser }), [selectedUser]);
+
   if (data !== null && data !== undefined && columns !== null && columns !== undefined) {
     return (
       <>
@@ -58,8 +61,8 @@ const AdminUserTable = () => {
           </Table.Header>
           <Table.Body>
             {
-                filterData.map(row => (
-                  <Table.Row onMouseEnter={() => setSelectedUser(data[row.idusers - 1])} key={row.idusers}>
+                filterData.map((row, idx) => (
+                  <Table.Row onMouseEnter={() => setSelectedUser(data[idx])} key={row.idusers}>
                     {
                       Object.keys(row).map((key) => {
                         if (key === 'account_created') {

@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Image } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import EditUserForm from '../../components/Form/EditUser';
 import UserReservationTable from '../../components/Table/User/Reservation';
-import AdminUserTimesheet from '../../components/Table/Timesheets/AdminUserTimesheet';
 import UserTimesheetTable from '../../components/Table/User/Timesheet';
 
 const Pronouns = ['He/Him', 'She/Her', 'They/Them'].map(e => ({ key: e, text: e, value: e }));
