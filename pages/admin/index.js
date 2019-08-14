@@ -20,7 +20,7 @@ const Admin = () => {
   };
   return (
     <Layout>
-      <Menu pointing secondary>
+      <Menu pointing secondary className="admin__menu">
         <img src="/static/lcdi_banner.png" alt="LCDI BANNER" style={{ paddingLeft: '1vw', paddingRight: '1vw' }} />
         <Menu.Item name="home" active={activeItem === 'home'} onClick={handleItemClick} />
         <Menu.Item
@@ -70,6 +70,9 @@ const Admin = () => {
             <ActivityFeed />
             <style>
               {`
+                .admin__menu{
+                  background-color: white !important;
+                }
                 .charts__container{
                 width: 100vw;
                 display:grid;

@@ -123,15 +123,15 @@ const EditUserForm = ({ user }) => {
       <Image src={user.path} className="user__edit__form__image" circular />
       <Form className="user__edit__form">
         <Form.Group>
-          <Form.Input focus value={user.name} label="Name" onChange={(_e, { value }) => setName(value)} />
-          <Form.Select value={user.pronoun} options={Pronouns} label="Pronouns" onChange={(_e, { value }) => setPronoun(value)} />
+          <Form.Input focus defaultValue={user.name} label="Name" onChange={(_e, { value }) => setName(value)} />
+          <Form.Select defaultValue={user.pronoun} options={Pronouns} label="Pronouns" onChange={(_e, { value }) => setPronoun(value)} />
         </Form.Group>
-        <Form.Input focus value={user.email} label="Email" onChange={(_e, { value }) => setEmail(value)} />
-        <Form.Input focus value={user.username} label="Username" disabled onChange={(_e, { value }) => setUserName(value)} />
+        <Form.Input focus defaultValue={user.email} label="Email" onChange={(_e, { value }) => setEmail(value)} />
+        <Form.Input focus defaultValue={user.username} label="Username" disabled onChange={(_e, { value }) => setUserName(value)} />
         {isAdmin
           ? (
             <Form.Group>
-              <Form.Input focus type="password" label="Password" value={password} readOnly />
+              <Form.Input focus type="password" label="Password" defaultValue={password} readOnly />
               <Form.Button className="reset__button" onClick={() => setPasswordReset(true)}>Reset Password</Form.Button>
               <style>
                 {'.reset__button{align-self: flex-end}'}
