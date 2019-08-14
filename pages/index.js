@@ -68,6 +68,7 @@ const Index = () => {
                   image={user.path}
                   name={user.name}
                   info={`Last Clocked In: ${`${date.toLocaleDateString()} ${date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' })}`}`}
+                  clockedIn={isClockedIn}
                 />
                 <UserDropdown open={open} setOpen={() => setOpen(!open)}>
                   {isAdmin
