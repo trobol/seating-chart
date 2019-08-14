@@ -5,6 +5,7 @@ import {
 } from 'semantic-ui-react';
 import { useEffect, useState } from 'react';
 
+// TODO: Link up slack and email buttons
 const MapPopup = ({ seats, seatNum, trigger }) => {
   const [seat, setSeat] = useState(null);
   useEffect(() => {
@@ -23,8 +24,10 @@ const MapPopup = ({ seats, seatNum, trigger }) => {
         <Image size="small" src={seat.image} />
         {seat.name}
         <Divider />
+        {/*
         <Button icon={<Icon name="slack" size="large" />} />
         <Button icon={<Icon name="mail" size="large" />} />
+        */}
       </Popup.Content>
     </Popup>
   ) : trigger);
