@@ -1,18 +1,18 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
-const { isValidPath, ProjectBase } = require('../../../util/utility');
+const { isValidPath, Base } = require('../../../util/utility');
 
 const { SALTROUNDS } = process.env;
 
-
+// untaxed pensions
 module.exports = (app, isLoggedIn, isAdmin) => {
   // Gets All Users
   app.get('/api/admin/users/', isLoggedIn, isAdmin, (req, res) => {
     const sql = 'SELECT u.*, GROUP_CONCAT(DISTINCT p.project SEPARATOR ",") as projects, GROUP_CONCAT(DISTINCT ut.type SEPARATOR ",") as userTypes,  GROUP_CONCAT(DISTINCT m.major SEPARATOR ",") as majors'
     + ' FROM `users` as u '
-    + ' LEFT JOIN `user_project` as up ON u.`idusers` = up.`u_id`'
+    + ' LEFT JOIN `user_projects` as up ON u.`idusers` = up.`u_id`'
     + ' LEFT JOIN `projects` as p ON p.`idprojects` = up.`p_id`'
-    + ' LEFT JOIN `users_user_type` as uut ON u.`idusers` = uut.`u_id`'
+    + ' LEFT JOIN `user_user_type` as uut ON u.`idusers` = uut.`u_id`'
     + ' LEFT JOIN `user_type` as ut ON uut.`ut_id` = ut.`iduser_type`'
     + ' LEFT JOIN `user_major` as um ON u.`idusers` = um.`u_id`'
     + ' LEFT JOIN `major` as m ON m.`idmajor` = um.`m_id`'
@@ -21,7 +21,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       if (error) res.send({ response: error });
       else {
         const resImagePath = results.map(async (user) => {
-          if (await isValidPath(`${ProjectBase}/static/users/${user.image}.jpg`)) {
+          if (await isValidPath(`${Base}/static/users/${user.image}.jpg`)) {
             return { ...user, path: `/static/users/${user.image}.jpg` };
           }
           return { ...user, path: '/static/users/guest.jpg' };
@@ -42,8 +42,8 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       const image = name.replace(' ', '');
       const userSql = 'INSERT INTO `users`(`name`, `pronoun`, `email`, `username`, `image`, `primary_phone`, `account_created`) VALUES (?,?,?,?,?,?,NOW())';
       const hashSql = 'INSERT INTO `user_hash`(`u_id`, `password_hash`) VALUES (?,?)';
-      const userTypeSql = 'INSERT INTO `users_user_type`(`u_id`, `ut_id`) VALUES ';
-      const projectSql = 'INSERT INTO `user_project`(`u_id`, `p_id`) VALUES ';
+      const userTypeSql = 'INSERT INTO `user_user_type`(`u_id`, `ut_id`) VALUES ';
+      const projectSql = 'INSERT INTO `user_projects`(`u_id`, `p_id`) VALUES ';
       const majorSql = 'INSERT INTO `user_major`(`u_id`,`m_id`) VALUES ';
       bcrypt.hash(password, Number(SALTROUNDS), (error, hash) => {
         app.pool.getConnection((_error, connection) => {
@@ -97,7 +97,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     const { user } = req;
     console.log({ image });
     if (!idusers && !user.path && idusers === user.idusers) {
-      image.mv(`${ProjectBase + user.path}`, (err) => {
+      image.mv(`${Base + user.path}`, (err) => {
         if (err) {
           res.status(500).send({ err });
         } else {
@@ -105,7 +105,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
         }
       });
     } else {
-      image.mv(`${ProjectBase}/static/users/${filename}.jpg`, (err) => {
+      image.mv(`${Base}/static/users/${filename}.jpg`, (err) => {
         if (err) {
           res.status(500).send({ err });
         } else {
@@ -115,7 +115,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     }
   });
   // Gets info for individual user
-  app.get('api/admin/users/:userId', isLoggedIn, isAdmin, (req, res) => {
+  app.get('/api/admin/users/:userId', isLoggedIn, isAdmin, (req, res) => {
     const { userId } = req.params;
     const uSql = 'SELECT * FROM `users` WHERE idusers = ?';
     const sql = mysql.format(uSql, userId);
@@ -125,64 +125,74 @@ module.exports = (app, isLoggedIn, isAdmin) => {
     });
   });
   // Edit/Update User;
-  app.post('api/admin/users/edit/:userId', isLoggedIn, isAdmin, (req, res) => {
-    const sqls = [];
-    const uSql = 'UPDATE `users` SET `name`=?,`pronoun`=?,`email`=?,`username`=?,`image`=?,`wiw_id`=?,`primary_phone`=?,`slack_id`=? WHERE idusers=?';
+  app.post('/api/admin/users/edit/:userId', isLoggedIn, isAdmin, (req, res) => {
     const {
-      passwordReset, password, newPassword, major, userType, project, name, pronoun, username, email, phone,
+      name, pronoun, username, email,
     } = req.body;
-
-
-
-    if (![name, pronoun, email, username, image, primaryPhone].filter(e => e === null).length) {
-      const sql = mysql.format(uSql,
-        [name, pronoun, email, username, image, wiwId, primaryPhone, slackId]);
-      app.pool.query(sql).then((error, results) => {
-        if (error) throw error;
-        res.send({ response: results });
-      });
-    } else {
-      res.status(500).send({ response: 'failure' });
-    }
+    const { userId } = req.params;
+    const body = {
+      name, pronoun, email, username,
+    };
+    const sqlValues = Object.keys(body)
+      .filter(key => body[key] !== null && body[key] !== undefined)
+      .flatMap(key => mysql.format('??=?', [key, body[key]]))
+      .join(',');
+    console.log(sqlValues);
+    app.pool.query(`UPDATE users SET ${sqlValues} WHERE idusers=?`, [userId], (error, result) => {
+      if (error) res.send({ error });
+      else res.send({ result });
+    });
   });
 
   // Used to edit major, userType, or Project
   // TODO: make regular expression for parameters
-  app.get('/api/admin/users/edit/:userId/:field', isLoggedIn, isAdmin, (req, res) => {
-    res.send(req.params);
-  });
-
-  app.post('/api/admin/users/reset/:userId', isLoggedIn, isAdmin, (req, res) => {
-    const {
-      passwordReset, password, newPassword,
-    } = req.body;
-    const { userId } = req.params;
-
-    try {
-      app.pool.getConnection((_error, connection) => {
-        connection.beginTransaction((err) => {
-          if (err) res.send({ err });
-          else if (passwordReset) {
-            const sql = mysql.format(
-              'SELECT `user_hash`.`password_hash`, `users`.`username`, `users`.`idusers` FROM `users` INNER JOIN `user_hash` ON `users`.`idusers` = `user_hash`.`u_id` WHERE `users`.`username` = ?;', [username],
-            );
-            app.pool.query(sql, (error, results) => {
-              if (error) res.send({ err });
-              if (!results.length) {
-                throw new Error('No User Found');
-              } else {
-                const compare = bcrypt.compareSync(password, results[0].password_hash);
-                if (compare) {
-                  const hash = bcrypt.hashSync(newPassword, Number(SALTROUNDS));
-                }
-              }
-            });
+  app.post('/api/admin/users/edit/:userId/:table', isLoggedIn, isAdmin, (req, res) => {
+    const { userId, table } = req.params;
+    const connectingTable = `user_${table}`;
+    const { newIds } = req.body;
+    app.pool.query('DELETE FROM ?? WHERE u_id = ?', [connectingTable, userId], (error, result) => {
+      if (error) res.send({ error });
+      else {
+        const newIdsSql = `INSERT INTO ?? VALUES ${newIds.map(e => mysql.format('(?,?)', [userId, Number(e)])).join(',')}`;
+        app.pool.query(newIdsSql, [connectingTable], (errors, results) => {
+          if (errors) res.send({ errors });
+          else {
+            res.send({ result, results });
           }
         });
+      }
+    });
+  });
+  // Resets users password
+  app.post('/api/admin/users/reset/:userId', isLoggedIn, isAdmin, (req, res) => {
+    const {
+      password, newPassword,
+    } = req.body;
+    const { userId } = req.params;
+    app.pool.query('SELECT `user_hash`.`password_hash`, `users`.`username`, `users`.`idusers` FROM `users` INNER JOIN `user_hash` ON `users`.`idusers` = `user_hash`.`u_id` WHERE `users`.`idusers` = ?;',
+      [userId],
+      (error, results) => {
+        if (error) res.send({ error });
+        else if (!results.length) {
+          throw new Error('No User Found');
+        } else {
+          const [user] = results;
+          bcrypt.compare(password, user.password_hash, (cmpErr, isMatch) => {
+            if (cmpErr) res.send({ error: cmpErr });
+            else if (isMatch) {
+              bcrypt.hash(newPassword, Number(SALTROUNDS), (hashErr, hash) => {
+                if (hashErr) res.send({ error: hashErr });
+                app.pool.query('UPDATE user_hash SET password_hash=? WHERE u_id=?', [hash, userId], (errors, result) => {
+                  if (errors) res.send({ error: errors });
+                  else res.send({ result });
+                });
+              });
+            } else {
+              res.send({ error: 'Does Not Match' });
+            }
+          });
+        }
       });
-    } catch (error) {
-      res.send({ error });
-    }
   });
 
   // Delete User

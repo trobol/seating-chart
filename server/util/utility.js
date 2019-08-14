@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const util = require('util');
 
-const ProjectBase = path.resolve('.');
+const Base = path.resolve('.');
 
 const stat = util.promisify(fs.stat);
 /**
@@ -19,7 +19,7 @@ const isValidPath = async (possiblePath) => {
 };
 
 module.exports = {
-  ProjectBase,
+  Base,
   stat,
   isValidPath,
 };

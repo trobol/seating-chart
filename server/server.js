@@ -10,7 +10,7 @@ const cors = require('cors');
 const os = require('os');
 
 
-// const flash = require('connect-flash');
+const flash = require('connect-flash');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -42,7 +42,7 @@ app
     };
 
     server.use(session(sess));
-    // server.use(flash());
+    server.use(flash());
     server.use(cors());
     server.use(fileUpload());
 
@@ -84,7 +84,7 @@ app
     // This will handle if the user is an admin
     const isAdmin = (req, res, handleNext) => {
       const id = req.user.idusers;
-      const uSql = 'SELECT * FROM `users_user_type` as uut WHERE uut.`u_id` = ? AND uut.`ut_id` = 1';
+      const uSql = 'SELECT * FROM `user_user_type` as uut WHERE uut.`u_id` = ? AND uut.`ut_id` = 1';
       const sql = mysql.format(uSql, [id]);
       server.pool.query(sql, (err, results) => {
         if (results !== null && results.length === 1) {

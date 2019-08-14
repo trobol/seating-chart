@@ -37,20 +37,25 @@ const EditUserForm = ({ user }) => {
     data.append('filename', filename);
     data.append('idusers', user.idusers);
 
+    const promises = [
+      [name, pronoun, username, email].filter(e => !!e).length
+        ? axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}` : '/api/users/edit/', {
+          name, pronoun, username, email,
+        })
+        : null,
+      axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}/projects` : '/api/users/edit/projects', { newIds: project }),
+      axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}/major` : '/api/users/edit/major', { newIds: major }),
+      axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}/user_type` : '/api/users/edit/user_type', { newIds: userType }),
+      newPassword !== undefined && newPasswordConfirm !== undefined && newPassword === newPasswordConfirm
+        ? axios.post(isAdmin ? `/api/admin/users/reset/${user.idusers}` : '/api/users/reset', { password, newPassword })
+        : null,
+    ].filter(e => e !== null);
     Promise.all([
       axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}` : '/api/users/edit/', {
-        passwordReset, password, newPassword, major, userType, project, name, pronoun, username, email, phone, image,
+        major, userType, project, name, pronoun, username, email, phone, image,
       }),
-      axios.post(isAdmin ? '/api/admin/users/image' : '/api/users/image', data),
-    ]);
-
-    Promise.resolve(axios.post(isAdmin ? `/api/admin/users/edit/${user.idusers}` : '/api/users/edit/', {
-      passwordReset, password, newPassword, major, userType, project,
-    }))
-      .then((res) => {
-        console.log(res);
-        setIsSubmitting(false);
-      });
+    ])
+      .then(res => setIsSubmitting(false));
   };
 
   const handleFileChange = (e) => {
@@ -141,8 +146,6 @@ const EditUserForm = ({ user }) => {
             </Form.Group>
           )
         }
-        <Form.Input focus label="Primary Phone" placeholder="(XXX) XXX-XXXX" onChange={(_e, { value }) => setPhone(value)} />
-        <Form.Input focus label="Image Upload (Only JPG)" type="file" placeholder={user.image} value={imageSource} onChange={handleFileChange} />
         {!_.isNull(userType) ? <Form.Select multiple options={allMajors} defaultValue={major} label="Majors" onChange={(_e, d) => setMajor(d.value)} /> : <div /> }
         {!_.isNull(userType) ? <Form.Select multiple options={allUserType} defaultValue={userType} label="User Types" onChange={(_e, d) => setUserType(d.value)} /> : <div /> }
         {!_.isNull(project) ? <Form.Select multiple options={allProjects} defaultValue={project} label="Projects" onChange={(_e, d) => setProject(d.value)} /> : <div /> }
@@ -167,6 +170,9 @@ const EditUserForm = ({ user }) => {
     </div>
   );
 };
+
+// <Form.Input focus label="Image Upload (Only JPG)" type="file" placeholder={user.image} value={imageSource} onChange={handleFileChange} />
+// <Form.Input focus label="Primary Phone" placeholder="(XXX) XXX-XXXX" onChange={(_e, { value }) => setPhone(value)} />
 
 EditUserForm.propTypes = {
   user: PropTypes.shape({

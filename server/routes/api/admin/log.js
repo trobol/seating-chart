@@ -1,4 +1,4 @@
-const { isValidPath, ProjectBase } = require('../../../util/utility');
+const { isValidPath, Base } = require('../../../util/utility');
 
 module.exports = (app, isLoggedIn, isAdmin) => {
   app.get('/api/admin/logs/', isLoggedIn, isAdmin, (req, res) => {
@@ -7,7 +7,7 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       if (error) res.send({ error });
       else {
         const logs = result.map(async (log) => {
-          if (await isValidPath(`${ProjectBase}/static/users/${log.image}.jpg`)) {
+          if (await isValidPath(`${Base}/static/users/${log.image}.jpg`)) {
             return { ...log, image: `/static/users/${log.image}.jpg` };
           }
           return { ...log, image: '/static/users/guest.jpg' };
