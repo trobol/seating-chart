@@ -30,6 +30,7 @@ const UserReservationTable = () => {
   }, []);
   useEffect(() => {
     if (user !== null && allReservations !== null && allReservations !== undefined) {
+      console.log(allReservations.filter(({ uid }) => uid === user.idusers));
       setUserReservations(allReservations.filter(({ uid }) => uid === user.idusers));
     }
   }, [allReservations, user]);
