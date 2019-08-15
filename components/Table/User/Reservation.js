@@ -29,7 +29,7 @@ const UserReservationTable = () => {
       });
   }, []);
   useEffect(() => {
-    if (user !== null) {
+    if (user !== null && allReservations !== null) {
       setUserReservations(allReservations.filter(({ uid }) => uid === user.idusers));
     }
   }, [allReservations, user]);
