@@ -101,16 +101,16 @@ const AddReservationModal = ({ open, setOpen }) => {
             {isAdmin
               ? (
                 <>
-                  <Form.Field>
+                  <Form.Field label="Search">
                     <UserSearch value={[value, setValue]} searchResults={[searchResults, setSearchResults]} user={[user, setUser]} />
                   </Form.Field>
-                  <Form.Field>
+                  <Form.Field label="User">
                     <input readOnly value={user.title} required />
                   </Form.Field>
                 </>
               )
               : (
-                <Form.Field>
+                <Form.Field label="Name">
                   <input readOnly value={user.name} required />
                 </Form.Field>
               )}
