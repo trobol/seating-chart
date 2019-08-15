@@ -22,13 +22,13 @@ const UserReservationTable = () => {
   useEffect(() => {
     Promise.resolve(axios.get('/api/users/get-user/'))
       .then((res) => {
-        console.log(res.data.user);
         if (res.data.user) {
           setUser(res.data.user);
         }
       });
   }, []);
   useEffect(() => {
+    console.log(allReservations, user);
     if (user !== null && allReservations !== null && allReservations !== undefined) {
       console.log(allReservations.filter(({ uid }) => uid === user.idusers));
       setUserReservations(allReservations.filter(({ uid }) => uid === user.idusers));
@@ -37,9 +37,9 @@ const UserReservationTable = () => {
 
   useInterval(() => {
     Promise.resolve(axios.get('/api/users/reservations/')).then((res) => {
-      const { result } = res.data;
-      if (!_.isEqual(result, allReservations)) {
-        setAllReservations(result);
+      const { results } = res.data;
+      if (!_.isEqual(results, allReservations)) {
+        setAllReservations(results);
       }
     });
   }, 1000);
