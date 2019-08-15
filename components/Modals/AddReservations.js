@@ -79,8 +79,9 @@ const AddReservationModal = ({ open, setOpen }) => {
   // TODO: Data Validation
   const handleSumbit = () => {
     console.log('submitting data');
+    const uid = isAdmin ? user.idusers : user.id;
     const postData = {
-      uid: user.id, sid: seat, start, end, weekday, expires, reason,
+      uid, sid: seat, start, end, weekday, expires, reason,
     };
     // Unable to post using the post body with axios others were having the same issues
     // I used params and the api reflects those changes
@@ -99,11 +100,21 @@ const AddReservationModal = ({ open, setOpen }) => {
           <Form.Group widths="equal">
             {isAdmin
               ? (
-                <Form.Field>
-                  <UserSearch value={[value, setValue]} searchResults={[searchResults, setSearchResults]} user={[user, setUser]} />
-                </Form.Field>
+                <>
+                  <Form.Field>
+                    <UserSearch value={[value, setValue]} searchResults={[searchResults, setSearchResults]} user={[user, setUser]} />
+                  </Form.Field>
+                  <Form.Field>
+                    <input readOnly value={user.title} required />
+                  </Form.Field>
+                </>
               )
-              : (<div />)}
+              : (
+                <Form.Field>
+                  <input readOnly value={user.name} required />
+                </Form.Field>
+              )}
+
             <Form.Field>
               <input readOnly value={user.title} required />
               <input hidden value={user.id} required />
