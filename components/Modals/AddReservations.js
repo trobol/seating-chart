@@ -87,8 +87,8 @@ const AddReservationModal = ({ open, setOpen }) => {
     // Unable to post using the post body with axios others were having the same issues
     // I used params and the api reflects those changes
     Promise.resolve(axios({ method: 'post', url, params: postData }))
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .then(res => console.log({ res }))
+      .catch(err => console.log({ err }));
     setOpen(false);
   };
 
