@@ -4,10 +4,12 @@ import Link from 'next/link';
 
 const UserCardLogin = () => (
   <Card.Content className="user__login">
-    <Button fluid>
-      <Icon name="sign in" />
-      <Link href="/login" prefetch><a href="/login">Login</a></Link>
-    </Button>
+    <Link href="/login" prefetch>
+      <Button fluid>
+        <Icon name="sign in" />
+        <a>Login</a>
+      </Button>
+    </Link>
     <style />
   </Card.Content>
 );
