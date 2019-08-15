@@ -160,6 +160,7 @@ const EditUserForm = ({ user }) => {
             grid-column-gap: 1%;
         }
         .user__edit__form__image{
+            min-width
             grid-area: image;
         }
         .user__edit__form{

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card } from 'semantic-ui-react';
+import { Card, Menu } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import EditUserForm from '../../components/Form/EditUser';
 import UserReservationTable from '../../components/Table/User/Reservation';
 import UserTimesheetTable from '../../components/Table/User/Timesheet';
+import { BackgroundColor } from '../../components/Constants';
 
 const Pronouns = ['He/Him', 'She/Her', 'They/Them'].map(e => ({ key: e, text: e, value: e }));
 
@@ -31,6 +32,16 @@ const Manage = () => {
 
   return (
     <Layout>
+      <Menu pointing secondary className="user__menu">
+        <img src="/static/lcdi_banner.png" alt="LCDI BANNER" style={{ paddingLeft: '1vw', paddingRight: '1vw' }} />
+        <Menu.Menu position="right">
+          <Menu.Item
+            name="return"
+            link
+            href="/"
+          />
+        </Menu.Menu>
+      </Menu>
       <div className="user__manage">
         <Card fluid className="user__manage__information">
           <h1>User Information</h1>
@@ -55,7 +66,11 @@ const Manage = () => {
       </div>
       <style>
         {`
-        @media only screen and (min-width: 1250px) {
+
+        .user__menu{
+          background-color: white !important;
+        }
+        @media only screen and (min-width: 1300px) {
           .user__manage{
             height: 95vh;
             top: 2.5vh;

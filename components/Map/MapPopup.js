@@ -18,7 +18,7 @@ const MapPopup = ({ seats, seatNum, trigger }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seats]);
   return (seat ? (
-    <Popup trigger={trigger} hoverable>
+    <Popup trigger={trigger} hoverable closeOnPortalMouseLeave>
       <Popup.Header>{seat.computerName}</Popup.Header>
       <Popup.Content>
         <Image size="small" src={seat.image} />

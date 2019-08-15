@@ -61,7 +61,12 @@ const UserReservationTable = () => {
             </Table.Row>
           </Table.Footer>
         </Table>
-      ) : (<Message content="You have no reservations" />)}
+      ) : (
+        <Message>
+          {'You have no reservations   '}
+          <Button icon="time" content="Add Reservation" onClick={() => setActiveModal('add-reservations')} />
+        </Message>
+      )}
       <BaseModal
         open={open}
         setOpen={setOpen}
