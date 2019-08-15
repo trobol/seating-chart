@@ -19,6 +19,7 @@ const UserReservationTable = () => {
   };
   useInterval(() => {
     Promise.resolve(axios.get('/api/users/reservations/')).then((res) => {
+      console.log({ res });
       const { result } = res.data;
       if (!_.isEqual(result, data)) {
         setData(result);
@@ -27,7 +28,7 @@ const UserReservationTable = () => {
   }, 1000);
   return (
     <>
-      {data !== null && data !== undefined ? (
+      {data !== null && data !== undefined && !_.isEmpty(data) ? (
         <Table celled compact selectable sortable>
           <Table.Header>
             <Table.Row>
