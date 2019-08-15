@@ -114,11 +114,6 @@ const AddReservationModal = ({ open, setOpen }) => {
                   <input readOnly value={user.name} required />
                 </Form.Field>
               )}
-
-            <Form.Field>
-              <input readOnly value={user.title} required />
-              <input hidden value={user.id} required />
-            </Form.Field>
           </Form.Group>
           <StartEndGroup
             start={[start, setStart]}
