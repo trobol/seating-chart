@@ -79,13 +79,14 @@ const AddReservationModal = ({ open, setOpen }) => {
   // TODO: Data Validation
   const handleSumbit = () => {
     console.log('submitting data');
+    const url = isAdmin ? '/api/admin/reservations' : '/api/users/reservations';
     const uid = isAdmin ? user.idusers : user.id;
     const postData = {
       uid, sid: seat, start, end, weekday, expires, reason,
     };
     // Unable to post using the post body with axios others were having the same issues
     // I used params and the api reflects those changes
-    Promise.resolve(axios({ method: 'post', url: '/api/admin/reservations', params: postData }))
+    Promise.resolve(axios({ method: 'post', url, params: postData }))
       .then(res => console.log(res))
       .catch(err => console.log(err));
     setOpen(false);
@@ -101,16 +102,16 @@ const AddReservationModal = ({ open, setOpen }) => {
             {isAdmin
               ? (
                 <>
-                  <Form.Field label="Search">
+                  <Form.Field>
                     <UserSearch value={[value, setValue]} searchResults={[searchResults, setSearchResults]} user={[user, setUser]} />
                   </Form.Field>
-                  <Form.Field label="User">
+                  <Form.Field>
                     <input readOnly value={user.title} required />
                   </Form.Field>
                 </>
               )
               : (
-                <Form.Field label="Name">
+                <Form.Field>
                   <input readOnly value={user.name} required />
                 </Form.Field>
               )}
