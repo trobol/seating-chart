@@ -1,7 +1,15 @@
 const mysql = require('mysql');
 const moment = require('moment');
 
-module.exports = (app) => {
+module.exports = (app, isLoggedIn) => {
+  // Gets All Reservation Info
+  app.get('/api/users/reservations', isLoggedIn, (req, res) => {
+    const sql = 'SELECT r.idreservations as id, r.s_id as "seat", u.name, u.idusers as uid, r.weekday, r.start, r.end, r.expires, r.reason FROM `reservations` as r INNER JOIN `users` as u ON r.u_id = u.idusers';
+    app.pool.query(sql, (error, results, fields) => {
+      if (error) res.send({ response: error });
+      res.send({ results, fields });
+    });
+  });
   app.get('/api/users/reservations/today', (req, res) => {
     if (req.isAuthenticated()) {
       const { user } = req;

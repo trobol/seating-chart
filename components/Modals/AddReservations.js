@@ -30,7 +30,7 @@ const AddReservationModal = ({ open, setOpen }) => {
 
 
   useInterval(() => {
-    Promise.resolve(axios.get('/api/admin/reservations/')).then((res) => {
+    Promise.resolve(axios.get('/api/users/reservations/')).then((res) => {
       const { results } = res.data;
       if (!_.isEqual(reservations, results)) setReservations(results);
     });
