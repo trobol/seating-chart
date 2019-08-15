@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
+const _ = require('lodash');
 const { isValidPath, Base } = require('../../../util/utility');
 
 const { SALTROUNDS } = process.env;
@@ -21,10 +22,16 @@ module.exports = (app, isLoggedIn, isAdmin) => {
       if (error) res.send({ response: error });
       else {
         const resImagePath = results.map(async (user) => {
+          const { majors, userTypes, projects } = user;
+          const mput = {
+            majors: (!_.isUndefined(majors) && !_.isEmpty(majors) ? majors.split(',') : []),
+            userTypes: (!_.isUndefined(userTypes) && !_.isEmpty(userTypes) ? userTypes.split(',') : []),
+            projects: (!_.isUndefined(projects) && !_.isEmpty(projects) ? projects.split(',') : []),
+          };
           if (await isValidPath(`${Base}/static/users/${user.image}.jpg`)) {
-            return { ...user, path: `/static/users/${user.image}.jpg` };
+            return { ...user, ...mput, path: `/static/users/${user.image}.jpg` };
           }
-          return { ...user, path: '/static/users/guest.jpg' };
+          return { ...user, ...mput, path: '/static/users/guest.jpg' };
         });
         Promise.all(resImagePath).then((result) => {
           res.send({ response: { results: result, fields } });

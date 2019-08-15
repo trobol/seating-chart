@@ -82,16 +82,17 @@ const EditUserForm = ({ user }) => {
   // about a users major, user type, and projects
   useEffect(() => {
     const { majors, userTypes, projects } = user;
+    console.log({ majors, userTypes, projects });
     if (!_.isUndefined(majors) && !_.isEmpty(majors) && !_.isEmpty(allMajors)) {
-      const m = majors.split(',').reduce((acc, el) => [...acc, allMajors.find(elem => elem.text === el).value], []);
+      const m = majors.reduce((acc, el) => [...acc, allMajors.find(elem => elem.text === el).value], []);
       setMajor(!_.isNull(m) ? m : []);
     }
     if (!_.isUndefined(userTypes) && !_.isEmpty(userTypes) && !_.isEmpty(allUserType)) {
-      const ut = userTypes.split(',').reduce((acc, el) => [...acc, allUserType.find(elem => elem.text === el).value], []);
+      const ut = userTypes.reduce((acc, el) => [...acc, allUserType.find(elem => elem.text === el).value], []);
       setUserType(!_.isNull(ut) ? ut : []);
     }
     if (!_.isUndefined(projects) && !_.isEmpty(projects) && !_.isEmpty(allProjects)) {
-      const p = projects.split(',').reduce((acc, el) => [...acc, allProjects.find(elem => elem.text === el).value], []);
+      const p = projects.reduce((acc, el) => [...acc, allProjects.find(elem => elem.text === el).value], []);
       setProject(!_.isNull(p) ? p : []);
     }
   }, [allMajors, allProjects, allUserType, user]);

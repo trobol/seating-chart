@@ -27,7 +27,20 @@ const AddReservationModal = ({ open, setOpen }) => {
   const [reason, setReason] = useState('');
   const [reservations, setReservations] = useState(null);
   const [error, setError] = useState({ isActive: false, header: 'Error', content: 'No Error' });
+  const [isAdmin, setIsAdmin] = useState(false);
 
+  useEffect(() => {
+    Promise.resolve(axios.get('/api/users/get-user/'))
+      .then((res) => {
+        console.log(res.data.user);
+        if (res.data.user) {
+          setUser(res.data.user);
+          if (res.data.user.userTypes && res.data.user.userTypes.includes('Admin')) {
+            setIsAdmin(true);
+          }
+        }
+      });
+  }, []);
 
   useInterval(() => {
     Promise.resolve(axios.get('/api/users/reservations/')).then((res) => {
@@ -84,9 +97,13 @@ const AddReservationModal = ({ open, setOpen }) => {
         <Form>
           <Form.Select fluid label="Seat" placeholder="Seat" options={seats} onChange={e => setSeat(e.target.innerText)} required />
           <Form.Group widths="equal">
-            <Form.Field>
-              <UserSearch value={[value, setValue]} searchResults={[searchResults, setSearchResults]} user={[user, setUser]} />
-            </Form.Field>
+            {isAdmin
+              ? (
+                <Form.Field>
+                  <UserSearch value={[value, setValue]} searchResults={[searchResults, setSearchResults]} user={[user, setUser]} />
+                </Form.Field>
+              )
+              : (<div />)}
             <Form.Field>
               <input readOnly value={user.title} required />
               <input hidden value={user.id} required />

@@ -1,6 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
+const _ = require('lodash');
 
 module.exports = (passport, server) => {
   passport.serializeUser((user, done) => {
@@ -24,7 +25,12 @@ module.exports = (passport, server) => {
       if (error) {
         done(error, results);
       } else {
-        done(error, results[0]);
+        const [user] = results;
+        const { majors, userTypes, projects } = user;
+        user.majors = (!_.isUndefined(majors) && !_.isEmpty(majors) ? majors.split(',') : []);
+        user.userTypes = (!_.isUndefined(userTypes) && !_.isEmpty(userTypes) ? userTypes.split(',') : []);
+        user.projects = (!_.isUndefined(projects) && !_.isEmpty(projects) ? projects.split(',') : []);
+        done(error, user);
       }
     });
   });
