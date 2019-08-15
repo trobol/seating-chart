@@ -10,9 +10,9 @@ const UserLogFeed = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useInterval(() => {
-    Promise.resolve(axios.get('/api/admin/logs/')).then((res) => {
+    Promise.resolve(axios.get('/api/users/activity/')).then((res) => {
       const { result, error } = res.data;
-      if (result) setEvents(res.data.result);
+      if (result) setEvents(result);
       else console.error(error);
     });
   }, 5000);

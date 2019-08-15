@@ -52,11 +52,15 @@ const Index = () => {
   }, 1500);
   return (
     <Layout>
+
       <div className="grid__container">
-        <div className="timesheet">
-          <ReservationProgess />
-          <UserLogFeed />
-        </div>
+        {authenticated
+          ? (
+            <div className="timesheet">
+              <ReservationProgess />
+              <UserLogFeed />
+            </div>
+          ) : (<div />)}
         <div className="map__container">
           <SeatingMap link="/api/map/seats" />
           <UserCard>
@@ -90,9 +94,16 @@ const Index = () => {
         )}
           </UserCard>
         </div>
-        <div className="active__user">
-          <OnlineUsersFeed />
-        </div>
+        {authenticated
+          ? (
+            <div className="active__user">
+              <OnlineUsersFeed />
+            </div>
+          )
+          : (
+            <div />
+          )}
+
       </div>
       <style>
         {`
