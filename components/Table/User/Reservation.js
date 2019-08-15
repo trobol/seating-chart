@@ -37,7 +37,6 @@ const UserReservationTable = () => {
 
   useInterval(() => {
     Promise.resolve(axios.get('/api/users/reservations/')).then((res) => {
-      console.log({ res });
       const { result } = res.data;
       if (!_.isEqual(result, allReservations)) {
         setAllReservations(result);
