@@ -25,7 +25,7 @@ const Layout = ({ children }) => (
       {`
         body {
           margin: 0;
-          background-color: ${BackgroundColor};
+          background-color: #ffffff;
           font-family: ${SystemFonts};
         }
     `}

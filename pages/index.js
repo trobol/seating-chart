@@ -14,6 +14,7 @@ import OnlineUsersFeed from '../components/Feed/OnlineUsersFeed';
 import UserLogFeed from '../components/Feed/UserLogFeed';
 import ReservationProgess from '../components/Progress/Reservation';
 import UserReservationTable from '../components/Table/User/Reservation';
+import { BackgroundColor } from '../components/Constants';
 
 const Index = () => {
   const [open, setOpen] = useState(false);
@@ -105,7 +106,9 @@ const Index = () => {
 
       </div>
       <style>
-        {`
+        {` body{
+          background-color: ${BackgroundColor} !important;
+        }
         .timesheet{
           transition: background 1s;
         }
