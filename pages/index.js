@@ -52,7 +52,6 @@ const Index = () => {
   }, 1500);
   return (
     <Layout>
-
       <div className="grid__container">
         {authenticated
           ? (
@@ -62,7 +61,7 @@ const Index = () => {
             </div>
           ) : (<div />)}
         <div className="map__container">
-          <SeatingMap link="/api/map/seats" />
+          <SeatingMap link="/api/seat/reservations" />
           <UserCard>
             {(
           authenticated

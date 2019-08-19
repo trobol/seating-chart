@@ -80,7 +80,7 @@ const AddReservationModal = ({ open, setOpen }) => {
   const handleSumbit = () => {
     console.log('submitting data');
     const url = isAdmin ? '/api/admin/reservations' : '/api/users/reservations';
-    const uid = isAdmin ? user.idusers : user.id;
+    const uid = user.id;
     const postData = {
       uid, sid: seat, start, end, weekday, expires, reason,
     };
@@ -91,6 +91,8 @@ const AddReservationModal = ({ open, setOpen }) => {
       .catch(err => console.log({ err }));
     setOpen(false);
   };
+
+  useEffect(()=> console.log({user}), [user]);
 
   return (
     <>

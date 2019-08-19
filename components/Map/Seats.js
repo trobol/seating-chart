@@ -39,11 +39,14 @@ const seatCircles = [
 
 const Seats = ({ seats }) => {
   const [styledSeats, setStyledSeats] = useState(null);
-  const [seatEvents, setSeatEvents] = useState(null);
-  const seatCirclesNode = useMemo(() => seatCircles.map((seatCircle, idx) => <MapPopup key={Math.random()} trigger={seatCircle} seats={seats || null} seatNum={idx + 1} />), [seats]);
+  const seatCirclesNode = useMemo(() => seatCircles.map((seatCircle, idx) => <MapPopup key={Math.random()} trigger={seatCircle} seat={seats !== null ? seats[`${idx + 1}`] : null} seatNum={idx + 1} />), [seats]);
   useEffect(() => {
-    if (seats !== null) {
-      setStyledSeats(seats.flatMap(seat => `#Seat${seat.sid}{fill:url(#Seat${seat.sid})}`));
+    if (seats !== null && seats !== undefined) {
+      setStyledSeats(Object.keys(seats).flatMap(key => {
+        if (seats[key].suid !== null) return `#Seat${seats[key].sid}{fill:url(#Seat${seats[key].sid})}`;
+        else if (seats[key].reservation) return `#Seat${seats[key].sid}{fill:red}`;
+        else return '';
+      }));
     }
   }, [seats]);
   return (

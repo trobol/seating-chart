@@ -6,7 +6,7 @@ const Def = ({ seats }) => {
   const [patterns, setPatterns] = useState(null);
   useEffect(() => {
     if (seats !== null && seats !== undefined) {
-      setPatterns(seats.map(seat => <UserIconPattern key={`Seat${seat.sid}`} id={`Seat${seat.sid}`} path={seat.image} />));
+      setPatterns(Object.keys(seats).map(key => <UserIconPattern key={`Seat${seats[key].sid}`} id={`Seat${seats[key].sid}`} path={seats[key].path} />));
     }
   }, [seats]);
   return (

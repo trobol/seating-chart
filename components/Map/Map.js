@@ -13,7 +13,7 @@ const SeatingMap = ({ link }) => {
   useInterval(() => {
     Promise.resolve(axios.get(link)).then((res) => {
       try {
-        const { seats } = res.data.response;
+        const { seats } = res.data;
         if (!_.isEqual(data, seats)) {
           setData(seats);
         }

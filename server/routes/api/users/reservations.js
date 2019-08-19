@@ -15,10 +15,13 @@ module.exports = (app, isLoggedIn) => {
       const { user } = req;
       const date = moment();
       const weekday = date.isoWeekday();
-      const sql = mysql.format('SELECT * FROM reservations WHERE u_id=? AND weekday=? AND expires > ?', [user.idusers, weekday, date.format('YYYY-MM-DD HH:mm:ss')]);
+      const sql = mysql.format(`
+      SELECT r.idreservations as rid, r.u_id as uid, s_id as sid, r.weekday, r.start, r.end, r.expires, r.reason 
+      FROM reservations as r 
+      WHERE u_id=? AND weekday=? AND expires > ?`, [user.idusers, weekday, date.format('YYYY-MM-DD HH:mm:ss')]);
       app.pool.query(sql, (error, result) => {
         if (error) res.send({ error });
-        else res.send({ result });
+        else res.send({ reservation: result[0] });
       });
     } else {
       res.send({ authenicated: false });

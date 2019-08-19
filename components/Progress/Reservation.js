@@ -3,7 +3,6 @@ import {
 } from 'semantic-ui-react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-// import useInterval from '../Util';
 import moment from 'moment';
 import useInterval from '../Util';
 
@@ -16,8 +15,7 @@ const ReservationProgess = () => {
   useEffect(() => {
     Promise.resolve(axios.get('/api/users/reservations/today'))
       .then((res) => {
-        console.log({ res });
-        const { start, end } = res.data.result[0];
+        const { start, end } = res.data.reservation;
         if (start && end) {
           setStartTime(moment(start, 'k:m:s'));
           setEndTime(moment(end, 'k:m:s'));

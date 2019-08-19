@@ -1,4 +1,6 @@
 const _ = require('lodash');
+const moment = require('moment');
+const { isValidPath, Base } = require('../../../util/utility');
 
 module.exports = (app, isLoggedIn) => {
   app.get('/api/seat/', (req, res) => {
@@ -16,6 +18,40 @@ module.exports = (app, isLoggedIn) => {
     app.pool.query(sql, [req.user.idusers], (error, result) => {
       if (error) res.status(500).send(error);
       else res.send({ seat: result });
+    });
+  });
+  app.get('/api/seat/reservations', (req, res) => {
+    const now = moment();
+    const weekDay = now.weekday();
+    const time = now.format('HH:mm:ss');
+    const sql = `SELECT 
+    s.idseats as sid, s.u_id as suid, s.computer_name as computerName,
+    r.idreservations as rid, r.u_id as uid, r.weekday, r.start, r.end, r.expires, r.reason,
+    u.image, u.name
+    FROM seats as s 
+    LEFT JOIN reservations as r ON s.idseats = r.s_id
+    LEFT JOIN users as u ON u.idusers = r.u_id
+    WHERE r.expires > NOW() AND r.weekday = ${weekDay} AND r.start < '${time}' AND r.end > '${time}'`;
+    app.pool.query(sql, (error, result) => {
+      if (error) res.status(500).send(error);
+      else {
+        const seats = result.reduce((acc, {
+          sid, uid, computerName, suid, rid, start, end, expires, reason, image, name, weekday,
+        }) => ({
+          ...acc,
+          [sid]: {
+            sid,
+            computerName,
+            suid,
+            name,
+            path: isValidPath(`${Base}/static/users/${image}.jpg`) ? `/static/users/${image}.jpg` : '/static/users/guest.jpg',
+            reservation: {
+              rid, uid, start, end, expires, reason, weekday,
+            },
+          },
+        }), {});
+        res.send({ seats });
+      }
     });
   });
 };

@@ -39,8 +39,8 @@ module.exports = (app, isLoggedIn) => {
       res.send({ response: result });
     });
   });
-  // Delete Request
-  app.delete('api/seat/reserve', (req, res) => {
+  // TODO: Delete Request
+  app.delete('/api/seat/reserve', (req, res) => {
     console.log(req, res);
   });
 };

@@ -1,7 +1,7 @@
 import SeatingMap from '../components/Map/Map';
 
 const Map = () => (
-  <SeatingMap link="/api/map/seats" />
+  <SeatingMap link="/api/seat/reservations" />
 );
 
 export default Map;
