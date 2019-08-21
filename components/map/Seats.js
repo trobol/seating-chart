@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
+import moment from 'moment';
 import MapPopup from './MapPopup';
 
 const seatCircles = [
@@ -42,10 +44,14 @@ const Seats = ({ seats }) => {
   const seatCirclesNode = useMemo(() => seatCircles.map((seatCircle, idx) => <MapPopup key={Math.random()} trigger={seatCircle} seat={seats !== null ? seats[`${idx + 1}`] : null} seatNum={idx + 1} />), [seats]);
   useEffect(() => {
     if (seats !== null && seats !== undefined) {
-      setStyledSeats(Object.keys(seats).flatMap(key => {
+      console.log({ seats });
+      setStyledSeats(Object.keys(seats).flatMap((key) => {
+        const now = moment();
         if (seats[key].suid !== null) return `#Seat${seats[key].sid}{fill:url(#Seat${seats[key].sid})}`;
-        else if (seats[key].reservation) return `#Seat${seats[key].sid}{fill:red}`;
-        else return '';
+        if (!_.isEmpty(seats[key].reservation) && seats[key].reservation.filter(({
+          expires, start, end, weekday,
+        }) => weekday === now.weekday() && moment(expires, 'YYYY-MM-DD HH:mm:ss') > now && moment(end, 'HH:mm:ss') > now && moment(start, 'HH:mm:ss') < now).length) return `#Seat${seats[key].sid}{fill:red}`;
+        return '';
       }));
     }
   }, [seats]);
@@ -59,7 +65,7 @@ const Seats = ({ seats }) => {
   );
 };
 
-Seats.propTypes = {
+/* Seats.propTypes = {
   seats: PropTypes.arrayOf(PropTypes.shape({
     sid: PropTypes.number,
     uid: PropTypes.number,
@@ -67,7 +73,7 @@ Seats.propTypes = {
     name: PropTypes.string,
     path: PropTypes.string,
   })),
-};
+}; */
 
 Seats.defaultProps = {
   seats: null,

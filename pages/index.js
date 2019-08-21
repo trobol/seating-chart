@@ -13,7 +13,6 @@ import { BaseModal } from '../components/Modals';
 import OnlineUsersFeed from '../components/Feed/OnlineUsersFeed';
 import UserLogFeed from '../components/Feed/UserLogFeed';
 import ReservationProgess from '../components/Progress/Reservation';
-import UserReservationTable from '../components/Table/User/Reservation';
 import { BackgroundColor } from '../components/Constants';
 
 const Index = () => {

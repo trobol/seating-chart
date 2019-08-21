@@ -15,10 +15,11 @@ const SeatingMap = ({ link }) => {
       try {
         const { seats } = res.data;
         if (!_.isEqual(data, seats)) {
+          console.log({ seats });
           setData(seats);
         }
       } catch (error) {
-        console.error(error);
+        console.error({ error });
       }
     });
   }, 1500);
