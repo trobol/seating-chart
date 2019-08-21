@@ -40,7 +40,7 @@ module.exports = (app, isLoggedIn) => {
             computerName,
             suid,
             name,
-            path: fs.existsSync(`${Base}/static/users/${image}.jpg`) ? `/static/users/${image}.jpg` : '/static/users/guest.jpg',
+            path: fs.existsSync(`${Base}/static/users/${image}.jpg` !== null) ? `/static/users/${image}.jpg` : '/static/users/guest.jpg',
             reservation: acc[sid] ? [...acc[sid].reservation, {
               rid, uid, start, end, expires, reason, weekday,
             }] : [{
