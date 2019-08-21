@@ -1,6 +1,5 @@
-const _ = require('lodash');
-const moment = require('moment');
-const { isValidPath, Base } = require('../../../util/utility');
+const fs = require('fs');
+const { Base } = require('../../../util/utility');
 
 module.exports = (app, isLoggedIn) => {
   app.get('/api/seat/', (req, res) => {
@@ -41,7 +40,7 @@ module.exports = (app, isLoggedIn) => {
             computerName,
             suid,
             name,
-            path: isValidPath(`${Base}/static/users/${image}.jpg`) ? `/static/users/${image}.jpg` : '/static/users/guest.jpg',
+            path: fs.existsSync(`${Base}/static/users/${image}.jpg`) ? `/static/users/${image}.jpg` : '/static/users/guest.jpg',
             reservation: acc[sid] ? [...acc[sid].reservation, {
               rid, uid, start, end, expires, reason, weekday,
             }] : [{
