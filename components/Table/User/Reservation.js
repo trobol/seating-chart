@@ -54,8 +54,8 @@ const UserReservationTable = () => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {userReservations.map(row => (
-              <Table.Row onMouseEnter={() => setSelectedReservation(userReservations[row.id - 1])}>
+            {userReservations.map((row, idx) => (
+              <Table.Row onMouseEnter={() => setSelectedReservation(userReservations[idx])}>
                 {
             Object.keys(row).map((key) => {
               if (key === 'expires') {

@@ -8,13 +8,13 @@ const {
 
 module.exports = (app) => {
   // logouts all user at midnight
-  cron.schedule('05 08 * * *', () => {
+  cron.schedule('05 20 * * *', () => {
     // eslint-disable-next-line no-console
     console.log('Midnight Mass Logout');
     app.pool.query('UPDATE `user_time_log` SET `logout`=NOW() WHERE `logout` IS NULL');
   });
   // forces all users out of their seats at midnight;
-  cron.schedule('05 08 * * *', () => {
+  cron.schedule('05 20 * * *', () => {
     // eslint-disable-next-line no-console
     console.log('Midnight Mass Seat Removal');
     app.pool.query('UPDATE `seats` SET `u_id`=NULL WHERE `u_id` IS NOT NULL');
