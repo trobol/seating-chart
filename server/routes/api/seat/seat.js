@@ -26,7 +26,7 @@ module.exports = (app, isLoggedIn) => {
     u.image, u.name
     FROM seats as s 
     LEFT JOIN reservations as r ON s.idseats = r.s_id
-    LEFT JOIN users as u ON u.idusers = r.u_id
+    LEFT JOIN users as u ON u.idusers = s.u_id
     WHERE 1`;
     app.pool.query(sql, (error, result) => {
       if (error) res.status(500).send(error);
