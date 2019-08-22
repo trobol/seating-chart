@@ -1,3 +1,9 @@
+/**
+ * SEATING CHART API: Utilities
+ * Author: Kevin Eaton
+ * Editors: N/A
+ * Last Edited: N/A
+ */
 const fs = require('fs');
 const path = require('path');
 const util = require('util');

@@ -1,3 +1,9 @@
+/**
+ * SEATING CHART API: MySQL Cronjobs
+ * Author: Kevin Eaton
+ * Editors: N/A
+ * Last Edited: N/A
+ */
 const cron = require('node-cron');
 const moment = require('moment');
 const mysqldump = require('mysqldump');

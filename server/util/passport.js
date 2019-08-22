@@ -1,3 +1,9 @@
+/**
+ * SEATING CHART API: Passport
+ * Author: Adam Decosta
+ * Editors: Kevin Eaton
+ * Last Edited: N/A
+ */
 const LocalStrategy = require('passport-local').Strategy;
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');

@@ -1,3 +1,10 @@
+/**
+ * SEATING CHART API: Server
+ * Author: Adam Decosta
+ * Editors: Kevin Eaton
+ * Last Edited: N/A
+ */
+
 const next = require('next');
 const express = require('express');
 const mysql = require('mysql');
