@@ -1,21 +1,43 @@
 const next = require('next'),
 	express = require('express'),
-	cookieParser = require('cookie-parser');
+	bodyParser = require('body-parser'),
+	cookieParser = require('cookie-parser'),
+	config = require('../config.js'),
+	mongoose = require('mongoose');
 
+mongoose.connect(`mongodb+srv://${config.mondoUser}:${config.mondoPW}@${config.mondoUrl}`, { useNewUrlParser: true })
+.then(() => console.log('Connected to database'))
+.catch(err => console.log('Failed to connect to database: ' + err));
 
 const app = next({ dev: true });
 
 const handle = app.getRequestHandler();
 
-app
-	.prepare()
-	.then(() => {
-		const server = express();
+app.prepare()
+.then(() => {
+	const server = express();
 
+	//check if user is logged in
+	server.use(cookieParser());
+	server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+		extended: true
+	}));
+	//server.use(require('./authentication.js'));
+
+	server.use('/api', require('./api'));
+
+	server.get('*', (req, res) => {
+		return handle(req, res);
 	});
+	server.listen(3000, (err) => {
+		if (err) throw err;
+		// eslint-disable-next-line no-console
+		console.log('> Ready on http://localhost:3000');
+	});
+})
+.catch((ex) => {
+	console.error(ex.stack)
+	process.exit(1)
+});
 
-
-//check if user is logged in
-app.use(cookieParser());
-app.use(require('./authentication.js'));
 
