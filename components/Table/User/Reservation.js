@@ -20,7 +20,7 @@ const UserReservationTable = () => {
     Promise.resolve(axios.post(`/api/users/reservations/${row.id}`));
   };
   useEffect(() => {
-    Promise.resolve(axios.get('/api/users/get-user/'))
+    Promise.resolve(axios.get('/api/user'))
       .then((res) => {
         if (res.data.user) {
           setUser(res.data.user);
@@ -57,15 +57,15 @@ const UserReservationTable = () => {
             {userReservations.map((row, idx) => (
               <Table.Row onMouseEnter={() => setSelectedReservation(userReservations[idx])}>
                 {
-            Object.keys(row).map((key) => {
-              if (key === 'expires') {
-                return (<TableCell>{(new Date(row[key])).toLocaleDateString()}</TableCell>);
-              } if (key === 'weekday') {
-                return (<TableCell>{moment().day(row[key]).format('dddd')}</TableCell>);
-              } if (key === 'id');
-              return (<TableCell>{row[key]}</TableCell>);
-            })
-          }
+                  Object.keys(row).map((key) => {
+                    if (key === 'expires') {
+                      return (<TableCell>{(new Date(row[key])).toLocaleDateString()}</TableCell>);
+                    } if (key === 'weekday') {
+                      return (<TableCell>{moment().day(row[key]).format('dddd')}</TableCell>);
+                    } if (key === 'id');
+                    return (<TableCell>{row[key]}</TableCell>);
+                  })
+                }
                 <Table.Cell><Button icon="delete" onClick={() => setActiveModal('delete')} /></Table.Cell>
               </Table.Row>
             ))}
@@ -79,11 +79,11 @@ const UserReservationTable = () => {
           </Table.Footer>
         </Table>
       ) : (
-        <Message>
-          {'You have no reservations   '}
-          <Button icon="time" content="Add Reservation" onClick={() => setActiveModal('add-reservations')} />
-        </Message>
-      )}
+          <Message>
+            {'You have no reservations   '}
+            <Button icon="time" content="Add Reservation" onClick={() => setActiveModal('add-reservations')} />
+          </Message>
+        )}
       <BaseModal
         open={open}
         setOpen={setOpen}

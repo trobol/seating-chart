@@ -1,0 +1,59 @@
+ body {
+          background-color: #122242 !important;
+        }
+        .timesheet{
+          transition: background 1s;
+        }
+        @media screen and (min-width: 2250px){
+          .grid__container{
+            display:grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-areas: 
+              "left map right"
+          }
+          .map__conatiner{
+            grid-area: map;
+          }
+          .timesheet{
+            grid-area: left;
+          }
+          .active__user{
+            grid-area: right;
+          }
+        }
+
+        @media screen and (min-width: 2000px) and (max-width: 2249px){
+          .grid__container{
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+              "left map"
+          }
+          .map__container{
+            grid-area: map;
+          }
+          .timesheet{
+            grid-area: left;
+          }
+          .active__user{
+            display: none;
+          }
+        }
+
+        @media screen and (min-width: 500px) and (max-width: 1999px){
+          .grid__container{
+            display:grid;
+            grid-template-columns: 1fr;
+            grid-template-areas:
+              "map"
+          }
+          .map__conatiner{
+            grid-area: map;
+          }
+          .timesheet{
+            display: none;
+          }
+          .active__user{
+            display: none;
+          }
+        }

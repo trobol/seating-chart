@@ -12,7 +12,7 @@ const UserSidebar = () => {
   const [profileActions, setProfileActions] = useState(null);
   const handleMouseOver = () => (<div />);
   useEffect(() => {
-    axios.get('/api/users/get-user').then((res) => {
+    axios.get('/api/user').then((res) => {
       if (!res.data.authenticated) {
         setAuthenticated(false);
       } else {
@@ -42,7 +42,7 @@ const UserSidebar = () => {
         authenticated
           ? <SidebarProfile avatar={user.image} name={user.name} onMouseEnter={handleMouseOver} />
           : <SidebarLogin icon="sign-in" />
-        )}
+      )}
     </Sidebar>
   );
 };

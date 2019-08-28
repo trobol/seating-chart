@@ -26,17 +26,18 @@ const BaseModal = ({
     if (!_.isEmpty(modalOptions.filter(option => option.name === active))) setOpen(true);
     else if (!_.isNull(children)) setOpen(true);
     else setOpen(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
   useEffect(() => {
     if (open === false) {
       setActive('');
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
+  //TODO: Give key UNIQUE id https://stackoverflow.com/a/43892905/8781351
   return (
     <Modal open={open}>
-      {modalOptions.map(({ name, modal }) => (name === active ? modal : <div />))}
+      {modalOptions.map(({ name, modal }, index) => (`<${name === active ? modal : 'div'} key=${index}/>`))}
       {children}
     </Modal>
   );
@@ -44,7 +45,7 @@ const BaseModal = ({
 
 BaseModal.propTypes = {
   children: PropTypes.node,
-  active: ('take' || 'return' || 'add-reservations' || 'delete' || 'creat-user' || 'edit-user' || 'force-return' || 'custom'),
+  /*active: ('take' || 'return' || 'add-reservations' || 'delete' || 'creat-user' || 'edit-user' || 'force-return' || 'custom'),*/
   setActive: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,

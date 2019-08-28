@@ -15,6 +15,8 @@ import UserLogFeed from '../components/Feed/UserLogFeed';
 import ReservationProgess from '../components/Progress/Reservation';
 import { BackgroundColor } from '../components/Constants';
 
+import './style.css'
+
 const Index = () => {
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState(false);
@@ -26,7 +28,7 @@ const Index = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState({});
   useEffect(() => {
-    axios.get('/api/users/get-user').then((res) => {
+    axios.get('/api/user').then((res) => {
       if (!res.data.authenticated) {
         setAuthenticated(false);
       } else {
@@ -41,12 +43,12 @@ const Index = () => {
 
   useInterval(() => {
     Promise.all([
-      axios.get('/api/users/get-user-types'),
-      axios.get('/api/users/clock'),
-      axios.get('/api/seat/user'),
+      axios.get('/api/user/type'),
+      axios.get('/api/user/clock'),
+      axios.get('/api/user/seat'),
     ]).then(([adminRes, clockRes, seatRes]) => {
-      !_.isEmpty(adminRes.data.types) ? setIsAdmin(adminRes.data.types.includes('Admin')) : setIsAdmin(false);
-      !_.isEmpty(clockRes.data.clock) ? setIsClockedIn(clockRes.data.clock[0].count > 0) : setIsClockedIn(false);
+      !_.isEmpty(adminRes.data.types) ? setIsAdmin(adminRes.data.type === 'Admin') : setIsAdmin(false);
+      !_.isEmpty(clockRes.data.clock) ? setIsClockedIn(clockRes.data !== undefined) : setIsClockedIn(false);
       !_.isEmpty(seatRes.data.seat) ? setSeat(seatRes.data.seat[0].sid) : setSeat(0);
     });
   }, 1500);
@@ -64,33 +66,33 @@ const Index = () => {
           <SeatingMap link="/api/seat/reservations" />
           <UserCard>
             {(
-          authenticated
-            ? (
-              <>
-                <UserCardProfile
-                  image={user.path}
-                  name={user.name}
-                  info={`Last Clocked In: ${`${date.toLocaleDateString()} ${date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' })}`}`}
-                  clockedIn={isClockedIn}
-                />
-                <UserDropdown open={open} setOpen={() => setOpen(!open)}>
-                  {isAdmin
-                    ? <UserCardItem title="Admin Panel" icon="lock" link="admin" />
-                    : <div />
-                    }
-                  {isClockedIn
-                    ? <UserCardAction title="Clock out" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/users/clock-out'))} />
-                    : <UserCardAction title="Clock in" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/users/clock-in'))} /> }
-                  {seat !== 0
-                    ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" onClick={() => setActiveModal('return')} />
-                    : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" onClick={() => setActiveModal('take')} /> }
-                  <UserCardItem title="Manage Account" icon="edit" link="/user/manage" />
-                  <UserCardItem title="Logout" icon="sign-out" link="/logout" />
-                </UserDropdown>
-              </>
-            )
-            : <UserCardLogin />
-        )}
+              authenticated
+                ? (
+                  <>
+                    <UserCardProfile
+                      image={user.path}
+                      name={user.name}
+                      info={`Last Clocked In: ${`${date.toLocaleDateString()} ${date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' })}`}`}
+                      clockedIn={isClockedIn}
+                    />
+                    <UserDropdown open={open} setOpen={() => setOpen(!open)}>
+                      {isAdmin
+                        ? <UserCardItem title="Admin Panel" icon="lock" link="admin" />
+                        : <div />
+                      }
+                      {isClockedIn
+                        ? <UserCardAction title="Clock out" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/user/clock-out'))} />
+                        : <UserCardAction title="Clock in" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/user/clock-in'))} />}
+                      {seat !== 0
+                        ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" onClick={() => setActiveModal('return')} />
+                        : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" onClick={() => setActiveModal('take')} />}
+                      <UserCardItem title="Manage Account" icon="edit" link="/user/manage" />
+                      <UserCardItem title="Logout" icon="sign-out" link="/logout" />
+                    </UserDropdown>
+                  </>
+                )
+                : <UserCardLogin />
+            )}
           </UserCard>
         </div>
         {authenticated
@@ -104,68 +106,6 @@ const Index = () => {
           )}
 
       </div>
-      <style>
-        {` body{
-          background-color: ${BackgroundColor} !important;
-        }
-        .timesheet{
-          transition: background 1s;
-        }
-        @media screen and (min-width: 2250px){
-          .grid__container{
-            display:grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-areas: 
-              "left map right"
-          }
-          .map__conatiner{
-            grid-area: map;
-          }
-          .timesheet{
-            grid-area: left;
-          }
-          .active__user{
-            grid-area: right;
-          }
-        }
-
-        @media screen and (min-width: 2000px) and (max-width: 2249px){
-          .grid__container{
-            display:grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-areas:
-              "left map"
-          }
-          .map__container{
-            grid-area: map;
-          }
-          .timesheet{
-            grid-area: left;
-          }
-          .active__user{
-            display: none;
-          }
-        }
-
-        @media screen and (min-width: 500px) and (max-width: 1999px){
-          .grid__container{
-            display:grid;
-            grid-template-columns: 1fr;
-            grid-template-areas:
-              "map"
-          }
-          .map__conatiner{
-            grid-area: map;
-          }
-          .timesheet{
-            display: none;
-          }
-          .active__user{
-            display: none;
-          }
-        }
-        `}
-      </style>
       <BaseModal open={modal} setOpen={setModal} active={activeModal} setActive={setActiveModal} data={activeModal !== 'return' ? user : seat} />
     </Layout>
   );

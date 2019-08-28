@@ -12,6 +12,7 @@ module.exports = (app, isLoggedIn) => {
       }
     });
   });
+  //get user seat
   app.get('/api/seat/user/', isLoggedIn, (req, res) => {
     const sql = 'SELECT idseats as sid FROM seats WHERE u_id = ?';
     app.pool.query(sql, [req.user.idusers], (error, result) => {

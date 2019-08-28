@@ -7,6 +7,7 @@ const { SALTROUNDS } = process.env;
 
 const base = path.resolve('.');
 module.exports = (app) => {
+  //gets info for current user
   app.get('/api/users/get-user', (req, res) => {
     if (req.isAuthenticated()) {
       const { user } = req;

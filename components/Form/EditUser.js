@@ -97,7 +97,7 @@ const EditUserForm = ({ user }) => {
     }
   }, [allMajors, allProjects, allUserType, user]);
   useEffect(() => {
-    Promise.resolve(axios.get('/api/users/get-user')).then((res) => {
+    Promise.resolve(axios.get('/api/user/')).then((res) => {
       const { idusers } = res.data.user;
       if (user.idusers !== idusers) {
         setIsAdmin(true);
@@ -147,9 +147,9 @@ const EditUserForm = ({ user }) => {
             </Form.Group>
           )
         }
-        {!_.isNull(userType) ? <Form.Select multiple options={allMajors} defaultValue={major} label="Majors" onChange={(_e, d) => setMajor(d.value)} /> : <div /> }
-        {!_.isNull(userType) ? <Form.Select multiple options={allUserType} defaultValue={userType} label="User Types" onChange={(_e, d) => setUserType(d.value)} /> : <div /> }
-        {!_.isNull(project) ? <Form.Select multiple options={allProjects} defaultValue={project} label="Projects" onChange={(_e, d) => setProject(d.value)} /> : <div /> }
+        {!_.isNull(userType) ? <Form.Select multiple options={allMajors} defaultValue={major} label="Majors" onChange={(_e, d) => setMajor(d.value)} /> : <div />}
+        {!_.isNull(userType) ? <Form.Select multiple options={allUserType} defaultValue={userType} label="User Types" onChange={(_e, d) => setUserType(d.value)} /> : <div />}
+        {!_.isNull(project) ? <Form.Select multiple options={allProjects} defaultValue={project} label="Projects" onChange={(_e, d) => setProject(d.value)} /> : <div />}
         <Form.Button label="Update" onClick={handleSumbit} disabled={isSumbitting}>Update</Form.Button>
       </Form>
       <style>

@@ -30,7 +30,7 @@ const AddReservationModal = ({ open, setOpen }) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    Promise.resolve(axios.get('/api/users/get-user/'))
+    Promise.resolve(axios.get('/api/user'))
       .then((res) => {
         console.log(res.data.user);
         if (res.data.user) {
@@ -92,7 +92,7 @@ const AddReservationModal = ({ open, setOpen }) => {
     setOpen(false);
   };
 
-  useEffect(()=> console.log({user}), [user]);
+  useEffect(() => console.log({ user }), [user]);
 
   return (
     <>
@@ -129,7 +129,7 @@ const AddReservationModal = ({ open, setOpen }) => {
           <Form.Group label="Expiration" widths="equal">
             <Form.Input label="Expiration Date" type="date" required onChange={({ target }) => setExpires(target.valueAsDate)} />
           </Form.Group>
-          { error.isActive && error.content
+          {error.isActive && error.content
             ? <Message negative header={error.header} content={error.content} />
             : <div />
           }

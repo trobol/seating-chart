@@ -1,0 +1,19 @@
+div.user_login_form {
+	height: auto;
+	max-height: 0px;
+	transition: 0.5s;
+	overflow: hidden;
+	padding-bottom: 0px;
+}
+
+.user_login_form {
+	text-align: left;
+}
+.user_login_submit {
+	height: 100%;
+}
+
+.active div.user_login_form {
+	max-height: 500px;
+	padding-bottom: 25px;
+}

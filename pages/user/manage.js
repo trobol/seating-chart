@@ -17,9 +17,9 @@ const Manage = () => {
   // Users Effect
   useEffect(() => {
     Promise.all(
-      [axios.get('/api/users/get-user'),
-        axios.get('/api/users/get-majors'),
-        axios.get('/api/users/get-projects')],
+      [axios.get('/api/user'),
+      axios.get('/api/users/get-majors'),
+      axios.get('/api/users/get-projects')],
     ).then((res) => {
       setUser(res[0].data.user);
       setMajors(res[1].data.majors);

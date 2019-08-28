@@ -10,7 +10,7 @@ const UserLogFeed = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useInterval(() => {
-    Promise.resolve(axios.get('/api/users/activity/')).then((res) => {
+    Promise.resolve(axios.get('/api/user/activity/')).then((res) => {
       const { result, error } = res.data;
       if (result) setEvents(result);
       else console.error(error);
@@ -40,7 +40,7 @@ const UserLogFeed = () => {
                   key={Math.random()}
                   image={event.image}
                   content={event.log}
-                  date={event.time_logged}
+                  date={event.date}
                 />
               ))
               : <div />

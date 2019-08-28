@@ -13,7 +13,7 @@ const ReservationProgess = () => {
   const [remaining, setRemaining] = useState(null);
   const [hasReservation, setHasReservation] = useState(null);
   useEffect(() => {
-    Promise.resolve(axios.get('/api/users/reservations/today'))
+    Promise.resolve(axios.get('/api/user/reservations/today'))
       .then((res) => {
         const { start, end } = res.data.reservation;
         if (start && end) {
@@ -24,7 +24,7 @@ const ReservationProgess = () => {
           setHasReservation(false);
         }
       }).catch(error => console.log(error));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useInterval(() => {
     if (startTime && endTime) {
@@ -50,15 +50,15 @@ const ReservationProgess = () => {
         {hasReservation ? (
           <>
             <Statistic.Group size="small">
-              { remaining
+              {remaining
                 ? (
                   <Statistic
                     label="Remaining"
                     value={`${remaining.hours()}:${remaining.minutes() < 10
                       ? `0${remaining.minutes()}`
                       : remaining.minutes()}:${remaining.seconds() < 10
-                      ? `0${remaining.seconds()}`
-                      : remaining.seconds()}`}
+                        ? `0${remaining.seconds()}`
+                        : remaining.seconds()}`}
                     style={{ textAlign: 'center' }}
                   />
                 )

@@ -25,7 +25,7 @@ const TakeModal = ({ open, setOpen }) => {
       });
   }, []);
   useEffect(() => {
-    Promise.resolve(axios.get('/api/users/reservations/today')).then((res) => {
+    Promise.resolve(axios.get('/api/user/reservations/today')).then((res) => {
       if (res.data.reservation) {
         console.log(res.data.reservation);
         setReservation(res.data.reservation);

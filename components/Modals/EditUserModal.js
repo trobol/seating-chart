@@ -22,7 +22,7 @@ EditUserModal.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    idusers: PropTypes.number.isRequired,
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     pronoun: PropTypes.string.isRequired,
     majors: PropTypes.string,
