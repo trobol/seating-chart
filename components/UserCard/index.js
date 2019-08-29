@@ -4,6 +4,7 @@ import UserCard from './UserCard';
 import UserCardItem from './UserCardItem';
 import UserCardModalItem from './UserCardModalItem';
 import UserCardAction from './UserCardAction';
+import UserCardRemoteAction from './UserCardRemoteAction.js'
 
 export {
   UserCard,
@@ -12,4 +13,5 @@ export {
   UserCardItem,
   UserCardModalItem,
   UserCardAction,
+  UserCardRemoteAction
 };

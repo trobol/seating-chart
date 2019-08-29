@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
 				console.log(user);
 				var token = jwt.sign(user, config.secret);
 				res.cookie('token', token, { httpOnly: true });
-				res.status(200).send();
+				res.status(200).send({ user });
 			} else {
 				console.log("Incorrect password");
 				res.status(403).send("Incorrect password");

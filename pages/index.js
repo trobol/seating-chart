@@ -4,7 +4,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import SeatingMap from '../components/Map';
 import {
-  UserCard, UserCardProfile, UserDropdown, UserCardItem, UserCardModalItem, UserCardAction,
+  UserCard, UserCardProfile, UserDropdown, UserCardItem, UserCardModalItem, UserCardAction, UserCardRemoteAction
 } from '../components/UserCard';
 import UserCardLogin from '../components/UserCard/UserCardLogin';
 import Layout from '../components/Layout';
@@ -16,10 +16,9 @@ import ReservationProgess from '../components/Progress/Reservation';
 import { BackgroundColor } from '../components/Constants';
 
 import './style.css'
-import { UserProvider } from '../components/UserContext';
 
 const Index = () => {
-  /*
+
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState(false);
   const [activeModal, setActiveModal] = useState('');
@@ -30,21 +29,15 @@ const Index = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState({});
 
-  */
 
-
-  const user = {
-    user: null,
-    isClockedIn: false,
-    seat: 0,
-    date: new Date(),
-    authenticated: false,
-    isAdmin: false,
-    activeModal: ''
-  };
-
-  
   useEffect(() => {
+    getUser();
+  }, []);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => console.log(activeModal !== 'retrun' ? user : seat), [activeModal]);
+
+  function getUser() {
     axios.get('/api/user').then((res) => {
       if (!res.data.authenticated) {
         setAuthenticated(false);
@@ -53,10 +46,17 @@ const Index = () => {
         setUser(res.data.user);
       }
     });
-  }, []);
+  }
+  function login(user) {
+    if (user) {
+      setAuthenticated(true);
+      getUser();
+    } else {
+      setAuthenticated(false);
+      setUser({});
+    }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => console.log(activeModal !== 'retrun' ? user : seat), [activeModal]);
+  }
 
   useInterval(() => {
     Promise.all([
@@ -70,9 +70,9 @@ const Index = () => {
     });
   }, 1500);
 
-  
+
   return (
-    <UserProvider value={user}>
+
     <Layout>
       <div className="grid__container">
         {authenticated
@@ -101,17 +101,18 @@ const Index = () => {
                         : <div />
                       }
                       {isClockedIn
-                        ? <UserCardAction title="Clock out" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/user/clock-out'))} />
-                        : <UserCardAction title="Clock in" icon="clock" handleClick={() => Promise.resolve(axios.post('/api/user/clock-in'))} />}
+                        ? <UserCardRemoteAction title="Clock out" icon="clock" url="/api/user/clock-out" method="post" callback={(response) => { if (response.status === 200) setIsClockedIn(false) }} />
+                        : <UserCardRemoteAction title="Clock in" icon="clock" url="/api/user/clock-in" method="post" callback={(response) => { if (response.status === 200) setIsClockedIn(true) }} />}
+
                       {seat !== 0
                         ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" onClick={() => setActiveModal('return')} />
                         : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" onClick={() => setActiveModal('take')} />}
                       <UserCardItem title="Manage Account" icon="edit" link="/user/manage" />
-                      <UserCardAction title="Logout" icon="sign-out" handleClick={() => Promise.resolve(axios.get('/api/logout'))} />
+                      <UserCardRemoteAction title="Logout" icon="sign-out" url="/api/logout" callback={(response) => { if (response.status === 200) login() }} />
                     </UserDropdown>
                   </>
                 )
-                : <UserCardLogin />
+                : <UserCardLogin callback={login} />
             )}
           </UserCard>
         </div>
@@ -128,7 +129,6 @@ const Index = () => {
       </div>
       <BaseModal open={modal} setOpen={setModal} active={activeModal} setActive={setActiveModal} data={activeModal !== 'return' ? user : seat} />
     </Layout>
-    </UserProvider>
   );
 };
 
