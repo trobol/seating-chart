@@ -30,17 +30,18 @@ const UserCardLogin = () => {
   return (
 
     <Card.Content className={`${active ? 'active' : ''} user__login`} >
-      <div className="user_login_form">
-        <Form>
+
+      <Form>
+        <div className="user_login_form">
           <Form.Input className="user_login_input" type="text" label="Username" name="username" onChange={handleChange} value={values.email} required />
           <Form.Input className="user_login_input" type="password" label="Password" name="password" onChange={handleChange} value={values.password} required />
-        </Form>
-      </div>
-      <Button onClick={() => login()} fluid>
-        <Icon name="sign in" />
-        <a>Login</a>
-      </Button>
 
+        </div>
+        <Button onClick={() => login()} fluid>
+          <Icon name="sign in" />
+          <a>Login</a>
+        </Button>
+      </Form>
 
     </Card.Content >
   );

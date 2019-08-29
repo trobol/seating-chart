@@ -6,8 +6,8 @@ const next = require('next'),
 	mongoose = require('mongoose');
 
 mongoose.connect(`mongodb+srv://${config.mondoUser}:${config.mondoPW}@${config.mondoUrl}`, { useNewUrlParser: true })
-	.then(() => { console.log('Connected to database') })
-	.catch(err => console.log('Failed to connect to database: ' + err));
+	.then(() => { console.log('> Connected to database') })
+	.catch(err => console.log('> Failed to connect to database: ' + err));
 
 const app = next({ dev: true });
 

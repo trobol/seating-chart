@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 		if (err)
 			res.send({ response: err });
 		else
-			res.send({ seats });
+			res.status(200).send({ seats });
 	});
 
 });

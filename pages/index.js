@@ -87,7 +87,7 @@ const Index = () => {
                         ? <UserCardModalItem title="Return Seat" icon="caret square left" link="/user/return-seat" onClick={() => setActiveModal('return')} />
                         : <UserCardModalItem title="Take Seat" icon="caret square right" link="/user/take-seat" onClick={() => setActiveModal('take')} />}
                       <UserCardItem title="Manage Account" icon="edit" link="/user/manage" />
-                      <UserCardItem title="Logout" icon="sign-out" link="/logout" />
+                      <UserCardAction title="Logout" icon="sign-out" handleClick={() => Promise.resolve(axios.get('/api/logout'))} />
                     </UserDropdown>
                   </>
                 )
