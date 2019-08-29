@@ -15,9 +15,9 @@ const RemoteAction = ({ title, icon, url, method = 'get', data = {}, callback, p
 				.then((response) => {
 					setLoading(false);
 					if (callback) callback(response)
-				}).catch(() => {
+				}).catch((response) => {
 					setLoading(false);
-					if (fail) callback(fail)
+					if (fail) fail(response);
 				});
 		}
 	}

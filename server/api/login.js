@@ -17,16 +17,15 @@ router.post('/', async (req, res) => {
 		if (user) {
 			const matchPW = await bcrypt.compare(password, user.hash);
 			if (matchPW) {
-				console.log(user);
 				var token = jwt.sign(user, config.secret);
-				res.cookie('token', token, { httpOnly: true });
+				const maxAge = req.body.remember ? 10000 : -1;
+				res.cookie('token', token, { httpOnly: true, maxAge });
 				res.status(200).send({ user });
 			} else {
-				console.log("Incorrect password");
-				res.status(403).send("Incorrect password");
+				res.status(401).send({ password: true });
 			}
 		} else {
-			res.status(403).send("Incorrect Password");
+			res.status(401).send({ username: true });
 		}
 
 	} catch (e) {
