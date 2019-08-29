@@ -16,8 +16,10 @@ import ReservationProgess from '../components/Progress/Reservation';
 import { BackgroundColor } from '../components/Constants';
 
 import './style.css'
+import { UserProvider } from '../components/UserContext';
 
 const Index = () => {
+  /*
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState(false);
   const [activeModal, setActiveModal] = useState('');
@@ -27,6 +29,21 @@ const Index = () => {
   const [date] = useState(new Date());
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState({});
+
+  */
+
+
+  const user = {
+    user: null,
+    isClockedIn: false,
+    seat: 0,
+    date: new Date(),
+    authenticated: false,
+    isAdmin: false,
+    activeModal: ''
+  };
+
+  
   useEffect(() => {
     axios.get('/api/user').then((res) => {
       if (!res.data.authenticated) {
@@ -52,7 +69,10 @@ const Index = () => {
       !_.isEmpty(seatRes.data.seat) ? setSeat(seatRes.data.seat[0].sid) : setSeat(0);
     });
   }, 1500);
+
+  
   return (
+    <UserProvider value={user}>
     <Layout>
       <div className="grid__container">
         {authenticated
@@ -108,6 +128,7 @@ const Index = () => {
       </div>
       <BaseModal open={modal} setOpen={setModal} active={activeModal} setActive={setActiveModal} data={activeModal !== 'return' ? user : seat} />
     </Layout>
+    </UserProvider>
   );
 };
 
