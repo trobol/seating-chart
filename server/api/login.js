@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 			const matchPW = await bcrypt.compare(password, user.hash);
 			if (matchPW) {
 				var token = jwt.sign(user, config.secret);
-				const maxAge = req.body.remember ? 10000 : -1;
+				const maxAge = req.body.remember ? 10000000000000 : -1;
 				res.cookie('token', token, { httpOnly: true, maxAge });
 				res.status(200).send({ user });
 			} else {
