@@ -38,7 +38,7 @@ const TakeModal = ({ open, setOpen }) => {
     <>
       <Header>Take Seat</Header>
       {reservation !== undefined && reservation !== null
-        ? <Message content={`You have a reservation at seat ${reservation.sid}`} />
+        ? <Message content={`You have a reservation at seat ${reservation.id}`} />
         : <div />}
       <Form>
         <Form.Select fluid label="Seat" value={seat} options={seats} onChange={(_e, d) => setSeat(d.value)} required />

@@ -7,7 +7,8 @@ module.exports = model('Seat',
 		id: Number,
 		userId: {
 			type: ObjectId,
-			ref: 'User'
+			ref: 'User',
+			default:null
 		},
 		computerName: String
 

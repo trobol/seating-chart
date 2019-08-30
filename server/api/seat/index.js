@@ -19,5 +19,20 @@ router.get('/', (req, res) => {
 });
 
 
+router.post('/take', (req, res) => {
+	Seat.findOne({})
+	.then((seat) => {
+		if(!seat)
+			throw new Error('seat not found');
+		if(seat.userId === null) {
+			seat.userId = req.user._id;
+			seat.save();
+			res.send();
+		} else {
+			res.status(400);
+		}	
+	});
+});
+
 module.exports = router;
 

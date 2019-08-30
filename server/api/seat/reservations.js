@@ -10,8 +10,10 @@ router.get('/', (req, res) => {
 	Reservation.find({}, (err, seats) => {
 		if (err)
 			res.send({ response: err });
-		else
+		else if(seats)
 			res.status(200).send({ seats });
+		else 
+			res.send();
 	});
 
 });

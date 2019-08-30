@@ -35,21 +35,20 @@ const Index = () => {
   }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => console.log(activeModal !== 'retrun' ? user : seat), [activeModal]);
+  useEffect(() => console.log(activeModal !== 'return' ? user : seat), [activeModal]);
 
   function getUser() {
     axios.get('/api/user').then((res) => {
       if (!res.data.authenticated) {
         setAuthenticated(false);
       } else {
-        setAuthenticated(true);
         setUser(res.data.user);
+        setAuthenticated(true);
       }
     });
   }
   function login(user) {
     if (user) {
-      setAuthenticated(true);
       getUser();
     } else {
       setAuthenticated(false);
@@ -66,7 +65,7 @@ const Index = () => {
     ]).then(([adminRes, clockRes, seatRes]) => {
       !_.isEmpty(adminRes.data.types) ? setIsAdmin(adminRes.data.type === 'Admin') : setIsAdmin(false);
       !_.isEmpty(clockRes.data.clock) ? setIsClockedIn(clockRes.data !== undefined) : setIsClockedIn(false);
-      !_.isEmpty(seatRes.data.seat) ? setSeat(seatRes.data.seat[0].sid) : setSeat(0);
+      !_.isEmpty(seatRes.data.seat) ? setSeat(seatRes.data.seat.id) : setSeat(0);
     });
   }, 1500);
 

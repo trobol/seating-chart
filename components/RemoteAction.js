@@ -9,17 +9,17 @@ const RemoteAction = ({ title, icon, url, method = 'get', data = {}, callback, p
 	const [loading, setLoading] = useState(false);
 
 	function handleClick(e) {
-		if (pre && pre(e) === true) {
-			setLoading(true);
-			axios({ url, method, data })
-				.then((response) => {
-					setLoading(false);
-					if (callback) callback(response)
-				}).catch((response) => {
-					setLoading(false);
-					if (fail) fail(response);
-				});
-		}
+		if (pre && pre(e) === false) return
+		setLoading(true);
+		axios({ url, method, data })
+			.then((response) => {
+				setLoading(false);
+				if (callback) callback(response)
+			}).catch((response) => {
+				setLoading(false);
+				if (fail) fail(response);
+			});
+		
 	}
 	return (
 

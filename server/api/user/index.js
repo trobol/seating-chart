@@ -116,8 +116,10 @@ router.get('/seat', (req, res) => {
 	Seat.findOne({ userId: req.user._id }, (err, seat) => {
 		if (err)
 			res.status(500).send(err);
-		else
+		else if (seat)
 			res.send({ seat });
+		else
+			res.send();
 	});
 });
 

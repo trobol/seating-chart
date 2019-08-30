@@ -6,8 +6,6 @@ const express = require('express'),
 router.get('/today', (req, res) => {
 	if (req.loggedIn) {
 		const { user } = req;
-
-
 		const today = moment().startOf('day')
 
 		Reservation.findOne({

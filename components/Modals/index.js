@@ -37,7 +37,7 @@ const BaseModal = ({
   //TODO: Give key UNIQUE id https://stackoverflow.com/a/43892905/8781351
   return (
     <Modal open={open}>
-      {modalOptions.map(({ name, modal }, index) => (`<${name === active ? modal : 'div'} key=${index}/>`))}
+      {modalOptions.map(({ name, modal }, index) => (name === active ? modal : <div />))}
       {children}
     </Modal>
   );
