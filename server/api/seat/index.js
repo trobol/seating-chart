@@ -20,8 +20,9 @@ router.get('/', (req, res) => {
 
 
 router.post('/take', (req, res) => {
-	Seat.findOne({})
+	Seat.findOne({id:req.body.seat})
 	.then((seat) => {
+		//TODO: Check reservationss
 		if(!seat)
 			throw new Error('seat not found');
 		if(seat.userId === null) {

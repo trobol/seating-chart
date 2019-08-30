@@ -111,8 +111,6 @@ WIW_ACCOUNT_ID=ACCOUNT_ID
 
 [Next.js Tutorial](https://nextjs.org/learn/basics/getting-started)
 
-[Passport.js Documentation](http://www.passportjs.org/docs/)
-
 [Object Deconstruction](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 
 [Git Tutorial](https://git-scm.com/docs/gittutorial)
@@ -121,6 +119,7 @@ WIW_ACCOUNT_ID=ACCOUNT_ID
 
 [Lodash](https://lodash.com/docs/4.17.14)
 
+[MongoDB](https://www.tutorialspoint.com/mongodb/mongodb_overview.htm)
 ## Other Important Sites
 
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
