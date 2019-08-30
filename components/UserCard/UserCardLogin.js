@@ -2,14 +2,12 @@
 import { Button, Icon, Card, Form } from 'semantic-ui-react';
 import Link from 'next/link';
 import React, { useState } from "react";
-import useForm from '../Form/useForm'
 import './UserCardLogin.css';
 import axios from 'axios';
 import RemoteAction from '../RemoteAction';
 
 const UserCardLogin = ({ callback }) => {
 
-  const { values, handleChange } = useForm(login);
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [remember, setRemember] = useState(false);
@@ -23,12 +21,12 @@ const UserCardLogin = ({ callback }) => {
       setActive(true)
       return false;
     } else {
-      if (values.username === '') {
+      if (username === '') {
         setInvalid(1);
         return false;
       }
 
-      if (values.password === '') {
+      if (password === '') {
         setInvalid(2);
         return false;
       }
@@ -36,14 +34,20 @@ const UserCardLogin = ({ callback }) => {
     }
   }
   function login(response) {
-
     if (response.status === 200) {
       console.log(response.data);
       callback(response.data.user);
     }
+  }
 
+  function updateUsername(e, data) {
+    if (invaid === 1) setInvalid(0);
+    setUsername(data.value);
+  }
 
-
+  function updatePassword(e, data) {
+    if (invaid === 2) setInvalid(0);
+    setPassword(data.value);
   }
 
   function fail(err) {
@@ -54,19 +58,17 @@ const UserCardLogin = ({ callback }) => {
       if (err.response.data.password) {
         setInvalid(2);
       }
-
     }
   }
 
   return (
-
     <Card.Content className={`${active ? 'active' : ''} user__login`} >
 
       <Form>
         <div className="user_login_form">
-          <Form.Input error={invaid === 1} className="user_login_input" type="text" label="Username" name="username" onChange={e => setUsername(e.target.value)} value={values.username} required />
-          <Form.Input error={invaid === 2} className="user_login_input" type="password" label="Password" name="password" onChange={e => setPassword(e.target.value)} value={values.password} required />
-          <Form.Checkbox label={<label name="remember">Remember Me</label>} name="remember" onChange={e => setRemember(!remember)} value={values.remember} />
+          <Form.Input error={invaid === 1} autoComplete="password" className="user_login_input" type="text" label="Username" name="username" onChange={updateUsername} value={username} />
+          <Form.Input error={invaid === 2} autoComplete="current-password" className="user_login_input" type="password" label="Password" name="password" onChange={updatePassword} value={password} />
+          <Form.Checkbox label={<label name="remember">Remember Me</label>} name="remember" onChange={(e, data) => setRemember(data.checked)} value={remember} />
         </div>
         <RemoteAction pre={open} url="/api/login" title="Login" method="post" icon="sign in" fail={fail} callback={login} data={{ username, password, remember }} />
 

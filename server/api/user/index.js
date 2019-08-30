@@ -112,6 +112,8 @@ router.get('/activity', (req, res) => {
 		});
 });
 
+
+//get the current users seat
 router.get('/seat', (req, res) => {
 	Seat.findOne({ userId: req.user._id }, (err, seat) => {
 		if (err)
@@ -132,7 +134,6 @@ router.get('/', (req, res) => {
 		User.findById(req.user._id, '_id name pronoun major projects type').lean()
 			.then(user => {
 				user.path = `/static/users/${err ? 'guest' : req.user.image}.jpg`;
-				console.log(user);
 				res.send({ user, authenticated: true });
 
 			}).catch(e => {

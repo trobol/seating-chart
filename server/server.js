@@ -3,6 +3,8 @@ const next = require('next'),
 	bodyParser = require('body-parser'),
 	cookieParser = require('cookie-parser'),
 	config = require('../config.js'),
+	fs = require('fs'),
+	https = require('https'),
 	mongoose = require('mongoose');
 
 mongoose.connect(`mongodb+srv://${config.mondoUser}:${config.mondoPW}@${config.mondoUrl}`, { useNewUrlParser: true })
@@ -30,10 +32,13 @@ app.prepare()
 		server.get('*', (req, res) => {
 			return handle(req, res);
 		});
-		server.listen(3000, (err) => {
+		https.createServer({
+			key: fs.readFileSync('server.key'),
+			cert: fs.readFileSync('server.cert')
+		}, server).listen(3000, (err) => {
 			if (err) throw err;
 			// eslint-disable-next-line no-console
-			console.log('> Ready on http://localhost:3000');
+			console.log('> Ready on https://localhost:3000');
 		});
 	})
 	.catch((ex) => {

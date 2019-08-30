@@ -4,9 +4,11 @@ This branch of the seating chart is dedicated to a next.js + express recreation 
 
 ## Installation
 
-1. `git clone https://git.lcdi/Programmers/seating-chart -b node`
+1. `git clone https://git.lcdi/Programmers/seating-chart -b rewrite`
 2. `cd seating-chart`
 3. `npm install` or if you prefer to use yarn, `yarn install`
+4. `openssl req -nodes -new -x509 -keyout server.key -out server.cert` to generate a self-signed certificate.
+5. Paste `chrome://flags/#allow-insecure-localhost` into chrome and enable the setting (or allow self-signed certs on whatever browser you prefer)
 
 ### ESLint
 
@@ -21,9 +23,6 @@ It is highly recommended for you to set up ESLint. ESLint will ensure that you a
 5. Go to the Prettier settings under `Extensions`.
 6. Check `Prettier: Eslint Integration`.
 
-## Localhost Database: XAMPP
-
-Download XAMPP [Here](https://www.apachefriends.org/index.html). XAMPP is used to set up a local MySQL database. You can also use PHPMyAdmin to view the database in further detail.
 
 ## Running
 

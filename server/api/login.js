@@ -18,10 +18,11 @@ router.post('/', async (req, res) => {
 			if (matchPW) {
 				var token = jwt.sign(user, config.secret);
 
-				const properties = { httpOnly: true};
-				if (req.body.remember)
+				const properties = { httpOnly: true };
+				if (req.body.remember) {
 					//time till cookie experation, in ms
 					properties.maxAge = 10000000000000;
+				}
 
 				res.cookie('token', token, properties);
 				res.status(200).send({ user });

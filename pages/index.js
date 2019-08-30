@@ -126,7 +126,7 @@ const Index = () => {
           )}
 
       </div>
-      <BaseModal open={modal} setOpen={setModal} active={activeModal} setActive={setActiveModal} data={activeModal !== 'return' ? user : seat} />
+      <BaseModal open={modal} setOpen={setModal} active={activeModal} setActive={setActiveModal}  data={activeModal !== 'return' ? user : seat} />
     </Layout>
   );
 };
