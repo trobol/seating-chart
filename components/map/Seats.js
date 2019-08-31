@@ -5,39 +5,13 @@ import moment from 'moment';
 import MapPopup from './MapPopup';
 
 
+function Seat(x, y, name) {
+  this.x = x;
+  this.y = y;
+  this.name = name;
+}
 const seatPositions = [
-  580, 710,
-  786, 710,
-  990, 710,
-  1185, 710,
-  1373, 710,
-  502, 1151,
-  502, 1322,
-  502, 1499,
-  657, 1149,
-  657, 1320,
-  657, 1497,
-  998, 1147,
-  997, 1318,
-  998, 1495,
-  1152, 1146,
-  1152, 1317,
-  1152, 1494,
-  1565, 1204,
-  1501, 1339,
-  1501, 1498,
-  1630, 1339,
-  1630, 1498,
-  2146, 577,
-  2366, 577,
-  2587, 577,
-  2810, 822,
-  2643, 1091,
-  2471, 1091,
-  2291, 1091,
-  1675, 715,
-  2125, 1536,
-  2820, 1536
+  new Seat(0, 0, 'Reseach-01')
 ];
 
 const seatCircles = [
@@ -77,7 +51,11 @@ const seatCircles = [
 
 const Seats = ({ seats }) => {
   const [styledSeats, setStyledSeats] = useState(null);
-  const seatCirclesNode = useMemo(() => seatCircles.map((seatCircle, idx) => <MapPopup key={idx} trigger={seatCircle} seat={seats !== null ? seats[`${idx + 1}`] : null} seatNum={idx + 1} />), [seats]);
+  const seatCirclesNode = useMemo(() => {
+
+
+    seatCircles.map((seatCircle, idx) => <MapPopup key={idx} trigger={seatCircle} seat={seats !== null ? seats[`${idx + 1}`] : null} seatNum={idx + 1} />)
+  }, [seats]);
   useEffect(() => {
     if (seats !== null && seats !== undefined) {
       console.log({ seats });
