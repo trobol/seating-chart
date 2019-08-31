@@ -77,7 +77,7 @@ const seatCircles = [
 
 const Seats = ({ seats }) => {
   const [styledSeats, setStyledSeats] = useState(null);
-  const seatCirclesNode = useMemo(() => seatCircles.map((seatCircle, idx) => <MapPopup key={Math.random()} trigger={seatCircle} seat={seats !== null ? seats[`${idx + 1}`] : null} seatNum={idx + 1} />), [seats]);
+  const seatCirclesNode = useMemo(() => seatCircles.map((seatCircle, idx) => <MapPopup key={idx} trigger={seatCircle} seat={seats !== null ? seats[`${idx + 1}`] : null} seatNum={idx + 1} />), [seats]);
   useEffect(() => {
     if (seats !== null && seats !== undefined) {
       console.log({ seats });

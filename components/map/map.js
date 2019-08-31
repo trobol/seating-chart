@@ -23,24 +23,32 @@ const SeatingMap = ({ link }) => {
       }
     });
   }, 1500);
+  const imgWidth = 2790, imgHeight = 1145;
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 3000 1687" className="map">
-      <Def seats={data} />
-      <title>SeatingChart</title>
-      <g id="solid">
-        <rect className="cls-1" width="3000" height="1687" />
-      </g>
-      <BackgroundMap />
-      <Seats seats={data} />
-      <Title />
+    <>
+      <div className="map-container">
+        <div className="map-inner">
+          <img src="/static/layout.svg"></img>
+        </div>
+      </div>
       <style>
         {`
-        .map{
+        .map-container {
+          position:absolute;
+          left:0;
+          bottom:10px;
+          width:100vw;
+          max-width:calc(100vh * ${imgWidth}/${imgHeight});
           height:100vh;
+          max-height:calc(100vw * ${imgHeight}/${imgWidth});
         }
-        `}
+        .map-inner {
+           width:100%;
+           height:100%;
+        }
+      `}
       </style>
-    </svg>
+    </>
   );
 };
 
