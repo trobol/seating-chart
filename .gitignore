@@ -8,5 +8,5 @@ npm-debug.log
 Thumbs.db
 sessions/
 .database/
-.cert
-.key
+*.cert
+*.key
