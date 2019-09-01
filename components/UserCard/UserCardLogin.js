@@ -68,7 +68,7 @@ const UserCardLogin = ({ callback }) => {
         <div className="user_login_form">
           <Form.Input error={invaid === 1} autoComplete="password" className="user_login_input" type="text" label="Username" name="username" onChange={updateUsername} value={username} />
           <Form.Input error={invaid === 2} autoComplete="current-password" className="user_login_input" type="password" label="Password" name="password" onChange={updatePassword} value={password} />
-          <Form.Checkbox label={<label name="remember">Remember Me</label>} name="remember" onChange={(e, data) => setRemember(data.checked)} value={remember} />
+          <Form.Checkbox label={<label name="remember">Remember Me</label>} name="remember" onChange={(e, data) => setRemember(data.checked)} />
         </div>
         <RemoteAction pre={open} url="/api/login" title="Login" method="post" icon="sign in" fail={fail} callback={login} data={{ username, password, remember }} />
 

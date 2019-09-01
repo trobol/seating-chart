@@ -10,5 +10,5 @@ router.get('/logout', (req, res) => {
 
 router.use('/login', require('./login.js'));
 router.use('/user', require('./user'));
-router.use('/seat', require('./seat'));
+router.use('/seats', require('./seats'));
 module.exports = router;

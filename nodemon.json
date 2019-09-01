@@ -2,7 +2,8 @@
 	"ignore": [
 		".git",
 		"node_modules",
-		"pages",
-		"static"
+		"pages/*",
+		"static/*",
+		"components/*"
 	]
 }
