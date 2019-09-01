@@ -46,35 +46,35 @@ const seatPositions = [
   new Seat(735, 30, 'Reseach-31'),
   new Seat(35, 30, 'Reseach-32')
 ];
-
+const setUserStates = [];
 const Seats = ({ seats }) => {
 
 
   const [selectedSeat, selectSeat] = useState(-1);
 
   const seatCirclesNode = seatPositions.map((seat, index) => {
-    return <SeatNode key={index} index={index} name={seat.name} x={seat.x} y={seat.y} active={false} selectSeat={selectSeat} selectedSeat={selectedSeat} />;
+    let [user, setUser] = useState(null);
+    setUserStates[index] = setUser;
+    return <SeatNode key={index} index={index} name={seat.name} x={seat.x} y={seat.y} active={false} selectSeat={selectSeat} selectedSeat={selectedSeat} user={user}/>;
   });
 
   function updateSeats() {
-    Axios.get('/seats')
-      .then((res) => {
-        if (res.status !== 200) return;
-        const { users } = req.body;
+    Axios.get('/api/seats')
+      .then((response) => {
+        if (response.status !== 200) return;
+        const { users } = response.data;
         if (users) {
-          for (let i = 0; i < users.length; i++) {
-            if (users[i]) {
-              seatCirclesNode[i].props.user = users[i];
-            }
+          for (let i = 0; i < setUserStates.length; i++) {
+            setUserStates[i](users[i] || null);
           }
         }
-      });
+    });
   }
 
-  updateSeats();
+  
 
   useEffect(() => {
-
+    updateSeats();
   }, [seats]);
   return (
     <>
