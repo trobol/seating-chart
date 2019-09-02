@@ -56,7 +56,7 @@ const Index = () => {
     }
 
   }
-
+  /*
   useInterval(() => {
     Promise.all([
       axios.get('/api/user/type'),
@@ -68,7 +68,7 @@ const Index = () => {
       !_.isEmpty(seatRes.data.seat) ? setSeat(seatRes.data.seat.id) : setSeat(0);
     });
   }, 1500);
-
+  */
 
   return (
 
@@ -82,7 +82,7 @@ const Index = () => {
             </div>
           ) : (<div />)}
         <div className="map__container">
-          <SeatingMap link="/api/seat/reservations" />
+          <SeatingMap />
           <UserCard>
             {(
               authenticated
@@ -126,7 +126,7 @@ const Index = () => {
           )}
 
       </div>
-      <BaseModal open={modal} setOpen={setModal} active={activeModal} setActive={setActiveModal}  data={activeModal !== 'return' ? user : seat} />
+      <BaseModal open={modal} setOpen={setModal} active={activeModal} setActive={setActiveModal} data={activeModal !== 'return' ? user : seat} />
     </Layout>
   );
 };
