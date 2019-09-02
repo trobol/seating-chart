@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { Icon } from 'semantic-ui-react'
 import RemoteAction from '../RemoteAction';
 
-const Seat = ({ index, name, x, y, selectSeat, selectedSeat, user, currentUser = false }) => {
+
+//TODO currently rendering everytime the parent is
+const Seat = ({ index, seat, selectSeat, selectedSeat, currentUser = false }) => {
 	const positionStyle = {
-		right: x + 'px',
-		bottom: y + 'px'
+		right: seat.x + 'px',
+		bottom: seat.y + 'px'
 	}
 	function select() {
 		if (selectedSeat === index)
@@ -13,18 +15,17 @@ const Seat = ({ index, name, x, y, selectSeat, selectedSeat, user, currentUser =
 		else
 			selectSeat(index);
 	}
-
 	useEffect(() => {
 		console.log('Updated: ' + index);
-	}, [user]);
+	}, [index]);
 	return (
 		<div style={positionStyle} className={`${selectedSeat === index ? 'active' : ''} seat-circle`} >
 			<div className="seat-circle-icon" onClick={select}>
-				{user ? <img src={'/static/users/' + user.image + '.jpg'} /> : ''}
+				{seat.state[0] ? <img src={'/static/users/' + seat.state[0].image + '.jpg'} /> : ''}
 				{index}
 			</div>
 			<div className="seat-circle-modal">
-				{user === null ?
+				{seat.state[0] === null ?
 					<RemoteAction url="/api/seats/take" method="post" data={{ id: index }} title="Take" /> : <></>
 				}
 				<div>Reserve</div>
